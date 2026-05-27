@@ -1,7 +1,6 @@
 package com.alicp.jetcache;
 
 import com.alicp.jetcache.anno.CacheConsts;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +12,11 @@ import java.util.function.Function;
  * @author huangli
  */
 public class CacheConfig<K, V> implements Cloneable {
+
     private long expireAfterWriteInMillis = CacheConsts.DEFAULT_EXPIRE * 1000L;
+
     private long expireAfterAccessInMillis = 0;
+
     private Function<K, Object> keyConvertor;
 
     private CacheLoader<K, V> loader;
@@ -32,38 +34,28 @@ public class CacheConfig<K, V> implements Cloneable {
     private int tryLockLockCount = 2;
 
     private boolean cachePenetrationProtect = false;
+
     private Duration penetrationProtectTimeout = null;
 
     @Override
     public CacheConfig clone() {
-        try {
-            CacheConfig copy = (CacheConfig) super.clone();
-            if (monitors != null) {
-                copy.monitors = new ArrayList(this.monitors);
-            }
-            if (refreshPolicy != null) {
-                copy.refreshPolicy = this.refreshPolicy.clone();
-            }
-            return copy;
-        } catch (CloneNotSupportedException e) {
-            throw new CacheException(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Function<K, Object> getKeyConvertor() {
-        return keyConvertor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setKeyConvertor(Function<K, Object> keyConvertor) {
-        this.keyConvertor = keyConvertor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isExpireAfterAccess() {
-        return expireAfterAccessInMillis > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isExpireAfterWrite() {
-        return expireAfterWriteInMillis > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Deprecated
@@ -77,90 +69,90 @@ public class CacheConfig<K, V> implements Cloneable {
     }
 
     public long getExpireAfterWriteInMillis() {
-        return expireAfterWriteInMillis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setExpireAfterWriteInMillis(long expireAfterWriteInMillis) {
-        this.expireAfterWriteInMillis = expireAfterWriteInMillis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getExpireAfterAccessInMillis() {
-        return expireAfterAccessInMillis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setExpireAfterAccessInMillis(long expireAfterAccessInMillis) {
-        this.expireAfterAccessInMillis = expireAfterAccessInMillis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheLoader<K, V> getLoader() {
-        return loader;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setLoader(CacheLoader<K, V> loader) {
-        this.loader = loader;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isCacheNullValue() {
-        return cacheNullValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCacheNullValue(boolean cacheNullValue) {
-        this.cacheNullValue = cacheNullValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<CacheMonitor> getMonitors() {
-        return monitors;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMonitors(List<CacheMonitor> monitors) {
-        this.monitors = monitors;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public RefreshPolicy getRefreshPolicy() {
-        return refreshPolicy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRefreshPolicy(RefreshPolicy refreshPolicy) {
-        this.refreshPolicy = refreshPolicy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getTryLockUnlockCount() {
-        return tryLockUnlockCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setTryLockUnlockCount(int tryLockUnlockCount) {
-        this.tryLockUnlockCount = tryLockUnlockCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getTryLockInquiryCount() {
-        return tryLockInquiryCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setTryLockInquiryCount(int tryLockInquiryCount) {
-        this.tryLockInquiryCount = tryLockInquiryCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getTryLockLockCount() {
-        return tryLockLockCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setTryLockLockCount(int tryLockLockCount) {
-        this.tryLockLockCount = tryLockLockCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isCachePenetrationProtect() {
-        return cachePenetrationProtect;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCachePenetrationProtect(boolean cachePenetrationProtect) {
-        this.cachePenetrationProtect = cachePenetrationProtect;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Duration getPenetrationProtectTimeout() {
-        return penetrationProtectTimeout;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setPenetrationProtectTimeout(Duration penetrationProtectTimeout) {
-        this.penetrationProtectTimeout = penetrationProtectTimeout;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -11,26 +11,17 @@ import com.alicp.jetcache.external.ExternalCacheBuilder;
  * @author huangli
  */
 public abstract class ExternalCacheAutoInit extends AbstractCacheAutoInit {
+
     public ExternalCacheAutoInit(String... cacheTypes) {
         super(cacheTypes);
     }
 
     @Override
     protected void parseGeneralConfig(CacheBuilder builder, ConfigTree ct) {
-        super.parseGeneralConfig(builder, ct);
-        ExternalCacheBuilder ecb = (ExternalCacheBuilder) builder;
-        ecb.setKeyPrefix(ct.getProperty("keyPrefix"));
-        ecb.setBroadcastChannel(parseBroadcastChannel(ct));
-        ecb.setValueEncoder(new ParserFunction(ct.getProperty("valueEncoder", CacheConsts.DEFAULT_SERIAL_POLICY)));
-        ecb.setValueDecoder(new ParserFunction(ct.getProperty("valueDecoder", CacheConsts.DEFAULT_SERIAL_POLICY)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected String parseBroadcastChannel(ConfigTree ct) {
-        String broadcastChannel = ct.getProperty("broadcastChannel");
-        if (broadcastChannel != null && !"".equals(broadcastChannel.trim())) {
-            return broadcastChannel.trim();
-        } else {
-            return null;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

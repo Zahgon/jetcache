@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.UnifiedJedis;
-
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -25,12 +24,17 @@ public class RedisBroadcastManager extends BroadcastManager {
     private static final Logger logger = LoggerFactory.getLogger(RedisBroadcastManager.class);
 
     private final byte[] channel;
+
     private final String channelStr;
+
     private final RedisCacheConfig<Object, Object> config;
 
     private volatile CacheMessagePubSub cacheMessagePubSub;
+
     private volatile boolean closed;
+
     private volatile boolean subscribe;
+
     private boolean subscribeThreadStart;
 
     private final ReentrantLock reentrantLock = new ReentrantLock();
@@ -40,7 +44,6 @@ public class RedisBroadcastManager extends BroadcastManager {
         this.channelStr = config.getBroadcastChannel();
         this.channel = channelStr.getBytes(StandardCharsets.UTF_8);
         this.config = config;
-
         checkConfig(config);
         if (config.getJedis() == null && config.getJedisPool() == null) {
             throw new CacheConfigException("no jedis");
@@ -52,20 +55,7 @@ public class RedisBroadcastManager extends BroadcastManager {
 
     @Override
     public void startSubscribe() {
-        reentrantLock.lock();
-        try {
-            if (subscribeThreadStart) {
-                throw new IllegalStateException("subscribe thread is started");
-            }
-            this.cacheMessagePubSub = new CacheMessagePubSub();
-            Thread subThread;
-            subThread = new Thread(this::runSubThread, "Sub_" + channelStr);
-            subThread.setDaemon(true);
-            subThread.start();
-            this.subscribeThreadStart = true;
-        }finally {
-            reentrantLock.unlock();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void runSubThread() {
@@ -99,55 +89,24 @@ public class RedisBroadcastManager extends BroadcastManager {
     }
 
     Object writeCommands() {
-        return config.getJedis() != null ? config.getJedis() : config.getJedisPool().getResource();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CacheResult publish(CacheMessage message) {
-        Object jedisObj = null;
-        try {
-            jedisObj = writeCommands();
-            byte[] value = config.getValueEncoder().apply(message);
-            if (jedisObj instanceof Jedis) {
-                ((Jedis) jedisObj).publish(channel, value);
-            } else {
-                ((UnifiedJedis) jedisObj).publish(channel, value);
-            }
-            return CacheResult.SUCCESS_WITHOUT_MSG;
-        } catch (Exception ex) {
-            SquashedLogger.getLogger(logger).error("jetcache publish error", ex);
-            return new CacheResult(ex);
-        } finally {
-            RedisCache.closeJedis(jedisObj);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     @Override
     public void close() {
-        reentrantLock.lock();
-        try {
-            if (this.closed) {
-                return;
-            }
-            this.closed = true;
-            if (subscribe) {
-                try {
-                    this.cacheMessagePubSub.unsubscribe(channel);
-                } catch (Exception e) {
-                    logger.warn("unsubscribe {} fail", channelStr, e);
-                }
-            }
-        }finally {
-            reentrantLock.unlock();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     class CacheMessagePubSub extends BinaryJedisPubSub {
 
         @Override
         public void onMessage(byte[] channel, byte[] message) {
-            processNotification(message, config.getValueDecoder());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

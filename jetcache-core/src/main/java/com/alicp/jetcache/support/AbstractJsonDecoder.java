@@ -4,7 +4,6 @@
 package com.alicp.jetcache.support;
 
 import com.alicp.jetcache.CacheValueHolder;
-
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -18,34 +17,7 @@ public abstract class AbstractJsonDecoder extends AbstractValueDecoder {
 
     @Override
     protected Object doApply(byte[] buffer) throws Exception {
-        int[] indexHolder = new int[1];
-        indexHolder[0] = isUseIdentityNumber() ? 4 : 0;
-        short objCount = readShort(buffer, indexHolder[0]);
-        indexHolder[0] = indexHolder[0] + 2;
-        if (objCount < 0) {
-            return null;
-        }
-        Object obj = readObject(buffer, indexHolder);
-        if (obj == null) {
-            return null;
-        }
-        if (obj instanceof CacheValueHolder) {
-            CacheValueHolder h = (CacheValueHolder) obj;
-            h.setValue(readObject(buffer, indexHolder));
-            return h;
-        } else if (obj instanceof CacheMessage) {
-            CacheMessage cm = (CacheMessage) obj;
-            if (objCount > 1) {
-                Object[] keys = new Object[objCount - 1];
-                for (int i = 0; i < objCount - 1; i++) {
-                    keys[i] = readObject(buffer, indexHolder);
-                }
-                cm.setKeys(keys);
-            }
-            return cm;
-        } else {
-            return obj;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private int readInt(byte[] buf, int index) {
@@ -72,11 +44,9 @@ public abstract class AbstractJsonDecoder extends AbstractValueDecoder {
         } else {
             String className = new String(buf, index, classNameLen, StandardCharsets.UTF_8);
             index += classNameLen;
-
             if (!DecodeFilter.getDefault().isAllowed(className)) {
                 throw new DecodeFilterException(className);
             }
-
             Class<?> clazz = Class.forName(className);
             int size = readInt(buf, index);
             index += 4;

@@ -12,7 +12,6 @@ import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
-
 import java.lang.reflect.Method;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -22,11 +21,13 @@ import java.util.regex.Pattern;
  * @author huangli
  */
 public class ExpressionEvaluator implements Function<Object, Object> {
+
     private static final Pattern pattern = Pattern.compile("\\s*(\\w+)\\s*\\{(.+)\\}\\s*");
+
     private Function<Object, Object> target;
 
     public ExpressionEvaluator(String script, Method defineMethod) {
-        Object rt[] = parseEL(script);
+        Object[] rt = parseEL(script);
         EL el = (EL) rt[0];
         String realScript = (String) rt[1];
         if (el == EL.MVEL) {
@@ -43,7 +44,8 @@ public class ExpressionEvaluator implements Function<Object, Object> {
         Object[] rt = new Object[2];
         Matcher matcher = pattern.matcher(script);
         if (!matcher.matches()) {
-            rt[0] = EL.SPRING_EL; // default spel since 2.4
+            // default spel since 2.4
+            rt[0] = EL.SPRING_EL;
             rt[1] = script;
             return rt;
         } else {
@@ -52,9 +54,10 @@ public class ExpressionEvaluator implements Function<Object, Object> {
                 rt[0] = EL.SPRING_EL;
             } else if ("mvel".equals(s)) {
                 rt[0] = EL.MVEL;
-            }/* else if ("buildin".equals(s)) {
+            } else /* else if ("buildin".equals(s)) {
                 rt[0] = EL.BUILD_IN;
-            } */ else {
+            } */
+            {
                 throw new CacheConfigException("Can't parse \"" + script + "\"");
             }
             rt[1] = matcher.group(2);
@@ -64,15 +67,16 @@ public class ExpressionEvaluator implements Function<Object, Object> {
 
     @Override
     public Object apply(Object o) {
-        return target.apply(o);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     Function<Object, Object> getTarget() {
-        return target;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
 
 class MvelEvaluator implements Function<Object, Object> {
+
     private String script;
 
     public MvelEvaluator(String script) {
@@ -81,13 +85,14 @@ class MvelEvaluator implements Function<Object, Object> {
 
     @Override
     public Object apply(Object context) {
-        return MVEL.eval(script, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
 
 class SpelEvaluator implements Function<Object, Object> {
 
     private static ExpressionParser parser;
+
     private static ParameterNameDiscoverer parameterNameDiscoverer;
 
     static {
@@ -96,6 +101,7 @@ class SpelEvaluator implements Function<Object, Object> {
     }
 
     private final Expression expression;
+
     private String[] parameterNames;
 
     public SpelEvaluator(String script, Method defineMethod) {
@@ -107,14 +113,6 @@ class SpelEvaluator implements Function<Object, Object> {
 
     @Override
     public Object apply(Object rootObject) {
-        EvaluationContext context = new StandardEvaluationContext(rootObject);
-        CacheInvokeContext cic = (CacheInvokeContext) rootObject;
-        if (parameterNames != null) {
-            for (int i = 0; i < parameterNames.length; i++) {
-                context.setVariable(parameterNames[i], cic.getArgs()[i]);
-            }
-        }
-        context.setVariable("result", cic.getResult());
-        return expression.getValue(context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

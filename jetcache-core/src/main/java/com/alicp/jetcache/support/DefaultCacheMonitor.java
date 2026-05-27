@@ -15,7 +15,6 @@ import com.alicp.jetcache.event.CacheRemoveAllEvent;
 import com.alicp.jetcache.event.CacheRemoveEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
@@ -30,8 +29,11 @@ public class DefaultCacheMonitor implements CacheMonitor {
     private static final Logger logger = LoggerFactory.getLogger(DefaultCacheMonitor.class);
 
     private final ReentrantLock reentrantLock = new ReentrantLock();
+
     protected CacheStat cacheStat;
+
     private String cacheName;
+
     private long epoch;
 
     public DefaultCacheMonitor(String cacheName) {
@@ -43,68 +45,20 @@ public class DefaultCacheMonitor implements CacheMonitor {
     }
 
     public String getCacheName() {
-        return cacheName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void resetStat() {
-        reentrantLock.lock();
-        try {
-            cacheStat = new CacheStat();
-            cacheStat.setStatStartTime(System.currentTimeMillis());
-            cacheStat.setCacheName(cacheName);
-            Epoch.increment();
-            epoch = Epoch.get();
-        }finally {
-            reentrantLock.unlock();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheStat getCacheStat() {
-        reentrantLock.lock();
-        try {
-            CacheStat stat = cacheStat.clone();
-            stat.setStatEndTime(System.currentTimeMillis());
-            return stat;
-        }finally {
-            reentrantLock.unlock();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void afterOperation(CacheEvent event) {
-        reentrantLock.lock();
-        try {
-            if (event.getEpoch() < epoch) {
-                return;
-            }
-            if (event instanceof CacheGetEvent) {
-                CacheGetEvent e = (CacheGetEvent) event;
-                afterGet(e.getMillis(), e.getKey(), e.getResult());
-            } else if (event instanceof CachePutEvent) {
-                CachePutEvent e = (CachePutEvent) event;
-                afterPut(e.getMillis(), e.getKey(), e.getValue(), e.getResult());
-            } else if (event instanceof CacheRemoveEvent) {
-                CacheRemoveEvent e = (CacheRemoveEvent) event;
-                afterRemove(e.getMillis(), e.getKey(), e.getResult());
-            } else if (event instanceof CacheLoadEvent) {
-                CacheLoadEvent e = (CacheLoadEvent) event;
-                afterLoad(e.getMillis(), e.getKey(), e.getLoadedValue(), e.isSuccess());
-            } else if (event instanceof CacheGetAllEvent) {
-                CacheGetAllEvent e = (CacheGetAllEvent) event;
-                afterGetAll(e.getMillis(), e.getKeys(), e.getResult());
-            } else if (event instanceof CacheLoadAllEvent) {
-                CacheLoadAllEvent e = (CacheLoadAllEvent) event;
-                afterLoadAll(e.getMillis(), e.getKeys(), e.getLoadedValue(), e.isSuccess());
-            } else if (event instanceof CachePutAllEvent) {
-                CachePutAllEvent e = (CachePutAllEvent) event;
-                afterPutAll(e.getMillis(), e.getMap(), e.getResult());
-            } else if (event instanceof CacheRemoveAllEvent) {
-                CacheRemoveAllEvent e = (CacheRemoveAllEvent) event;
-                afterRemoveAll(e.getMillis(), e.getKeys(), e.getResult());
-            }
-        }finally {
-            reentrantLock.unlock();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void afterGet(long millis, Object key, CacheGetResult result) {
@@ -116,7 +70,7 @@ public class DefaultCacheMonitor implements CacheMonitor {
     }
 
     private void parseSingleGet(CacheGetResult result) {
-        switch (result.getResultCode()) {
+        switch(result.getResultCode()) {
             case SUCCESS:
                 cacheStat.getHitCount++;
                 break;
@@ -139,7 +93,7 @@ public class DefaultCacheMonitor implements CacheMonitor {
         cacheStat.maxPutTime = Math.max(cacheStat.maxPutTime, millis);
         cacheStat.putTimeSum += millis;
         cacheStat.putCount++;
-        switch (result.getResultCode()) {
+        switch(result.getResultCode()) {
             case SUCCESS:
                 cacheStat.putSuccessCount++;
                 break;
@@ -159,7 +113,7 @@ public class DefaultCacheMonitor implements CacheMonitor {
         cacheStat.maxRemoveTime = Math.max(cacheStat.maxRemoveTime, millis);
         cacheStat.removeTimeSum += millis;
         cacheStat.removeCount++;
-        switch (result.getResultCode()) {
+        switch(result.getResultCode()) {
             case SUCCESS:
             case NOT_EXISTS:
                 cacheStat.removeSuccessCount++;
@@ -252,5 +206,4 @@ public class DefaultCacheMonitor implements CacheMonitor {
             cacheStat.putFailCount += keyCount;
         }
     }
-
 }

@@ -7,7 +7,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-
 import java.util.function.Consumer;
 
 /**
@@ -16,6 +15,7 @@ import java.util.function.Consumer;
  * @author huangli
  */
 public class SpringConfigProvider extends ConfigProvider implements ApplicationContextAware {
+
     private ApplicationContext applicationContext;
 
     public SpringConfigProvider() {
@@ -26,41 +26,34 @@ public class SpringConfigProvider extends ConfigProvider implements ApplicationC
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected void doInit() {
-        if (encoderParser instanceof ApplicationContextAware) {
-            ((ApplicationContextAware) encoderParser).setApplicationContext(applicationContext);
-        }
-        if (keyConvertorParser instanceof ApplicationContextAware) {
-            ((ApplicationContextAware) keyConvertorParser).setApplicationContext(applicationContext);
-        }
-        super.doInit();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CacheContext newContext(CacheManager cacheManager) {
-        return new SpringCacheContext(cacheManager, this, globalCacheConfig, applicationContext);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Autowired(required = false)
     @Override
     public void setEncoderParser(EncoderParser encoderParser) {
-        super.setEncoderParser(encoderParser);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Autowired(required = false)
     @Override
     public void setKeyConvertorParser(KeyConvertorParser keyConvertorParser) {
-        super.setKeyConvertorParser(keyConvertorParser);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Autowired(required = false)
     @Override
     public void setMetricsCallback(Consumer<StatInfo> metricsCallback) {
-        super.setMetricsCallback(metricsCallback);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

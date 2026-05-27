@@ -11,31 +11,32 @@ import java.util.function.Function;
 public class CacheUpdateAnnoConfig extends CacheAnnoConfig {
 
     private String value;
+
     private boolean multi;
 
     private Function<Object, Object> valueEvaluator;
 
     public String getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setValue(String value) {
-        this.value = value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Function<Object, Object> getValueEvaluator() {
-        return valueEvaluator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setValueEvaluator(Function<Object, Object> valueEvaluator) {
-        this.valueEvaluator = valueEvaluator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isMulti() {
-        return multi;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMulti(boolean multi) {
-        this.multi = multi;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

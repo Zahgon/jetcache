@@ -10,11 +10,12 @@ import java.util.function.Function;
  * @author huangli
  */
 public class MultiLevelCacheBuilder<T extends MultiLevelCacheBuilder<T>> extends AbstractCacheBuilder<T> {
+
     public static class MultiLevelCacheBuilderImpl extends MultiLevelCacheBuilder<MultiLevelCacheBuilderImpl> {
     }
 
     public static MultiLevelCacheBuilderImpl createMultiLevelCacheBuilder() {
-        return new MultiLevelCacheBuilderImpl();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected MultiLevelCacheBuilder() {
@@ -23,50 +24,42 @@ public class MultiLevelCacheBuilder<T extends MultiLevelCacheBuilder<T>> extends
 
     @Override
     public MultiLevelCacheConfig getConfig() {
-        if (config == null) {
-            config = new MultiLevelCacheConfig();
-        }
-        return (MultiLevelCacheConfig) config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T addCache(Cache... caches) {
-        for (Cache c : caches) {
-            getConfig().getCaches().add(c);
-        }
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCaches(List<Cache> caches) {
-        getConfig().setCaches(caches);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T useExpireOfSubCache(boolean useExpireOfSubCache) {
-        getConfig().setUseExpireOfSubCache(useExpireOfSubCache);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setUseExpireOfSubCache(boolean useExpireOfSubCache) {
-        getConfig().setUseExpireOfSubCache(useExpireOfSubCache);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public T keyConvertor(Function<Object, Object> keyConvertor) {
-        throw new UnsupportedOperationException("MultiLevelCache do not need a key convertor");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setKeyConvertor(Function<Object, Object> keyConvertor) {
-        throw new UnsupportedOperationException("MultiLevelCache do not need a key convertor");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public T expireAfterAccess(long defaultExpire, TimeUnit timeUnit) {
-        throw new UnsupportedOperationException("MultiLevelCache do not support expireAfterAccess");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setExpireAfterAccessInMillis(long expireAfterAccessInMillis) {
-        throw new UnsupportedOperationException("MultiLevelCache do not support expireAfterAccess");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

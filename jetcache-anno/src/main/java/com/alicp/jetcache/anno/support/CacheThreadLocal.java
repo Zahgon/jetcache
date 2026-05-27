@@ -11,10 +11,10 @@ class CacheThreadLocal {
     private int enabledCount = 0;
 
     int getEnabledCount() {
-        return enabledCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     void setEnabledCount(int enabledCount) {
-        this.enabledCount = enabledCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

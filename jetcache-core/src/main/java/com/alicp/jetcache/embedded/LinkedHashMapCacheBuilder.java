@@ -6,11 +6,12 @@ package com.alicp.jetcache.embedded;
  * @author huangli
  */
 public class LinkedHashMapCacheBuilder<T extends EmbeddedCacheBuilder<T>> extends EmbeddedCacheBuilder<T> {
+
     public static class LinkedHashMapCacheBuilderImpl extends LinkedHashMapCacheBuilder<LinkedHashMapCacheBuilderImpl> {
     }
 
     public static LinkedHashMapCacheBuilderImpl createLinkedHashMapCacheBuilder() {
-        return new LinkedHashMapCacheBuilderImpl();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected LinkedHashMapCacheBuilder() {

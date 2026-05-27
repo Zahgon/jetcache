@@ -8,3 +8,7 @@ target/
 .idea
 *.versionsBackup
 .nondex
+.aider*
+logs/
+.commit0_scripts/
+.github/workflows/

@@ -13,7 +13,6 @@ import com.alicp.jetcache.external.ExternalCacheConfig;
 import com.alicp.jetcache.CacheConfigException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
@@ -24,9 +23,11 @@ import java.util.stream.Stream;
  * @author huangli
  */
 public abstract class BroadcastManager implements AutoCloseable {
+
     private static Logger logger = LoggerFactory.getLogger(BroadcastManager.class);
 
     private final String sourceId = UUID.randomUUID().toString();
+
     private final CacheManager cacheManager;
 
     public BroadcastManager(CacheManager cacheManager) {
@@ -34,15 +35,7 @@ public abstract class BroadcastManager implements AutoCloseable {
     }
 
     protected void checkConfig(ExternalCacheConfig config) {
-        if (config.getBroadcastChannel() == null) {
-            throw new CacheConfigException("BroadcastChannel not set");
-        }
-        if (config.getValueEncoder() == null) {
-            throw new CacheConfigException("no value encoder");
-        }
-        if (config.getValueDecoder() == null) {
-            throw new CacheConfigException("no value decoder");
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public abstract CacheResult publish(CacheMessage cacheMessage);
@@ -51,35 +44,19 @@ public abstract class BroadcastManager implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getSourceId() {
-        return sourceId;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheManager getCacheManager() {
-        return cacheManager;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected void processNotification(byte[] message, Function<byte[], Object> decoder) {
-        try {
-            if (message == null) {
-                logger.error("notify message is null");
-                return;
-            }
-            Object value = decoder.apply(message);
-            if (value == null) {
-                logger.error("notify message is null");
-                return;
-            }
-            if (value instanceof CacheMessage) {
-                processCacheMessage((CacheMessage) value);
-            } else {
-                logger.error("the message is not instance of CacheMessage, class={}", value.getClass());
-            }
-        } catch (Throwable e) {
-            SquashedLogger.getLogger(logger).error("receive cache notify error", e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void processCacheMessage(CacheMessage cacheMessage) {
@@ -107,5 +84,4 @@ public abstract class BroadcastManager implements AutoCloseable {
             }
         }
     }
-
 }

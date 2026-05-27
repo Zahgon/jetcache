@@ -5,7 +5,6 @@ package com.alicp.jetcache.anno.support;
 
 import com.alicp.jetcache.RefreshPolicy;
 import com.alicp.jetcache.anno.CacheType;
-
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -15,131 +14,142 @@ import java.util.function.Function;
 public class CachedAnnoConfig extends CacheAnnoConfig {
 
     private boolean enabled;
+
     private TimeUnit timeUnit;
+
     private long expire;
+
     private long localExpire;
+
     private CacheType cacheType;
+
     private boolean syncLocal;
+
     private int localLimit;
+
     private boolean cacheNullValue;
+
     private String serialPolicy;
+
     private String keyConvertor;
+
     private String postCondition;
 
     private Function<Object, Boolean> postConditionEvaluator;
+
     private RefreshPolicy refreshPolicy;
+
     private PenetrationProtectConfig penetrationProtectConfig;
 
     public boolean isEnabled() {
-        return enabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getExpire() {
-        return expire;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheType getCacheType() {
-        return cacheType;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getLocalLimit() {
-        return localLimit;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setExpire(long expire) {
-        this.expire = expire;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCacheType(CacheType cacheType) {
-        this.cacheType = cacheType;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setLocalLimit(int localLimit) {
-        this.localLimit = localLimit;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isCacheNullValue() {
-        return cacheNullValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCacheNullValue(boolean cacheNullValue) {
-        this.cacheNullValue = cacheNullValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getSerialPolicy() {
-        return serialPolicy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setSerialPolicy(String serialPolicy) {
-        this.serialPolicy = serialPolicy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getKeyConvertor() {
-        return keyConvertor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setKeyConvertor(String keyConvertor) {
-        this.keyConvertor = keyConvertor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public TimeUnit getTimeUnit() {
-        return timeUnit;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setTimeUnit(TimeUnit timeUnit) {
-        this.timeUnit = timeUnit;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-
     public String getPostCondition() {
-        return postCondition;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setPostCondition(String postCondition) {
-        this.postCondition = postCondition;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Function<Object, Boolean> getPostConditionEvaluator() {
-        return postConditionEvaluator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setPostConditionEvaluator(Function<Object, Boolean> postConditionEvaluator) {
-        this.postConditionEvaluator = postConditionEvaluator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public RefreshPolicy getRefreshPolicy() {
-        return refreshPolicy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRefreshPolicy(RefreshPolicy refreshPolicy) {
-        this.refreshPolicy = refreshPolicy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public PenetrationProtectConfig getPenetrationProtectConfig() {
-        return penetrationProtectConfig;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setPenetrationProtectConfig(PenetrationProtectConfig penetrationProtectConfig) {
-        this.penetrationProtectConfig = penetrationProtectConfig;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getLocalExpire() {
-        return localExpire;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setLocalExpire(long localExpire) {
-        this.localExpire = localExpire;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isSyncLocal() {
-        return syncLocal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setSyncLocal(boolean syncLocal) {
-        this.syncLocal = syncLocal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

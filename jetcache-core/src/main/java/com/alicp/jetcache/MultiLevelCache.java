@@ -35,7 +35,7 @@ public class MultiLevelCache<K, V> extends AbstractCache<K, V> {
     @SuppressWarnings("unchecked")
     public MultiLevelCache(MultiLevelCacheConfig<K, V> cacheConfig) throws CacheConfigException {
         this.config = cacheConfig;
-        this.caches = cacheConfig.getCaches().toArray(new Cache[]{});
+        this.caches = cacheConfig.getCaches().toArray(new Cache[] {});
         checkCaches();
     }
 
@@ -51,44 +51,27 @@ public class MultiLevelCache<K, V> extends AbstractCache<K, V> {
     }
 
     public Cache[] caches() {
-        return caches;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public MultiLevelCacheConfig<K, V> config() {
-        return config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CacheResult PUT(K key, V value) {
-        if (config.isUseExpireOfSubCache()) {
-            return PUT(key, value, 0, null);
-        } else {
-            return PUT(key, value, config().getExpireAfterWriteInMillis(), TimeUnit.MILLISECONDS);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public CacheResult PUT_ALL(Map<? extends K, ? extends V> map) {
-        if (config.isUseExpireOfSubCache()) {
-            return PUT_ALL(map, 0, null);
-        } else {
-            return PUT_ALL(map, config().getExpireAfterWriteInMillis(), TimeUnit.MILLISECONDS);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheGetResult<V> do_GET(K key) {
-        for (int i = 0; i < caches.length; i++) {
-            Cache cache = caches[i];
-            CacheGetResult result = cache.GET(key);
-            if (result.isSuccess()) {
-                CacheValueHolder<V> holder = unwrapHolder(result.getHolder());
-                checkResultAndFillUpperCache(key, i, holder);
-                return new CacheGetResult(CacheResultCode.SUCCESS, null, holder);
-            }
-        }
-        return CacheGetResult.NOT_EXISTS_WITHOUT_MSG;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private CacheValueHolder<V> unwrapHolder(CacheValueHolder<V> h) {
@@ -109,7 +92,7 @@ public class MultiLevelCache<K, V> extends AbstractCache<K, V> {
         long currentExpire = h.getExpireTime();
         long now = System.currentTimeMillis();
         if (now <= currentExpire) {
-            if(config.isUseExpireOfSubCache()){
+            if (config.isUseExpireOfSubCache()) {
                 PUT_caches(i, key, h.getValue(), 0, null);
             } else {
                 long restTtl = currentExpire - now;
@@ -122,51 +105,17 @@ public class MultiLevelCache<K, V> extends AbstractCache<K, V> {
 
     @Override
     protected MultiGetResult<K, V> do_GET_ALL(Set<? extends K> keys) {
-        HashMap<K, CacheGetResult<V>> resultMap = new HashMap<>();
-        Set<K> restKeys = new HashSet<>(keys);
-        for (int i = 0; i < caches.length; i++) {
-            if (restKeys.size() == 0) {
-                break;
-            }
-            Cache<K, CacheValueHolder<V>> c = caches[i];
-            MultiGetResult<K, CacheValueHolder<V>> allResult = c.GET_ALL(restKeys);
-            if (allResult.isSuccess() && allResult.getValues() != null) {
-                for (Map.Entry<K, CacheGetResult<CacheValueHolder<V>>> en : allResult.getValues().entrySet()) {
-                    K key = en.getKey();
-                    CacheGetResult result = en.getValue();
-                    if (result.isSuccess()) {
-                        CacheValueHolder<V> holder = unwrapHolder(result.getHolder());
-                        checkResultAndFillUpperCache(key, i, holder);
-                        resultMap.put(key, new CacheGetResult(CacheResultCode.SUCCESS, null, holder));
-                        restKeys.remove(key);
-                    }
-                }
-            }
-        }
-        for (K k : restKeys) {
-            resultMap.put(k, CacheGetResult.NOT_EXISTS_WITHOUT_MSG);
-        }
-        return new MultiGetResult<>(CacheResultCode.SUCCESS, null, resultMap);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheResult do_PUT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
-        return PUT_caches(caches.length, key, value, expireAfterWrite, timeUnit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheResult do_PUT_ALL(Map<? extends K, ? extends V> map, long expireAfterWrite, TimeUnit timeUnit) {
-        CompletableFuture<ResultData> future = CompletableFuture.completedFuture(null);
-        for (Cache c : caches) {
-            CacheResult r;
-            if(timeUnit == null) {
-                r = c.PUT_ALL(map);
-            } else {
-                r = c.PUT_ALL(map, expireAfterWrite, timeUnit);
-            }
-            future = combine(future, r);
-        }
-        return new CacheResult(future);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private CacheResult PUT_caches(int lastIndex, K key, V value, long expire, TimeUnit timeUnit) {
@@ -198,63 +147,36 @@ public class MultiLevelCache<K, V> extends AbstractCache<K, V> {
 
     @Override
     protected CacheResult do_REMOVE(K key) {
-        CompletableFuture<ResultData> future = CompletableFuture.completedFuture(null);
-        for (Cache cache : caches) {
-            CacheResult r = cache.REMOVE(key);
-            future = combine(future, r);
-        }
-        return new CacheResult(future);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheResult do_REMOVE_ALL(Set<? extends K> keys) {
-        CompletableFuture<ResultData> future = CompletableFuture.completedFuture(null);
-        for (Cache cache : caches) {
-            CacheResult r = cache.REMOVE_ALL(keys);
-            future = combine(future, r);
-        }
-        return new CacheResult(future);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <T> T unwrap(Class<T> clazz) {
-        Objects.requireNonNull(clazz);
-        for (Cache cache : caches) {
-            try {
-                T obj = (T) cache.unwrap(clazz);
-                if (obj != null) {
-                    return obj;
-                }
-            } catch (IllegalArgumentException e) {
-                // ignore
-            }
-        }
-        throw new IllegalArgumentException(clazz.getName());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AutoReleaseLock tryLock(K key, long expire, TimeUnit timeUnit) {
-        if (key == null) {
-            return null;
-        }
-        return caches[caches.length - 1].tryLock(key, expire, timeUnit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean putIfAbsent(K key, V value) {
-        throw new UnsupportedOperationException("putIfAbsent is not supported by MultiLevelCache");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheResult do_PUT_IF_ABSENT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
-        throw new UnsupportedOperationException("PUT_IF_ABSENT is not supported by MultiLevelCache");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void close() {
-        super.close();
-        for (Cache c : caches) {
-            c.close();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

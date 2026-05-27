@@ -9,7 +9,6 @@ import com.alicp.jetcache.template.QuickConfig;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.time.Duration;
 
 /**
@@ -17,6 +16,7 @@ import java.time.Duration;
  */
 @Component
 public class MyServiceImpl implements MyService, InitializingBean {
+
     @Autowired
     private UserService userService;
 
@@ -27,19 +27,16 @@ public class MyServiceImpl implements MyService, InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        QuickConfig quickConfig = QuickConfig.newBuilder("orderCache").expire(Duration.ofSeconds(100)).build();
-        orderCache = cacheManager.getOrCreateCache(quickConfig);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void createCacheDemo() {
-        orderCache.put("K1","V1");
-        System.out.println("get from orderCache:" + orderCache.get("K1"));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void cachedDemo() {
-        userService.loadUser(1);
-        userService.loadUser(1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

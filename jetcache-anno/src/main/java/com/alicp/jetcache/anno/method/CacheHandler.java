@@ -16,7 +16,6 @@ import com.alicp.jetcache.anno.support.ConfigMap;
 import com.alicp.jetcache.event.CacheLoadEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -33,11 +32,15 @@ import java.util.function.Supplier;
  * @author huangli
  */
 public class CacheHandler implements InvocationHandler {
+
     private static Logger logger = LoggerFactory.getLogger(CacheHandler.class);
 
     private Object src;
+
     private Supplier<CacheInvokeContext> contextSupplier;
+
     private String[] hiddenPackages;
+
     private ConfigMap configMap;
 
     private static class CacheContextSupport extends CacheContext {
@@ -47,15 +50,15 @@ public class CacheHandler implements InvocationHandler {
         }
 
         static void _enable() {
-            enable();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         static void _disable() {
-            disable();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         static boolean _isEnabled() {
-            return isEnabled();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -68,36 +71,11 @@ public class CacheHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, final Method method, final Object[] args) throws Throwable {
-        CacheInvokeContext context = null;
-
-        String sig = ClassUtil.getMethodSig(method);
-        CacheInvokeConfig cac = configMap.getByMethodInfo(sig);
-        if (cac != null) {
-            context = contextSupplier.get();
-            context.setCacheInvokeConfig(cac);
-        }
-        if (context == null) {
-            return method.invoke(src, args);
-        } else {
-            context.setInvoker(() -> method.invoke(src, args));
-            context.setHiddenPackages(hiddenPackages);
-            context.setArgs(args);
-            context.setMethod(method);
-            return invoke(context);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static Object invoke(CacheInvokeContext context) throws Throwable {
-        if (context.getCacheInvokeConfig().isEnableCacheContext()) {
-            try {
-                CacheContextSupport._enable();
-                return doInvoke(context);
-            } finally {
-                CacheContextSupport._disable();
-            }
-        } else {
-            return doInvoke(context);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static Object doInvoke(CacheInvokeContext context) throws Throwable {
@@ -116,7 +94,6 @@ public class CacheHandler implements InvocationHandler {
         Object originResult = invokeOrigin(context);
         context.setResult(originResult);
         CacheInvokeConfig cic = context.getCacheInvokeConfig();
-
         if (cic.getInvalidateAnnoConfigs() != null) {
             doInvalidate(context, cic.getInvalidateAnnoConfigs());
         }
@@ -124,7 +101,6 @@ public class CacheHandler implements InvocationHandler {
         if (updateAnnoConfig != null) {
             doUpdate(context, updateAnnoConfig);
         }
-
         return originResult;
     }
 
@@ -208,7 +184,6 @@ public class CacheHandler implements InvocationHandler {
                 logger.error("jetcache @CacheUpdate value is not instance of Iterable or array: " + updateAnnoConfig.getDefineMethod());
                 return;
             }
-
             List keyList = new ArrayList();
             List valueList = new ArrayList();
             keyIt.forEach(o -> keyList.add(o));
@@ -228,8 +203,7 @@ public class CacheHandler implements InvocationHandler {
         }
     }
 
-    private static Object invokeWithCached(CacheInvokeContext context)
-            throws Throwable {
+    private static Object invokeWithCached(CacheInvokeContext context) throws Throwable {
         CacheInvokeConfig cic = context.getCacheInvokeConfig();
         CachedAnnoConfig cac = cic.getCachedAnnoConfig();
         Cache cache = context.getCacheFunction().apply(context, cac);
@@ -237,28 +211,24 @@ public class CacheHandler implements InvocationHandler {
             logger.error("no cache with name: " + context.getMethod());
             return invokeOrigin(context);
         }
-
         Object key = ExpressionUtil.evalKey(context, cic.getCachedAnnoConfig());
         if (key == null) {
             return loadAndCount(context, cache, key);
         }
-
         if (!ExpressionUtil.evalCondition(context, cic.getCachedAnnoConfig())) {
             return loadAndCount(context, cache, key);
         }
-
         try {
             CacheLoader loader = new CacheLoader() {
+
                 @Override
                 public Object load(Object k) throws Throwable {
-                    Object result = invokeOrigin(context);
-                    context.setResult(result);
-                    return result;
+                    throw new UnsupportedOperationException("STUB: not implemented");
                 }
 
                 @Override
                 public boolean vetoCacheUpdate() {
-                    return !ExpressionUtil.evalPostCondition(context, cic.getCachedAnnoConfig());
+                    throw new UnsupportedOperationException("STUB: not implemented");
                 }
             };
             Object result = cache.computeIfAbsent(key, loader);
@@ -291,5 +261,4 @@ public class CacheHandler implements InvocationHandler {
     private static Object invokeOrigin(CacheInvokeContext context) throws Throwable {
         return context.getInvoker().invoke();
     }
-
 }

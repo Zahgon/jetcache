@@ -5,7 +5,6 @@ package com.alicp.jetcache.support;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.ObjectInputFilter;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,106 +44,49 @@ public class DecodeFilter {
      * <p>
      * java.io is NOT included by default; users can add it via configuration if needed.
      */
-    public static final Set<String> DEFAULT_ALLOW_PATTERNS = Set.of(
-            "java.lang",
-            "java.util.",
-            "java.time.",
-            "java.math",
-            "java.net",
-            "com.alicp.jetcache."
-    );
+    public static final Set<String> DEFAULT_ALLOW_PATTERNS = Set.of("java.lang", "java.util.", "java.time.", "java.math", "java.net", "com.alicp.jetcache.");
 
     /**
      * Default deny patterns: explicitly blocked packages, subpackages and exact class names.
      * <p>
      * Deny patterns have highest priority and cannot be overridden by allow patterns.
      */
-    public static final Set<String> DEFAULT_DENY_PATTERNS = Set.of(
-            // java.lang dangerous subpackages (defense-in-depth for "java.lang." prefix)
-            "java.lang.reflect.",
-            "java.lang.invoke.",
-            "java.lang.management.",
-            "java.lang.instrument.",
-            "java.lang.module.",
-            "java.lang.constant.",
-            // java.lang dangerous classes
-            "java.lang.Runtime",
-            "java.lang.ProcessBuilder",
-            "java.lang.ProcessImpl",
-            "java.lang.UNIXProcess",
-            "java.lang.Shutdown",
-            "java.lang.Thread",
-            "java.lang.ThreadGroup",
-            "java.lang.ClassLoader",
-            "java.lang.System",
-            "java.lang.SecurityManager",
-            "java.lang.StackWalker",
-            // java.beans EventHandler (classic deserialization gadget)
-            "java.beans.EventHandler",
-            // JNDI/RMI (high risk gadget chains)
-            "javax.naming.",
-            "java.rmi.",
-            // javax.script (ScriptEngineManager gadget)
-            "javax.script.",
-            // javax.management (JMX MLet/remote gadget chains, defense-in-depth: ClassLoader/RMI already blocked)
-            "javax.management.",
-            // JDK internal classes (com.sun/sun are JDK internal APIs, no business classes exist here)
-            "com.sun.",
-            "sun.",
-            // Apache Commons Collections gadget chains (InvokerTransformer, ChainedTransformer, LazyMap etc.)
-            "org.apache.commons.collections.functors.",
-            "org.apache.commons.collections.map.LazyMap",
-            "org.apache.commons.collections4.functors.",
-            "org.apache.commons.collections4.map.LazyMap",
-            // Apache Commons BeanUtils (BeanComparator gadget)
-            "org.apache.commons.beanutils.",
-            // Groovy runtime (MethodClosure, ConvertedClosure gadgets)
-            "org.codehaus.groovy.runtime.",
-            "org.codehaus.groovy.reflection.",
-            // C3P0 (PoolBackedDataSource gadget)
-            "com.mchange.v2.",
-            // Spring expression language (SpEL injection)
-            "org.springframework.expression.",
-            // Spring framework gadget chains (defense-in-depth: sink classes blocked by com.sun.)
-            "org.springframework.aop.framework.JdkDynamicAopProxy",
-            "org.springframework.core.SerializableTypeWrapper$MethodInvokeTypeProvider",
-            // AspectJ Weaver (defense-in-depth: chain also requires Commons Collections which is already blocked)
-            "org.aspectj.weaver.",
-            // Hibernate gadget chains (TypedValue hashCode trigger → ComponentType → TemplatesImpl/JNDI)
-            "org.hibernate.engine.spi.TypedValue",
-            "org.hibernate.type.ComponentType",
-            "org.hibernate.tuple.component.AbstractComponentTuplizer",
-            "org.hibernate.property.access.spi.GetterMethodImpl",
-            // Hibernate 4.x getter (ysoserial uses this instead of GetterMethodImpl for 4.x)
-            "org.hibernate.property.BasicPropertyAccessor$BasicGetter",
-            "org.hibernate.internal.util.ValueHolder",
-            // Hessian (gadget chains)
-            "com.caucho.",
-            // javassist (bytecode manipulation used in gadget chains)
-            "javassist.",
-            // Jython (Python script execution)
-            "org.python.",
-            // Mozilla Rhino (JavaScript execution)
-            "org.mozilla.javascript.",
-            // BeanShell (script execution)
-            "bsh.",
-            // Clojure (script execution)
-            "clojure.",
-            // ROME (ToStringBean/ObjectBean gadget chains)
-            "com.rometools.",
-            // Vaadin (NestedMethodProperty gadget chain)
-            "com.vaadin.",
-            // Apache Click (Column$ColumnComparator gadget chain)
-            "org.apache.click.",
-            // Apache Wicket (DiskFileItem file write gadget)
-            "org.apache.wicket."
-    );
+    public static final Set<String> DEFAULT_DENY_PATTERNS = Set.of(// java.lang dangerous subpackages (defense-in-depth for "java.lang." prefix)
+    "java.lang.reflect.", "java.lang.invoke.", "java.lang.management.", "java.lang.instrument.", "java.lang.module.", "java.lang.constant.", // java.lang dangerous classes
+    "java.lang.Runtime", "java.lang.ProcessBuilder", "java.lang.ProcessImpl", "java.lang.UNIXProcess", "java.lang.Shutdown", "java.lang.Thread", "java.lang.ThreadGroup", "java.lang.ClassLoader", "java.lang.System", "java.lang.SecurityManager", "java.lang.StackWalker", // java.beans EventHandler (classic deserialization gadget)
+    "java.beans.EventHandler", // JNDI/RMI (high risk gadget chains)
+    "javax.naming.", "java.rmi.", // javax.script (ScriptEngineManager gadget)
+    "javax.script.", // javax.management (JMX MLet/remote gadget chains, defense-in-depth: ClassLoader/RMI already blocked)
+    "javax.management.", // JDK internal classes (com.sun/sun are JDK internal APIs, no business classes exist here)
+    "com.sun.", "sun.", // Apache Commons Collections gadget chains (InvokerTransformer, ChainedTransformer, LazyMap etc.)
+    "org.apache.commons.collections.functors.", "org.apache.commons.collections.map.LazyMap", "org.apache.commons.collections4.functors.", "org.apache.commons.collections4.map.LazyMap", // Apache Commons BeanUtils (BeanComparator gadget)
+    "org.apache.commons.beanutils.", // Groovy runtime (MethodClosure, ConvertedClosure gadgets)
+    "org.codehaus.groovy.runtime.", "org.codehaus.groovy.reflection.", // C3P0 (PoolBackedDataSource gadget)
+    "com.mchange.v2.", // Spring expression language (SpEL injection)
+    "org.springframework.expression.", // Spring framework gadget chains (defense-in-depth: sink classes blocked by com.sun.)
+    "org.springframework.aop.framework.JdkDynamicAopProxy", "org.springframework.core.SerializableTypeWrapper$MethodInvokeTypeProvider", // AspectJ Weaver (defense-in-depth: chain also requires Commons Collections which is already blocked)
+    "org.aspectj.weaver.", // Hibernate gadget chains (TypedValue hashCode trigger → ComponentType → TemplatesImpl/JNDI)
+    "org.hibernate.engine.spi.TypedValue", "org.hibernate.type.ComponentType", "org.hibernate.tuple.component.AbstractComponentTuplizer", "org.hibernate.property.access.spi.GetterMethodImpl", // Hibernate 4.x getter (ysoserial uses this instead of GetterMethodImpl for 4.x)
+    "org.hibernate.property.BasicPropertyAccessor$BasicGetter", "org.hibernate.internal.util.ValueHolder", // Hessian (gadget chains)
+    "com.caucho.", // javassist (bytecode manipulation used in gadget chains)
+    "javassist.", // Jython (Python script execution)
+    "org.python.", // Mozilla Rhino (JavaScript execution)
+    "org.mozilla.javascript.", // BeanShell (script execution)
+    "bsh.", // Clojure (script execution)
+    "clojure.", // ROME (ToStringBean/ObjectBean gadget chains)
+    "com.rometools.", // Vaadin (NestedMethodProperty gadget chain)
+    "com.vaadin.", // Apache Click (Column$ColumnComparator gadget chain)
+    "org.apache.click.", // Apache Wicket (DiskFileItem file write gadget)
+    "org.apache.wicket.");
 
     private static final DecodeFilter INSTANCE = new DecodeFilter();
 
     private volatile boolean enabled = true;
+
     private final CopyOnWriteArraySet<String> allowPatterns;
+
     private final CopyOnWriteArraySet<String> denyPatterns;
+
     private final ConcurrentHashMap<String, Boolean> cache = new ConcurrentHashMap<>();
 
     public DecodeFilter() {
@@ -157,7 +99,7 @@ public class DecodeFilter {
     }
 
     public static DecodeFilter getDefault() {
-        return INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -170,28 +112,7 @@ public class DecodeFilter {
      * @return true if allowed, false if blocked
      */
     public boolean isAllowed(String className) {
-        if (!enabled) {
-            return true;
-        }
-        if (className == null || className.isEmpty()) {
-            return true;
-        }
-
-        // Check cache first (only positive results are cached)
-        Boolean cached = cache.get(className);
-        if (cached != null) {
-            return cached;
-        }
-
-        String blockReason = checkBlockedReason(className);
-        if (blockReason != null) {
-            logBlocked(className, blockReason);
-            return false;
-        }
-
-        // Only cache positive results to prevent unbounded growth from attack payloads
-        cache.put(className, true);
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private String checkBlockedReason(String className) {
@@ -202,9 +123,7 @@ public class DecodeFilter {
         if (componentType.isEmpty() && className.startsWith("[")) {
             return "invalid array type notation";
         }
-
         String nameToCheck = componentType.isEmpty() ? className : componentType;
-
         // Deny list has highest priority (allow patterns cannot bypass deny patterns)
         // Deny uses the same matching logic as allow: prefix, exact, and package-only.
         // WARNING: deny patterns can be removed via removeDenyPatterns/clearDenyPatterns,
@@ -214,13 +133,11 @@ public class DecodeFilter {
                 return "matched deny pattern: '" + deny + "'";
             }
         }
-
         for (String pattern : allowPatterns) {
             if (matches(pattern, nameToCheck)) {
                 return null;
             }
         }
-
         return "no matching allow pattern found";
     }
 
@@ -228,16 +145,13 @@ public class DecodeFilter {
         if (!type.startsWith("[")) {
             return "";
         }
-
         int i = 0;
         while (i < type.length() && type.charAt(i) == '[') {
             i++;
         }
-
         if (i >= type.length()) {
             return "";
         }
-
         char c = type.charAt(i);
         if (c == 'L') {
             int start = i + 1;
@@ -264,8 +178,7 @@ public class DecodeFilter {
         }
         // Package-only matching: class is directly in this package, not subpackages
         String prefix = pattern + ".";
-        return className.startsWith(prefix)
-                && className.indexOf('.', prefix.length()) == -1;
+        return className.startsWith(prefix) && className.indexOf('.', prefix.length()) == -1;
     }
 
     /**
@@ -275,15 +188,14 @@ public class DecodeFilter {
      * @param enabled true to enable, false to disable
      */
     public synchronized void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-        cache.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return true if filter is enabled
      */
     public boolean isEnabled() {
-        return enabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -293,12 +205,7 @@ public class DecodeFilter {
      * @param patterns patterns to add
      */
     public synchronized void addAllowPatterns(String... patterns) {
-        for (String pattern : patterns) {
-            if (pattern != null && !pattern.isEmpty()) {
-                allowPatterns.add(pattern);
-            }
-        }
-        cache.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -308,15 +215,7 @@ public class DecodeFilter {
      * @param patterns patterns to remove
      */
     public synchronized void removeAllowPatterns(String... patterns) {
-        boolean changed = false;
-        for (String pattern : patterns) {
-            if (pattern != null && allowPatterns.remove(pattern)) {
-                changed = true;
-            }
-        }
-        if (changed) {
-            cache.clear();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -324,8 +223,7 @@ public class DecodeFilter {
      * Cache is cleared after this operation.
      */
     public synchronized void clearAllowPatterns() {
-        allowPatterns.clear();
-        cache.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -335,12 +233,7 @@ public class DecodeFilter {
      * @param patterns patterns to add
      */
     public synchronized void addDenyPatterns(String... patterns) {
-        for (String pattern : patterns) {
-            if (pattern != null && !pattern.isEmpty()) {
-                denyPatterns.add(pattern);
-            }
-        }
-        cache.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -355,15 +248,7 @@ public class DecodeFilter {
      * @param patterns patterns to remove
      */
     public synchronized void removeDenyPatterns(String... patterns) {
-        boolean changed = false;
-        for (String pattern : patterns) {
-            if (pattern != null && denyPatterns.remove(pattern)) {
-                changed = true;
-            }
-        }
-        if (changed) {
-            cache.clear();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -376,27 +261,21 @@ public class DecodeFilter {
      * mechanism in place. Calling {@link #reset()} is safer if you want to restore defaults.
      */
     public synchronized void clearDenyPatterns() {
-        denyPatterns.clear();
-        cache.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Clear the internal class name cache.
      */
     public synchronized void clearCache() {
-        cache.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Reset to default state (for testing purposes).
      */
     synchronized void reset() {
-        enabled = true;
-        allowPatterns.clear();
-        allowPatterns.addAll(DEFAULT_ALLOW_PATTERNS);
-        denyPatterns.clear();
-        denyPatterns.addAll(DEFAULT_DENY_PATTERNS);
-        cache.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -410,34 +289,10 @@ public class DecodeFilter {
      * @return ALLOWED if class is allowed by the filter, REJECTED if blocked, UNDECIDED if filter disabled
      */
     public static ObjectInputFilter.Status javaFilter(ObjectInputFilter.FilterInfo filterInfo) {
-        if (filterInfo.serialClass() == null) {
-            return ObjectInputFilter.Status.UNDECIDED;
-        }
-        if (!getDefault().isEnabled()) {
-            return ObjectInputFilter.Status.UNDECIDED;
-        }
-        String className = filterInfo.serialClass().getName();
-        if (getDefault().isAllowed(className)) {
-            return ObjectInputFilter.Status.ALLOWED;
-        }
-        return ObjectInputFilter.Status.REJECTED;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static void logBlocked(String className, String reason) {
-        logger.error("Class '{}' is not allowed by the deserialization filter and has been blocked for security.\n" +
-                "\nReason: {}\n" +
-                "\nTo allow this class, add a pattern to your configuration:\n" +
-                "\nYAML:\n" +
-                "\n  jetcache:\n" +
-                "    decodeFilterAllowPatterns:\n" +
-                "      - com.example.\n" +
-                "\nOr programmatically:\n" +
-                "\n  DecodeFilter.getDefault().addAllowPatterns(\"com.example.\");\n" +
-                "\nIf you have configured deny patterns, this class may also be blocked by them.\n" +
-                "Check your 'decodeFilterDenyPatterns' configuration if applicable.\n" +
-                "\nYou can also disable the filter (NOT RECOMMENDED):\n" +
-                "\n  jetcache.decodeFilterEnabled: false",
-                className, reason);
+        logger.error("Class '{}' is not allowed by the deserialization filter and has been blocked for security.\n" + "\nReason: {}\n" + "\nTo allow this class, add a pattern to your configuration:\n" + "\nYAML:\n" + "\n  jetcache:\n" + "    decodeFilterAllowPatterns:\n" + "      - com.example.\n" + "\nOr programmatically:\n" + "\n  DecodeFilter.getDefault().addAllowPatterns(\"com.example.\");\n" + "\nIf you have configured deny patterns, this class may also be blocked by them.\n" + "Check your 'decodeFilterDenyPatterns' configuration if applicable.\n" + "\nYou can also disable the filter (NOT RECOMMENDED):\n" + "\n  jetcache.decodeFilterEnabled: false", className, reason);
     }
-
 }

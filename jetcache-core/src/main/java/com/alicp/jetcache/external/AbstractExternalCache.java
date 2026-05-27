@@ -5,7 +5,6 @@ import com.alicp.jetcache.CacheConfigException;
 import com.alicp.jetcache.CacheException;
 import com.alicp.jetcache.RefreshCache;
 import com.alicp.jetcache.anno.KeyConvertor;
-
 import java.io.IOException;
 
 /**
@@ -23,49 +22,17 @@ public abstract class AbstractExternalCache<K, V> extends AbstractCache<K, V> {
     }
 
     protected void checkConfig() {
-        if (config.getValueEncoder() == null) {
-            throw new CacheConfigException("no value encoder");
-        }
-        if (config.getValueDecoder() == null) {
-            throw new CacheConfigException("no value decoder");
-        }
-        if (config.getKeyPrefix() == null) {
-            throw new CacheConfigException("keyPrefix is required");
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public byte[] buildKey(K key) {
-        try {
-            Object newKey = key;
-            if (config.getKeyConvertor() != null) {
-                if (config.getKeyConvertor() instanceof KeyConvertor) {
-                    if (!isPreservedKey(key)) {
-                        // since 2.7.3 KeyConvertor extends Function<Object, Object>
-                        newKey = config.getKeyConvertor().apply(key);
-                    }
-                } else {
-                    // before 2.7.3, KeyConvertor is interface only place some constants.
-                    // "key convertor" is Function<Object, Object> and can't process byte[] and String
-                    if (key instanceof byte[]) {
-                        newKey = key;
-                    } else if (key instanceof String) {
-                        newKey = key;
-                    } else {
-                        newKey = config.getKeyConvertor().apply(key);
-                    }
-                }
-            }
-            return ExternalKeyUtil.buildKeyAfterConvert(newKey, config.getKeyPrefix());
-        } catch (IOException e) {
-            throw new CacheException(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean isPreservedKey(Object key) {
         if (key instanceof byte[]) {
             byte[] keyBytes = (byte[]) key;
-            return endWith(keyBytes, RefreshCache.LOCK_KEY_SUFFIX)
-                    || endWith(keyBytes, RefreshCache.TIMESTAMP_KEY_SUFFIX);
+            return endWith(keyBytes, RefreshCache.LOCK_KEY_SUFFIX) || endWith(keyBytes, RefreshCache.TIMESTAMP_KEY_SUFFIX);
         }
         return false;
     }
@@ -83,5 +50,4 @@ public abstract class AbstractExternalCache<K, V> extends AbstractCache<K, V> {
         }
         return true;
     }
-
 }

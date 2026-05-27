@@ -7,7 +7,6 @@ import com.alicp.jetcache.*;
 import com.alicp.jetcache.embedded.LinkedHashMapCacheBuilder;
 import com.alicp.jetcache.external.AbstractExternalCache;
 import com.alicp.jetcache.external.ExternalCacheConfig;
-
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.*;
@@ -18,21 +17,20 @@ import java.util.stream.Collectors;
  * @author huangli
  */
 public class MockRemoteCache<K, V> extends AbstractExternalCache<K, V> {
+
     private Cache<ByteBuffer, byte[]> cache;
+
     private ExternalCacheConfig<K, V> config;
 
     public MockRemoteCache(MockRemoteCacheConfig<K, V> config) {
         super(config);
         this.config = config;
-        cache = LinkedHashMapCacheBuilder.createLinkedHashMapCacheBuilder()
-                .limit(config.getLimit())
-                .expireAfterWrite(config.getExpireAfterWriteInMillis(), TimeUnit.MILLISECONDS)
-                .buildCache();
+        cache = LinkedHashMapCacheBuilder.createLinkedHashMapCacheBuilder().limit(config.getLimit()).expireAfterWrite(config.getExpireAfterWriteInMillis(), TimeUnit.MILLISECONDS).buildCache();
     }
 
     @Override
     public CacheConfig<K, V> config() {
-        return config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private ByteBuffer genKey(K key) {
@@ -40,13 +38,10 @@ public class MockRemoteCache<K, V> extends AbstractExternalCache<K, V> {
     }
 
     //-------------------------------
-
-
     @Override
     public <T> T unwrap(Class<T> clazz) {
-        return cache.unwrap(clazz);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     private static Method getHolder;
 
@@ -71,7 +66,6 @@ public class MockRemoteCache<K, V> extends AbstractExternalCache<K, V> {
                 list.add(h);
                 h.setAccessTime(originHolder.getAccessTime());
                 h.setExpireTime(originHolder.getExpireTime());
-
                 Object v = originHolder.getValue();
                 if (v != null && !(v instanceof CacheValueHolder)) {
                     h.setValue(config.getValueDecoder().apply((byte[]) v));
@@ -87,74 +81,41 @@ public class MockRemoteCache<K, V> extends AbstractExternalCache<K, V> {
     }
 
     public CacheValueHolder getHolder(K key) {
-        try {
-            CacheGetResult<V> r = GET(key);
-            return (CacheValueHolder) getHolder.invoke(r);
-        } catch (Exception e) {
-            throw new CacheException(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheGetResult<V> do_GET(K key) {
-        CacheGetResult r = cache.GET(genKey(key));
-        if (r.isSuccess()) {
-            r = convertCacheGetResult(r);
-        }
-        return r;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected MultiGetResult<K, V> do_GET_ALL(Set<? extends K> keys) {
-        ArrayList<K> keyList = new ArrayList<>(keys.size());
-        ArrayList<ByteBuffer> newKeyList = new ArrayList<>(keys.size());
-        keys.stream().forEach((k) -> {
-            ByteBuffer newKey = genKey(k);
-            keyList.add(k);
-            newKeyList.add(newKey);
-        });
-        MultiGetResult<ByteBuffer, byte[]> result = cache.GET_ALL(new HashSet(newKeyList));
-        Map<ByteBuffer, CacheGetResult<byte[]>> resultMap = result.getValues();
-        if (resultMap != null) {
-            Map<K, CacheGetResult<V>> returnMap = new HashMap<>();
-            for (int i = 0; i < keyList.size(); i++) {
-                K key = keyList.get(i);
-                ByteBuffer newKey = newKeyList.get(i);
-                CacheGetResult r = resultMap.get(newKey);
-                if (r.getValue() != null) {
-                    r = convertCacheGetResult(r);
-                }
-                returnMap.put(key, r);
-            }
-            result = new MultiGetResult<ByteBuffer, byte[]>(result.getResultCode(), null, (Map) returnMap);
-        }
-        return (MultiGetResult) result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheResult do_PUT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
-        return cache.PUT(genKey(key), config.getValueEncoder().apply(value), expireAfterWrite, timeUnit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheResult do_PUT_ALL(Map<? extends K, ? extends V> map, long expireAfterWrite, TimeUnit timeUnit) {
-        Map<ByteBuffer, byte[]> newMap = new HashMap<>();
-        map.entrySet().forEach((e) -> newMap.put(genKey(e.getKey()), config.getValueEncoder().apply(e.getValue())));
-        return cache.PUT_ALL(newMap, expireAfterWrite, timeUnit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheResult do_REMOVE(K key) {
-        return cache.REMOVE(genKey(key));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheResult do_REMOVE_ALL(Set<? extends K> keys) {
-        return cache.REMOVE_ALL(keys.stream().map((k) -> genKey(k)).collect(Collectors.toSet()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheResult do_PUT_IF_ABSENT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
-        return cache.PUT_IF_ABSENT(genKey(key), config.getValueEncoder().apply(value), expireAfterWrite, timeUnit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

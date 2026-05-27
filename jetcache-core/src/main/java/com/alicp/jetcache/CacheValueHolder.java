@@ -8,9 +8,13 @@ import java.io.Serializable;
  * @author huangli
  */
 public final class CacheValueHolder<V> implements Serializable {
+
     private static final long serialVersionUID = -7973743507831565203L;
+
     private V value;
+
     private long expireTime;
+
     private long accessTime;
 
     /**
@@ -26,26 +30,26 @@ public final class CacheValueHolder<V> implements Serializable {
     }
 
     public V getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setValue(V value) {
-        this.value = value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getExpireTime() {
-        return expireTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setExpireTime(long expireTime) {
-        this.expireTime = expireTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getAccessTime() {
-        return accessTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setAccessTime(long accessTime) {
-        this.accessTime = accessTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

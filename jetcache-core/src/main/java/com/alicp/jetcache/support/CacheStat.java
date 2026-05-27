@@ -1,7 +1,6 @@
 package com.alicp.jetcache.support;
 
 import com.alicp.jetcache.CacheException;
-
 import java.io.Serializable;
 
 /**
@@ -14,49 +13,69 @@ public class CacheStat implements Serializable, Cloneable {
     private static final long serialVersionUID = -8802969946750554026L;
 
     protected String cacheName;
+
     protected long statStartTime;
+
     protected long statEndTime;
 
     protected long getCount;
+
     protected long getHitCount;
+
     protected long getMissCount;
+
     protected long getFailCount;
+
     protected long getExpireCount;
+
     protected long getTimeSum;
+
     protected long minGetTime = Long.MAX_VALUE;
+
     protected long maxGetTime = 0;
 
     protected long putCount;
+
     protected long putSuccessCount;
+
     protected long putFailCount;
+
     protected long putTimeSum;
+
     protected long minPutTime = Long.MAX_VALUE;
+
     protected long maxPutTime = 0;
 
     protected long removeCount;
+
     protected long removeSuccessCount;
+
     protected long removeFailCount;
+
     protected long removeTimeSum;
+
     protected long minRemoveTime = Long.MAX_VALUE;
+
     protected long maxRemoveTime = 0;
 
     protected long loadCount;
+
     protected long loadSuccessCount;
+
     protected long loadFailCount;
+
     protected long loadTimeSum;
+
     protected long minLoadTime = Long.MAX_VALUE;
+
     protected long maxLoadTime = 0;
 
     @Override
     public CacheStat clone() {
-        try {
-            return (CacheStat) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new CacheException(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    private double tps(long count){
+    private double tps(long count) {
         long t = statEndTime;
         if (t == 0) {
             t = System.currentTimeMillis();
@@ -70,288 +89,271 @@ public class CacheStat implements Serializable, Cloneable {
     }
 
     public double qps() {
-        return tps(getCount);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double putTps() {
-        return tps(putCount);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double removeTps() {
-        return tps(removeCount);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double loadQps() {
-        return tps(loadCount);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double hitRate() {
-        if (getCount == 0) {
-            return 0;
-        }
-        return 1.0 * getHitCount / getCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double avgGetTime() {
-        if (getCount == 0) {
-            return 0;
-        }
-        return 1.0 * getTimeSum / getCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double avgPutTime() {
-        if (putCount == 0) {
-            return 0;
-        }
-        return 1.0 * putTimeSum / putCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double avgRemoveTime() {
-        if (removeCount == 0) {
-            return 0;
-        }
-        return 1.0 * removeTimeSum / removeCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double avgLoadTime() {
-        if (loadCount == 0) {
-            return 0;
-        }
-        return 1.0 * loadTimeSum / loadCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //---------------------------------------------------------------------
-
-
     public long getGetCount() {
-        return getCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setGetCount(long getCount) {
-        this.getCount = getCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getGetHitCount() {
-        return getHitCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setGetHitCount(long getHitCount) {
-        this.getHitCount = getHitCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getGetMissCount() {
-        return getMissCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setGetMissCount(long getMissCount) {
-        this.getMissCount = getMissCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getGetFailCount() {
-        return getFailCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setGetFailCount(long getFailCount) {
-        this.getFailCount = getFailCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getGetExpireCount() {
-        return getExpireCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setGetExpireCount(long getExpireCount) {
-        this.getExpireCount = getExpireCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getGetTimeSum() {
-        return getTimeSum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setGetTimeSum(long getTimeSum) {
-        this.getTimeSum = getTimeSum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getMinGetTime() {
-        return minGetTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMinGetTime(long minGetTime) {
-        this.minGetTime = minGetTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getMaxGetTime() {
-        return maxGetTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMaxGetTime(long maxGetTime) {
-        this.maxGetTime = maxGetTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getPutCount() {
-        return putCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setPutCount(long putCount) {
-        this.putCount = putCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getPutSuccessCount() {
-        return putSuccessCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setPutSuccessCount(long putSuccessCount) {
-        this.putSuccessCount = putSuccessCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getPutFailCount() {
-        return putFailCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setPutFailCount(long putFailCount) {
-        this.putFailCount = putFailCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getPutTimeSum() {
-        return putTimeSum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setPutTimeSum(long putTimeSum) {
-        this.putTimeSum = putTimeSum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getMinPutTime() {
-        return minPutTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMinPutTime(long minPutTime) {
-        this.minPutTime = minPutTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getMaxPutTime() {
-        return maxPutTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMaxPutTime(long maxPutTime) {
-        this.maxPutTime = maxPutTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getRemoveCount() {
-        return removeCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRemoveCount(long removeCount) {
-        this.removeCount = removeCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getRemoveSuccessCount() {
-        return removeSuccessCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRemoveSuccessCount(long removeSuccessCount) {
-        this.removeSuccessCount = removeSuccessCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getRemoveFailCount() {
-        return removeFailCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRemoveFailCount(long removeFailCount) {
-        this.removeFailCount = removeFailCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getRemoveTimeSum() {
-        return removeTimeSum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRemoveTimeSum(long removeTimeSum) {
-        this.removeTimeSum = removeTimeSum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getMinRemoveTime() {
-        return minRemoveTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMinRemoveTime(long minRemoveTime) {
-        this.minRemoveTime = minRemoveTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getMaxRemoveTime() {
-        return maxRemoveTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMaxRemoveTime(long maxRemoveTime) {
-        this.maxRemoveTime = maxRemoveTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getLoadCount() {
-        return loadCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setLoadCount(long loadCount) {
-        this.loadCount = loadCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getLoadSuccessCount() {
-        return loadSuccessCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setLoadSuccessCount(long loadSuccessCount) {
-        this.loadSuccessCount = loadSuccessCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getLoadFailCount() {
-        return loadFailCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setLoadFailCount(long loadFailCount) {
-        this.loadFailCount = loadFailCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getLoadTimeSum() {
-        return loadTimeSum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setLoadTimeSum(long loadTimeSum) {
-        this.loadTimeSum = loadTimeSum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getMinLoadTime() {
-        return minLoadTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMinLoadTime(long minLoadTime) {
-        this.minLoadTime = minLoadTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getMaxLoadTime() {
-        return maxLoadTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMaxLoadTime(long maxLoadTime) {
-        this.maxLoadTime = maxLoadTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getStatStartTime() {
-        return statStartTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setStatStartTime(long statStartTime) {
-        this.statStartTime = statStartTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getStatEndTime() {
-        return statEndTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setStatEndTime(long statEndTime) {
-        this.statEndTime = statEndTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getCacheName() {
-        return cacheName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCacheName(String cacheName) {
-        this.cacheName = cacheName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

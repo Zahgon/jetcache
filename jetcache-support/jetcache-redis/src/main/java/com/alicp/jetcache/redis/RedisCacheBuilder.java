@@ -14,11 +14,12 @@ import redis.clients.jedis.util.Pool;
  * @author huangli
  */
 public class RedisCacheBuilder<T extends ExternalCacheBuilder<T>> extends ExternalCacheBuilder<T> {
+
     public static class RedisCacheBuilderImpl extends RedisCacheBuilder<RedisCacheBuilderImpl> {
     }
 
     public static RedisCacheBuilderImpl createRedisCacheBuilder() {
-        return new RedisCacheBuilderImpl();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected RedisCacheBuilder() {
@@ -27,75 +28,64 @@ public class RedisCacheBuilder<T extends ExternalCacheBuilder<T>> extends Extern
 
     @Override
     public RedisCacheConfig getConfig() {
-        if (config == null) {
-            config = new RedisCacheConfig();
-        }
-        return (RedisCacheConfig) config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean supportBroadcast() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public BroadcastManager createBroadcastManager(CacheManager cacheManager) {
-        CacheConfig c = getConfig().clone();
-        return new RedisBroadcastManager(cacheManager, (RedisCacheConfig) c);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T jedisPool(Pool<Jedis> pool) {
-        getConfig().setJedisPool(pool);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setJedisPool(Pool<Jedis> jedisPool) {
-        getConfig().setJedisPool(jedisPool);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T jedis(UnifiedJedis jedis) {
-        getConfig().setJedis(jedis);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setJedis(UnifiedJedis jedis) {
-        getConfig().setJedis(jedis);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T readFromSlave(boolean readFromSlave) {
-        getConfig().setReadFromSlave(readFromSlave);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setReadFromSlave(boolean readFromSlave) {
-        getConfig().setReadFromSlave(readFromSlave);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T jedisSlavePools(Pool<Jedis>... jedisSlavePools) {
-        getConfig().setJedisSlavePools(jedisSlavePools);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setJedisSlavePools(Pool<Jedis>... jedisSlavePools) {
-        getConfig().setJedisSlavePools(jedisSlavePools);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T slaves(UnifiedJedis... slaves) {
-        getConfig().setSlaves(slaves);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setSlaves(UnifiedJedis... slaves) {
-        getConfig().setSlaves(slaves);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T slaveReadWeights(int... slaveReadWeights) {
-        getConfig().setSlaveReadWeights(slaveReadWeights);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setSlaveReadWeights(int... slaveReadWeights) {
-        getConfig().setSlaveReadWeights(slaveReadWeights);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

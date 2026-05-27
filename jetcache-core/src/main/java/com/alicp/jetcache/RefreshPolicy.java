@@ -10,58 +10,52 @@ import java.util.concurrent.TimeUnit;
 public class RefreshPolicy implements Cloneable {
 
     private long refreshMillis;
+
     private long stopRefreshAfterLastAccessMillis;
+
     private long refreshLockTimeoutMillis = 60 * 1000;
 
     public RefreshPolicy() {
     }
 
     public static RefreshPolicy newPolicy(long time, TimeUnit timeUnit) {
-        RefreshPolicy p = new RefreshPolicy();
-        p.refreshMillis = timeUnit.toMillis(time);
-        return p;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public RefreshPolicy stopRefreshAfterLastAccess(long time, TimeUnit timeUnit) {
-        this.stopRefreshAfterLastAccessMillis = timeUnit.toMillis(time);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public RefreshPolicy refreshLockTimeout(long time, TimeUnit timeUnit) {
-        this.refreshLockTimeoutMillis = timeUnit.toMillis(time);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public RefreshPolicy clone() {
-        try {
-            return (RefreshPolicy) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getRefreshMillis() {
-        return refreshMillis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRefreshMillis(long refreshMillis) {
-        this.refreshMillis = refreshMillis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getStopRefreshAfterLastAccessMillis() {
-        return stopRefreshAfterLastAccessMillis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setStopRefreshAfterLastAccessMillis(long stopRefreshAfterLastAccessMillis) {
-        this.stopRefreshAfterLastAccessMillis = stopRefreshAfterLastAccessMillis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getRefreshLockTimeoutMillis() {
-        return refreshLockTimeoutMillis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRefreshLockTimeoutMillis(long refreshLockTimeoutMillis) {
-        this.refreshLockTimeoutMillis = refreshLockTimeoutMillis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

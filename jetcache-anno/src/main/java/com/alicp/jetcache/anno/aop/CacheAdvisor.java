@@ -22,16 +22,14 @@ public class CacheAdvisor extends AbstractBeanFactoryPointcutAdvisor {
 
     @Override
     public Pointcut getPointcut() {
-        CachePointcut pointcut = new CachePointcut(basePackages);
-        pointcut.setCacheConfigMap(cacheConfigMap);
-        return pointcut;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCacheConfigMap(ConfigMap cacheConfigMap) {
-        this.cacheConfigMap = cacheConfigMap;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setBasePackages(String[] basePackages) {
-        this.basePackages = basePackages;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

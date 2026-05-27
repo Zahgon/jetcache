@@ -10,7 +10,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.Assert;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
@@ -39,25 +38,14 @@ public abstract class AbstractCacheAutoInit implements InitializingBean {
     private volatile boolean inited = false;
 
     public AbstractCacheAutoInit(String... cacheTypes) {
-        Objects.requireNonNull(cacheTypes,"cacheTypes can't be null");
+        Objects.requireNonNull(cacheTypes, "cacheTypes can't be null");
         Assert.isTrue(cacheTypes.length > 0, "cacheTypes length is 0");
         this.typeNames = cacheTypes;
     }
 
     @Override
     public void afterPropertiesSet() {
-        if (!inited) {
-            reentrantLock.lock();
-            try{
-                if (!inited) {
-                    process("jetcache.local.", autoConfigureBeans.getLocalCacheBuilders(), true);
-                    process("jetcache.remote.", autoConfigureBeans.getRemoteCacheBuilders(), false);
-                    inited = true;
-                }
-            }finally {
-                reentrantLock.unlock();
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void process(String prefix, Map cacheBuilders, boolean local) {
@@ -78,23 +66,7 @@ public abstract class AbstractCacheAutoInit implements InitializingBean {
     }
 
     protected void parseGeneralConfig(CacheBuilder builder, ConfigTree ct) {
-        AbstractCacheBuilder acb = (AbstractCacheBuilder) builder;
-        acb.keyConvertor(new ParserFunction(ct.getProperty("keyConvertor", KeyConvertor.FASTJSON2)));
-
-        String expireAfterWriteInMillis = ct.getProperty("expireAfterWriteInMillis");
-        if (expireAfterWriteInMillis == null) {
-            // compatible with 2.1
-            expireAfterWriteInMillis = ct.getProperty("defaultExpireInMillis");
-        }
-        if (expireAfterWriteInMillis != null) {
-            acb.setExpireAfterWriteInMillis(Long.parseLong(expireAfterWriteInMillis));
-        }
-
-        String expireAfterAccessInMillis = ct.getProperty("expireAfterAccessInMillis");
-        if (expireAfterAccessInMillis != null) {
-            acb.setExpireAfterAccessInMillis(Long.parseLong(expireAfterAccessInMillis));
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected abstract CacheBuilder initCache(ConfigTree ct, String cacheAreaWithPrefix);

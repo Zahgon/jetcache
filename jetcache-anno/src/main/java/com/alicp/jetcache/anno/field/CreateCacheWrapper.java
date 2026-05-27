@@ -16,7 +16,6 @@ import com.alicp.jetcache.anno.support.PenetrationProtectConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-
 import java.lang.reflect.Field;
 
 /**
@@ -31,9 +30,13 @@ class CreateCacheWrapper {
     private Cache cache;
 
     private ConfigurableListableBeanFactory beanFactory;
+
     private CreateCache ann;
+
     private Field field;
+
     private RefreshPolicy refreshPolicy;
+
     private PenetrationProtectConfig protectConfig;
 
     public CreateCacheWrapper(ConfigurableListableBeanFactory beanFactory, CreateCache ann, Field field) {
@@ -58,7 +61,6 @@ class CreateCacheWrapper {
         if (cacheManager == null) {
             logger.error("There is no cache manager instance in spring context");
         }
-
         CachedAnnoConfig cac = new CachedAnnoConfig();
         cac.setArea(ann.area());
         cac.setName(ann.name());
@@ -70,10 +72,8 @@ class CreateCacheWrapper {
         cac.setLocalLimit(ann.localLimit());
         cac.setSerialPolicy(ann.serialPolicy());
         cac.setKeyConvertor(ann.keyConvertor());
-
         cac.setRefreshPolicy(refreshPolicy);
         cac.setPenetrationProtectConfig(protectConfig);
-
         String cacheName = cac.getName();
         if (CacheConsts.isUndefined(cacheName)) {
             String[] hiddenPackages = globalCacheConfig.getHiddenPackages();
@@ -84,6 +84,6 @@ class CreateCacheWrapper {
     }
 
     public Cache getCache() {
-        return cache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

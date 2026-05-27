@@ -1,7 +1,6 @@
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.embedded.CaffeineCacheBuilder;
 import com.alicp.jetcache.support.Fastjson2KeyConvertor;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -10,49 +9,42 @@ import java.util.concurrent.TimeUnit;
  * @author huangli
  */
 public class ComplexKeyExample {
+
     public static void main(String[] args) {
-        Cache<Object, Object> cache = CaffeineCacheBuilder.createCaffeineCacheBuilder()
-                .limit(100)
-                .expireAfterWrite(200, TimeUnit.SECONDS)
-                .keyConvertor(Fastjson2KeyConvertor.INSTANCE)
-                .buildCache();
-
-        DynamicQuery key = new DynamicQuery();
-        key.setName("AAA");
-        key.setEmail("BBB");
-        cache.put(key, "value");
-        System.out.println(cache.get(key));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     // no "equals" method
     static class DynamicQuery {
+
         private long id;
+
         private String name;
+
         private String email;
 
         public long getId() {
-            return id;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public void setId(long id) {
-            this.id = id;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public String getName() {
-            return name;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public void setName(String name) {
-            this.name = name;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public String getEmail() {
-            return email;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public void setEmail(String email) {
-            this.email = email;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

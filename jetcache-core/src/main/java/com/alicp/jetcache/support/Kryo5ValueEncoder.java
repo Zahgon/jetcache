@@ -12,8 +12,7 @@ import com.esotericsoftware.kryo.kryo5.util.MapReferenceResolver;
  */
 public class Kryo5ValueEncoder extends AbstractValueEncoder {
 
-    public static final ObjectPool<KryoCache> DEFAULT_POOL = new ObjectPool<>(16,
-            new KryoCacheFactory(DecodeFilter.getDefault()));
+    public static final ObjectPool<KryoCache> DEFAULT_POOL = new ObjectPool<>(16, new KryoCacheFactory(DecodeFilter.getDefault()));
 
     public static final Kryo5ValueEncoder INSTANCE = new Kryo5ValueEncoder(true, DEFAULT_POOL);
 
@@ -22,26 +21,30 @@ public class Kryo5ValueEncoder extends AbstractValueEncoder {
     private final ObjectPool<KryoCache> pool;
 
     public static class KryoCacheFactory implements ObjectPool.ObjectFactory<KryoCache> {
+
         private final DecodeFilter decodeFilter;
+
         public KryoCacheFactory(DecodeFilter decodeFilter) {
             this.decodeFilter = decodeFilter;
         }
 
         @Override
         public KryoCache create() {
-            return new KryoCache(decodeFilter);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void reset(KryoCache obj) {
-            obj.getKryo().reset();
-            obj.getOutput().reset();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     public static class KryoCache {
+
         final Output output;
+
         final Kryo kryo;
+
         public KryoCache(DecodeFilter decodeFilter) {
             kryo = new Kryo(new Kryo5ClassResolver(decodeFilter), new MapReferenceResolver());
             kryo.setDefaultSerializer(CompatibleFieldSerializer.class);
@@ -49,14 +52,13 @@ public class Kryo5ValueEncoder extends AbstractValueEncoder {
             output = new Output(INIT_BUFFER_SIZE, -1);
         }
 
-        public Output getOutput(){
-            return output;
+        public Output getOutput() {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        public Kryo getKryo(){
-            return kryo;
+        public Kryo getKryo() {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
     public Kryo5ValueEncoder(boolean useIdentityNumber, ObjectPool<KryoCache> pool) {
@@ -66,23 +68,7 @@ public class Kryo5ValueEncoder extends AbstractValueEncoder {
 
     @Override
     public byte[] apply(Object value) {
-        KryoCache kryoCache = null;
-        try {
-            kryoCache = pool.borrowObject();
-            if (useIdentityNumber) {
-                writeInt(kryoCache.getOutput(), DecoderMap.IDENTITY_NUMBER_KRYO5);
-            }
-            kryoCache.getKryo().writeClassAndObject(kryoCache.getOutput(), value);
-            return kryoCache.getOutput().toBytes();
-        } catch (Exception e) {
-            StringBuilder sb = new StringBuilder("Kryo Encode error. ");
-            sb.append("msg=").append(e.getMessage());
-            throw new CacheEncodeException(sb.toString(), e);
-        } finally {
-            if (kryoCache != null) {
-                pool.returnObject(kryoCache);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void writeInt(Output output, int value) {
@@ -92,5 +78,4 @@ public class Kryo5ValueEncoder extends AbstractValueEncoder {
         output.writeByte(value >>> 8);
         output.writeByte(value);
     }
-
 }

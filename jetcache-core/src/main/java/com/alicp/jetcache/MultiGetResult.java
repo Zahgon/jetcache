@@ -11,6 +11,7 @@ import java.util.concurrent.CompletionStage;
  * @author huangli
  */
 public class MultiGetResult<K, V> extends CacheResult {
+
     private volatile Map<K, CacheGetResult<V>> values;
 
     public MultiGetResult(CompletionStage<ResultData> future) {
@@ -26,33 +27,20 @@ public class MultiGetResult<K, V> extends CacheResult {
     }
 
     public Map<K, CacheGetResult<V>> getValues() {
-        waitForResult();
-        return values;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected void fetchResultSuccess(ResultData resultData) {
-        values = (Map<K, CacheGetResult<V>>) resultData.getOriginData();
-        super.fetchResultSuccess(resultData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected void fetchResultFail(Throwable e) {
-        values = null;
-        super.fetchResultFail(e);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Map<K, V> unwrapValues() {
-        waitForResult();
-        if (values == null) {
-            return null;
-        }
-        Map<K, V> m = new HashMap<>();
-        values.entrySet().stream().forEach((en) -> {
-            if (en.getValue().isSuccess()) {
-                m.put(en.getKey(), en.getValue().getValue());
-            }
-        });
-        return m;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

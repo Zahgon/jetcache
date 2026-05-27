@@ -12,20 +12,21 @@ import java.util.function.Function;
 public abstract class AbstractCacheBuilder<T extends AbstractCacheBuilder<T>> implements CacheBuilder, Cloneable {
 
     protected CacheConfig config;
+
     private Function<CacheConfig, Cache> buildFunc;
 
     public abstract CacheConfig getConfig();
 
     protected T self() {
-        return (T) this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T buildFunc(Function<CacheConfig, Cache> buildFunc) {
-        this.buildFunc = buildFunc;
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected void beforeBuild() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Deprecated
@@ -35,103 +36,75 @@ public abstract class AbstractCacheBuilder<T extends AbstractCacheBuilder<T>> im
 
     @Override
     public final <K, V> Cache<K, V> buildCache() {
-        if (buildFunc == null) {
-            throw new CacheConfigException("no buildFunc");
-        }
-        beforeBuild();
-        CacheConfig c = getConfig().clone();
-        Cache<K, V> cache = buildFunc.apply(c);
-        if (c.getLoader() != null) {
-            if (c.getRefreshPolicy() == null) {
-                cache = new LoadingCache<>(cache);
-            } else {
-                cache = new RefreshCache<>(cache);
-            }
-        }
-        return cache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Object clone() {
-        AbstractCacheBuilder copy = null;
-        try {
-            copy = (AbstractCacheBuilder) super.clone();
-            copy.config = getConfig().clone();
-            return copy;
-        } catch (CloneNotSupportedException e) {
-            throw new CacheException(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T keyConvertor(Function<Object, Object> keyConvertor) {
-        getConfig().setKeyConvertor(keyConvertor);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setKeyConvertor(Function<Object, Object> keyConvertor) {
-        getConfig().setKeyConvertor(keyConvertor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T expireAfterAccess(long defaultExpire, TimeUnit timeUnit) {
-        getConfig().setExpireAfterAccessInMillis(timeUnit.toMillis(defaultExpire));
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setExpireAfterAccessInMillis(long expireAfterAccessInMillis) {
-        getConfig().setExpireAfterAccessInMillis(expireAfterAccessInMillis);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T expireAfterWrite(long defaultExpire, TimeUnit timeUnit) {
-        getConfig().setExpireAfterWriteInMillis(timeUnit.toMillis(defaultExpire));
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setExpireAfterWriteInMillis(long expireAfterWriteInMillis) {
-        getConfig().setExpireAfterWriteInMillis(expireAfterWriteInMillis);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T addMonitor(CacheMonitor monitor) {
-        getConfig().getMonitors().add(monitor);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMonitors(List<CacheMonitor> monitors) {
-        getConfig().setMonitors(monitors);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T cacheNullValue(boolean cacheNullValue) {
-        getConfig().setCacheNullValue(cacheNullValue);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCacheNullValue(boolean cacheNullValue) {
-        getConfig().setCacheNullValue(cacheNullValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public <K, V> T loader(CacheLoader<K, V> loader) {
-        getConfig().setLoader(loader);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public <K, V> void setLoader(CacheLoader<K, V> loader) {
-        getConfig().setLoader(loader);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T refreshPolicy(RefreshPolicy refreshPolicy) {
-        getConfig().setRefreshPolicy(refreshPolicy);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRefreshPolicy(RefreshPolicy refreshPolicy) {
-        getConfig().setRefreshPolicy(refreshPolicy);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T cachePenetrateProtect(boolean cachePenetrateProtect) {
-        getConfig().setCachePenetrationProtect(cachePenetrateProtect);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCachePenetrateProtect(boolean cachePenetrateProtect) {
-        getConfig().setCachePenetrationProtect(cachePenetrateProtect);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -2,7 +2,6 @@ package com.alicp.jetcache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.Closeable;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +19,6 @@ public interface Cache<K, V> extends Closeable {
     Logger logger = LoggerFactory.getLogger(Cache.class);
 
     //-----------------------------JSR 107 style API------------------------------------------------
-
     /**
      * Gets an entry from the cache.
      * <p>If the cache's builder has specified a {@link CacheLoader} and there is no association in the cache
@@ -37,12 +35,7 @@ public interface Cache<K, V> extends Closeable {
      * @see #GET(Object)
      */
     default V get(K key) throws CacheInvokeException {
-        CacheGetResult<V> result = GET(key);
-        if (result.isSuccess()) {
-            return result.getValue();
-        } else {
-            return null;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -58,8 +51,7 @@ public interface Cache<K, V> extends Closeable {
      * @see #GET_ALL(Set)
      */
     default Map<K, V> getAll(Set<? extends K> keys) throws CacheInvokeException {
-        MultiGetResult<K, V> cacheGetResults = GET_ALL(keys);
-        return cacheGetResults.unwrapValues();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -71,7 +63,7 @@ public interface Cache<K, V> extends Closeable {
      * @see #PUT(Object, Object)
      */
     default void put(K key, V value) {
-        PUT(key, value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -82,7 +74,7 @@ public interface Cache<K, V> extends Closeable {
      * @see #PUT_ALL(Map)
      */
     default void putAll(Map<? extends K, ? extends V> map) {
-        PUT_ALL(map);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -96,8 +88,7 @@ public interface Cache<K, V> extends Closeable {
      * @see #PUT_IF_ABSENT(Object, Object, long, TimeUnit)
      */
     default boolean putIfAbsent(K key, V value) {
-        CacheResult result = PUT_IF_ABSENT(key, value, config().getExpireAfterWriteInMillis(), TimeUnit.MILLISECONDS);
-        return result.getResultCode() == CacheResultCode.SUCCESS;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -109,7 +100,7 @@ public interface Cache<K, V> extends Closeable {
      * @see #REMOVE(Object)
      */
     default boolean remove(K key) {
-        return REMOVE(key).isSuccess();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -120,7 +111,7 @@ public interface Cache<K, V> extends Closeable {
      * @see #REMOVE_ALL(Set)
      */
     default void removeAll(Set<? extends K> keys) {
-        REMOVE_ALL(keys);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -143,10 +134,10 @@ public interface Cache<K, V> extends Closeable {
      */
     @Override
     default void close() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     //--------------------------JetCache API---------------------------------------------
-
     /**
      * Get the config of this cache.
      * @return the cache config
@@ -174,82 +165,7 @@ public interface Cache<K, V> extends Closeable {
      */
     @SuppressWarnings("unchecked")
     default AutoReleaseLock tryLock(K key, long expire, TimeUnit timeUnit) {
-        if (key == null) {
-            return null;
-        }
-        final String uuid = UUID.randomUUID().toString();
-        final long expireTimestamp = System.currentTimeMillis() + timeUnit.toMillis(expire);
-        final CacheConfig config = config();
-
-
-        AutoReleaseLock lock = () -> {
-            int unlockCount = 0;
-            while (unlockCount++ < config.getTryLockUnlockCount()) {
-                if(System.currentTimeMillis() < expireTimestamp) {
-                    CacheResult unlockResult = REMOVE(key);
-                    if (unlockResult.getResultCode() == CacheResultCode.FAIL
-                            || unlockResult.getResultCode() == CacheResultCode.PART_SUCCESS) {
-                        logger.info("[tryLock] [{} of {}] [{}] unlock failed. Key={}, msg = {}",
-                                unlockCount, config.getTryLockUnlockCount(), uuid, key, unlockResult.getMessage());
-                        // retry
-                    } else if (unlockResult.isSuccess()) {
-                        logger.debug("[tryLock] [{} of {}] [{}] successfully release the lock. Key={}",
-                                unlockCount, config.getTryLockUnlockCount(), uuid, key);
-                        return;
-                    } else {
-                        logger.warn("[tryLock] [{} of {}] [{}] unexpected unlock result: Key={}, result={}",
-                                unlockCount, config.getTryLockUnlockCount(), uuid, key, unlockResult.getResultCode());
-                        return;
-                    }
-                } else {
-                    logger.info("[tryLock] [{} of {}] [{}] lock already expired: Key={}",
-                            unlockCount, config.getTryLockUnlockCount(), uuid, key);
-                    return;
-                }
-            }
-        };
-
-        int lockCount = 0;
-        Cache cache = this;
-        while (lockCount++ < config.getTryLockLockCount()) {
-            CacheResult lockResult = cache.PUT_IF_ABSENT(key, uuid, expire, timeUnit);
-            if (lockResult.isSuccess()) {
-                logger.debug("[tryLock] [{} of {}] [{}] successfully get a lock. Key={}",
-                        lockCount, config.getTryLockLockCount(), uuid, key);
-                return lock;
-            } else if (lockResult.getResultCode() == CacheResultCode.FAIL || lockResult.getResultCode() == CacheResultCode.PART_SUCCESS) {
-                logger.info("[tryLock] [{} of {}] [{}] cache access failed during get lock, will inquiry {} times. Key={}, msg={}",
-                        lockCount, config.getTryLockLockCount(), uuid,
-                        config.getTryLockInquiryCount(), key, lockResult.getMessage());
-                int inquiryCount = 0;
-                while (inquiryCount++ < config.getTryLockInquiryCount()) {
-                    CacheGetResult inquiryResult = cache.GET(key);
-                    if (inquiryResult.isSuccess()) {
-                        if (uuid.equals(inquiryResult.getValue())) {
-                            logger.debug("[tryLock] [{} of {}] [{}] successfully get a lock after inquiry. Key={}",
-                                    inquiryCount, config.getTryLockInquiryCount(), uuid, key);
-                            return lock;
-                        } else {
-                            logger.debug("[tryLock] [{} of {}] [{}] not the owner of the lock, return null. Key={}",
-                                    inquiryCount, config.getTryLockInquiryCount(), uuid, key);
-                            return null;
-                        }
-                    } else {
-                        logger.info("[tryLock] [{} of {}] [{}] inquiry failed. Key={}, msg={}",
-                                inquiryCount, config.getTryLockInquiryCount(), uuid, key, inquiryResult.getMessage());
-                        // retry inquiry
-                    }
-                }
-            } else {
-                // others holds the lock
-                logger.debug("[tryLock] [{} of {}] [{}] others holds the lock, return null. Key={}",
-                        lockCount, config.getTryLockLockCount(), uuid, key);
-                return null;
-            }
-        }
-
-        logger.debug("[tryLock] [{}] return null after {} attempts. Key={}", uuid, config.getTryLockLockCount(), key);
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -267,15 +183,8 @@ public interface Cache<K, V> extends Closeable {
      * @param action the action need to execute
      * @return true if successfully get the lock and the action is executed
      */
-    default boolean tryLockAndRun(K key, long expire, TimeUnit timeUnit, Runnable action){
-        try (AutoReleaseLock lock = tryLock(key, expire, timeUnit)) {
-            if (lock != null) {
-                action.run();
-                return true;
-            } else {
-                return false;
-            }
-        }
+    default boolean tryLockAndRun(K key, long expire, TimeUnit timeUnit, Runnable action) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -309,7 +218,7 @@ public interface Cache<K, V> extends Closeable {
      * @see CacheConfig#isCacheNullValue()
      */
     default V computeIfAbsent(K key, Function<K, V> loader) {
-        return computeIfAbsent(key, loader, config().isCacheNullValue());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -344,7 +253,7 @@ public interface Cache<K, V> extends Closeable {
      * @see #PUT(Object, Object, long, TimeUnit)
      */
     default void put(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
-        PUT(key, value, expireAfterWrite, timeUnit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -358,10 +267,7 @@ public interface Cache<K, V> extends Closeable {
      * @return the result
      */
     default CacheResult PUT(K key, V value) {
-        if (key == null) {
-            return CacheResult.FAIL_ILLEGAL_ARGUMENT;
-        }
-        return PUT(key, value, config().getExpireAfterWriteInMillis(), TimeUnit.MILLISECONDS);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -387,7 +293,7 @@ public interface Cache<K, V> extends Closeable {
      * @see #PUT_ALL(Map, long, TimeUnit)
      */
     default void putAll(Map<? extends K, ? extends V> map, long expireAfterWrite, TimeUnit timeUnit) {
-        PUT_ALL(map, expireAfterWrite, timeUnit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -400,10 +306,7 @@ public interface Cache<K, V> extends Closeable {
      * @return the result
      */
     default CacheResult PUT_ALL(Map<? extends K, ? extends V> map) {
-        if (map == null) {
-            return CacheResult.FAIL_ILLEGAL_ARGUMENT;
-        }
-        return PUT_ALL(map, config().getExpireAfterWriteInMillis(), TimeUnit.MILLISECONDS);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -456,5 +359,4 @@ public interface Cache<K, V> extends Closeable {
      * or FAIL if error occurs.
      */
     CacheResult PUT_IF_ABSENT(K key, V value, long expireAfterWrite, TimeUnit timeUnit);
-
 }

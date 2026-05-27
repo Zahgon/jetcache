@@ -11,7 +11,9 @@ import com.alicp.jetcache.CacheResult;
 public class CacheRemoveEvent extends CacheEvent {
 
     private long millis;
+
     private Object key;
+
     private CacheResult result;
 
     public CacheRemoveEvent(Cache cache, long millis, Object key, CacheResult result) {
@@ -22,15 +24,14 @@ public class CacheRemoveEvent extends CacheEvent {
     }
 
     public long getMillis() {
-        return millis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Object getKey() {
-        return key;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheResult getResult() {
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

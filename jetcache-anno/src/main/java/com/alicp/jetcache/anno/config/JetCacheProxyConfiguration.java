@@ -22,37 +22,28 @@ import org.springframework.core.type.AnnotationMetadata;
 public class JetCacheProxyConfiguration implements ImportAware, ApplicationContextAware {
 
     protected AnnotationAttributes enableMethodCache;
+
     private ApplicationContext applicationContext;
 
     @Override
     public void setImportMetadata(AnnotationMetadata importMetadata) {
-        this.enableMethodCache = AnnotationAttributes.fromMap(
-                importMetadata.getAnnotationAttributes(EnableMethodCache.class.getName(), false));
-        if (this.enableMethodCache == null) {
-            throw new IllegalArgumentException(
-                    "@EnableMethodCache is not present on importing class " + importMetadata.getClassName());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Bean(name = CacheAdvisor.CACHE_ADVISOR_BEAN_NAME)
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public CacheAdvisor jetcacheAdvisor(JetCacheInterceptor jetCacheInterceptor) {
-        CacheAdvisor advisor = new CacheAdvisor();
-        advisor.setAdvice(jetCacheInterceptor);
-        advisor.setBasePackages(this.enableMethodCache.getStringArray("basePackages"));
-        advisor.setOrder(this.enableMethodCache.<Integer>getNumber("order"));
-        return advisor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public JetCacheInterceptor jetCacheInterceptor() {
-        return new JetCacheInterceptor();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

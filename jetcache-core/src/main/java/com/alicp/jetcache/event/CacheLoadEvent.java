@@ -8,9 +8,13 @@ import com.alicp.jetcache.Cache;
  * @author huangli
  */
 public class CacheLoadEvent extends CacheEvent {
+
     private final long millis;
+
     private final Object key;
+
     private final Object loadedValue;
+
     private final boolean success;
 
     public CacheLoadEvent(Cache cache, long millis, Object key, Object loadedValue, boolean success) {
@@ -22,18 +26,18 @@ public class CacheLoadEvent extends CacheEvent {
     }
 
     public long getMillis() {
-        return millis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Object getKey() {
-        return key;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Object getLoadedValue() {
-        return loadedValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isSuccess() {
-        return success;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -13,7 +13,6 @@ import com.alicp.jetcache.support.JetCacheExecutor;
 import com.alicp.jetcache.support.SquashedLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.nio.ByteBuffer;
 import java.time.Duration;
 import java.util.List;
@@ -39,42 +38,19 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     private volatile ConcurrentHashMap<Object, LoaderLock> loaderMap;
 
     protected volatile boolean closed;
+
     private static final ReentrantLock reentrantLock = new ReentrantLock();
 
     ConcurrentHashMap<Object, LoaderLock> initOrGetLoaderMap() {
-        if (loaderMap == null) {
-            reentrantLock.lock();
-            try {
-                if (loaderMap == null) {
-                    loaderMap = new ConcurrentHashMap<>();
-                }
-            } finally {
-                reentrantLock.unlock();
-            }
-        }
-        return loaderMap;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected void logError(String oper, Object key, Throwable e) {
-        StringBuilder sb = new StringBuilder(256);
-        sb.append("jetcache(")
-                .append(this.getClass().getSimpleName()).append(") ")
-                .append(oper)
-                .append(" error.");
-        if (!(key instanceof byte[])) {
-            try {
-                sb.append(" key=[")
-                        .append(config().getKeyConvertor().apply((K) key))
-                        .append(']');
-            } catch (Exception ex) {
-                // ignore
-            }
-        }
-        SquashedLogger.getLogger(logger).error(sb, e);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void notify(CacheEvent e) {
-        notify0(e);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void notify(CacheResult r, CacheEvent e) {
@@ -95,47 +71,26 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     @Override
     public final CacheGetResult<V> GET(K key) {
-        long t = System.currentTimeMillis();
-        CacheGetResult<V> result;
-        if (key == null) {
-            result = new CacheGetResult<V>(CacheResultCode.FAIL, CacheResult.MSG_ILLEGAL_ARGUMENT, null);
-        } else {
-            result = do_GET(key);
-        }
-        CacheGetEvent event = new CacheGetEvent(this, System.currentTimeMillis() - t, key, result);
-        notify(result, event);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected abstract CacheGetResult<V> do_GET(K key);
 
     @Override
     public final MultiGetResult<K, V> GET_ALL(Set<? extends K> keys) {
-        long t = System.currentTimeMillis();
-        MultiGetResult<K, V> result;
-        if (keys == null) {
-            result = new MultiGetResult<>(CacheResultCode.FAIL, CacheResult.MSG_ILLEGAL_ARGUMENT, null);
-        } else {
-            result = do_GET_ALL(keys);
-        }
-        CacheGetAllEvent event = new CacheGetAllEvent(this, System.currentTimeMillis() - t, keys, result);
-        notify(result, event);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected abstract MultiGetResult<K, V> do_GET_ALL(Set<? extends K> keys);
 
     @Override
     public final V computeIfAbsent(K key, Function<K, V> loader, boolean cacheNullWhenLoaderReturnNull) {
-        return computeIfAbsentImpl(key, loader, cacheNullWhenLoaderReturnNull,
-                0, null, this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public final V computeIfAbsent(K key, Function<K, V> loader, boolean cacheNullWhenLoaderReturnNull,
-                                   long expireAfterWrite, TimeUnit timeUnit) {
-        return computeIfAbsentImpl(key, loader, cacheNullWhenLoaderReturnNull,
-                expireAfterWrite, timeUnit, this);
+    public final V computeIfAbsent(K key, Function<K, V> loader, boolean cacheNullWhenLoaderReturnNull, long expireAfterWrite, TimeUnit timeUnit) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static <K, V> boolean needUpdate(V loadedValue, boolean cacheNullWhenLoaderReturnNull, Function<K, V> loader) {
@@ -148,107 +103,19 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
         return true;
     }
 
-    static <K, V> V computeIfAbsentImpl(K key, Function<K, V> loader, boolean cacheNullWhenLoaderReturnNull,
-                                        long expireAfterWrite, TimeUnit timeUnit, Cache<K, V> cache) {
-        AbstractCache<K, V> abstractCache = CacheUtil.getAbstractCache(cache);
-        CacheLoader<K, V> newLoader = CacheUtil.createProxyLoader(cache, loader, abstractCache::notify);
-        CacheGetResult<V> r;
-        if (cache instanceof RefreshCache) {
-            RefreshCache<K, V> refreshCache = ((RefreshCache<K, V>) cache);
-            r = refreshCache.GET(key);
-            refreshCache.addOrUpdateRefreshTask(key, newLoader);
-        } else {
-            r = cache.GET(key);
-        }
-        if (r.isSuccess()) {
-            return r.getValue();
-        } else {
-            Consumer<V> cacheUpdater = (loadedValue) -> {
-                if (needUpdate(loadedValue, cacheNullWhenLoaderReturnNull, newLoader)) {
-                    if (timeUnit != null) {
-                        cache.PUT(key, loadedValue, expireAfterWrite, timeUnit).waitForResult();
-                    } else {
-                        cache.PUT(key, loadedValue).waitForResult();
-                    }
-                }
-            };
-
-            V loadedValue;
-            if (cache.config().isCachePenetrationProtect()) {
-                loadedValue = synchronizedLoad(cache.config(), abstractCache, key, newLoader, cacheUpdater);
-            } else {
-                loadedValue = newLoader.apply(key);
-                cacheUpdater.accept(loadedValue);
-            }
-
-            return loadedValue;
-        }
+    static <K, V> V computeIfAbsentImpl(K key, Function<K, V> loader, boolean cacheNullWhenLoaderReturnNull, long expireAfterWrite, TimeUnit timeUnit, Cache<K, V> cache) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    static <K, V> V synchronizedLoad(CacheConfig config, AbstractCache<K, V> abstractCache,
-                                     K key, Function<K, V> newLoader, Consumer<V> cacheUpdater) {
-        ConcurrentHashMap<Object, LoaderLock> loaderMap = abstractCache.initOrGetLoaderMap();
-        Object lockKey = buildLoaderLockKey(abstractCache, key);
-        while (true) {
-            boolean create[] = new boolean[1];
-            LoaderLock ll = loaderMap.computeIfAbsent(lockKey, (unusedKey) -> {
-                create[0] = true;
-                LoaderLock loaderLock = new LoaderLock();
-                loaderLock.signal = new CountDownLatch(1);
-                loaderLock.loaderThread = Thread.currentThread();
-                return loaderLock;
-            });
-            if (create[0] || ll.loaderThread == Thread.currentThread()) {
-                try {
-                    CacheGetResult<V> getResult = abstractCache.GET(key);
-                    if (getResult.isSuccess()) {
-                        ll.success = true;
-                        ll.value = getResult.getValue();
-                        return getResult.getValue();
-                    } else {
-                        V loadedValue = newLoader.apply(key);
-                        ll.success = true;
-                        ll.value = loadedValue;
-                        cacheUpdater.accept(loadedValue);
-                        return loadedValue;
-                    }
-                } finally {
-                    if (create[0]) {
-                        ll.signal.countDown();
-                        loaderMap.remove(lockKey);
-                    }
-                }
-            } else {
-                try {
-                    Duration timeout = config.getPenetrationProtectTimeout();
-                    if (timeout == null) {
-                        ll.signal.await();
-                    } else {
-                        boolean ok = ll.signal.await(timeout.toMillis(), TimeUnit.MILLISECONDS);
-                        if (!ok) {
-                            logger.info("loader wait timeout:" + timeout);
-                            return newLoader.apply(key);
-                        }
-                    }
-                } catch (InterruptedException e) {
-                    logger.warn("loader wait interrupted");
-                    return newLoader.apply(key);
-                }
-                if (ll.success) {
-                    return (V) ll.value;
-                } else {
-                    continue;
-                }
-
-            }
-        }
+    static <K, V> V synchronizedLoad(CacheConfig config, AbstractCache<K, V> abstractCache, K key, Function<K, V> newLoader, Consumer<V> cacheUpdater) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static Object buildLoaderLockKey(Cache c, Object key) {
         if (c instanceof AbstractEmbeddedCache) {
             return ((AbstractEmbeddedCache) c).buildKey(key);
         } else if (c instanceof AbstractExternalCache) {
-            byte bytes[] = ((AbstractExternalCache) c).buildKey(key);
+            byte[] bytes = ((AbstractExternalCache) c).buildKey(key);
             return ByteBuffer.wrap(bytes);
         } else if (c instanceof MultiLevelCache) {
             c = ((MultiLevelCache) c).caches()[0];
@@ -263,97 +130,56 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     @Override
     public final CacheResult PUT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
-        long t = System.currentTimeMillis();
-        CacheResult result;
-        if (key == null) {
-            result = CacheResult.FAIL_ILLEGAL_ARGUMENT;
-        } else {
-            result = do_PUT(key, value, expireAfterWrite, timeUnit);
-        }
-        CachePutEvent event = new CachePutEvent(this, System.currentTimeMillis() - t, key, value, result);
-        notify(result, event);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected abstract CacheResult do_PUT(K key, V value, long expireAfterWrite, TimeUnit timeUnit);
 
     @Override
     public final CacheResult PUT_ALL(Map<? extends K, ? extends V> map, long expireAfterWrite, TimeUnit timeUnit) {
-        long t = System.currentTimeMillis();
-        CacheResult result;
-        if (map == null) {
-            result = CacheResult.FAIL_ILLEGAL_ARGUMENT;
-        } else {
-            result = do_PUT_ALL(map, expireAfterWrite, timeUnit);
-        }
-        CachePutAllEvent event = new CachePutAllEvent(this, System.currentTimeMillis() - t, map, result);
-        notify(result, event);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected abstract CacheResult do_PUT_ALL(Map<? extends K, ? extends V> map, long expireAfterWrite, TimeUnit timeUnit);
 
     @Override
     public final CacheResult REMOVE(K key) {
-        long t = System.currentTimeMillis();
-        CacheResult result;
-        if (key == null) {
-            result = CacheResult.FAIL_ILLEGAL_ARGUMENT;
-        } else {
-            result = do_REMOVE(key);
-        }
-        CacheRemoveEvent event = new CacheRemoveEvent(this, System.currentTimeMillis() - t, key, result);
-        notify(result, event);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected abstract CacheResult do_REMOVE(K key);
 
     @Override
     public final CacheResult REMOVE_ALL(Set<? extends K> keys) {
-        long t = System.currentTimeMillis();
-        CacheResult result;
-        if (keys == null) {
-            result = CacheResult.FAIL_ILLEGAL_ARGUMENT;
-        } else {
-            result = do_REMOVE_ALL(keys);
-        }
-        CacheRemoveAllEvent event = new CacheRemoveAllEvent(this, System.currentTimeMillis() - t, keys, result);
-        notify(result, event);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected abstract CacheResult do_REMOVE_ALL(Set<? extends K> keys);
 
     @Override
     public final CacheResult PUT_IF_ABSENT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
-        long t = System.currentTimeMillis();
-        CacheResult result;
-        if (key == null) {
-            result = CacheResult.FAIL_ILLEGAL_ARGUMENT;
-        } else {
-            result = do_PUT_IF_ABSENT(key, value, expireAfterWrite, timeUnit);
-        }
-        CachePutEvent event = new CachePutEvent(this, System.currentTimeMillis() - t, key, value, result);
-        notify(result, event);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected abstract CacheResult do_PUT_IF_ABSENT(K key, V value, long expireAfterWrite, TimeUnit timeUnit);
 
     @Override
     public void close() {
-        this.closed = true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isClosed() {
-        return this.closed;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     static class LoaderLock {
+
         CountDownLatch signal;
+
         Thread loaderThread;
+
         volatile boolean success;
+
         volatile Object value;
     }
 }

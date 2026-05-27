@@ -4,7 +4,6 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.PropertySource;
 import org.springframework.util.Assert;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -16,7 +15,9 @@ import java.util.stream.Collectors;
  * @author huangli
  */
 public class ConfigTree {
+
     private ConfigurableEnvironment environment;
+
     private String prefix;
 
     public ConfigTree(ConfigurableEnvironment environment, String prefix) {
@@ -27,7 +28,7 @@ public class ConfigTree {
     }
 
     public ConfigTree subTree(String prefix) {
-        return new ConfigTree(environment, fullPrefixOrKey(prefix));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private String fullPrefixOrKey(String prefixOrKey) {
@@ -35,72 +36,38 @@ public class ConfigTree {
     }
 
     public Map<String, Object> getProperties() {
-        Map<String, Object> m = new HashMap<>();
-        for (PropertySource<?> source : environment.getPropertySources()) {
-            if (source instanceof EnumerablePropertySource) {
-                for (String name : ((EnumerablePropertySource<?>) source)
-                        .getPropertyNames()) {
-                    if (name != null && name.startsWith(prefix)) {
-                        String subKey = name.substring(prefix.length());
-                        m.put(subKey, environment.getProperty(name));
-                    }
-                }
-            }
-        }
-        return m;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean containsProperty(String key) {
-        key = fullPrefixOrKey(key);
-        return environment.containsProperty(key);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getProperty(String key) {
-        key = fullPrefixOrKey(key);
-        return environment.getProperty(key);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getProperty(String key, String defaultValue) {
-        if (containsProperty(key)) {
-            return getProperty(key);
-        } else {
-            return defaultValue;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean getProperty(String key, boolean defaultValue) {
-        if (containsProperty(key)) {
-            return Boolean.parseBoolean(getProperty(key));
-        } else {
-            return defaultValue;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getProperty(String key, int defaultValue) {
-        if (containsProperty(key)) {
-            return Integer.parseInt(getProperty(key));
-        } else {
-            return defaultValue;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getProperty(String key, long defaultValue) {
-        if (containsProperty(key)) {
-            return Long.parseLong(getProperty(key));
-        } else {
-            return defaultValue;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getPrefix() {
-        return prefix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Set<String> directChildrenKeys() {
-        Map<String, Object> m = getProperties();
-        return m.keySet().stream().map(
-                s -> s.indexOf('.') >= 0 ? s.substring(0, s.indexOf('.')) : null)
-                .filter(s -> s != null)
-                .collect(Collectors.toSet());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

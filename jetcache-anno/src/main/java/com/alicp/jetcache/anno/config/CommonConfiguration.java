@@ -14,9 +14,10 @@ import org.springframework.context.annotation.Role;
  */
 @Configuration
 public class CommonConfiguration {
+
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public ConfigMap jetcacheConfigMap() {
-        return new ConfigMap();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

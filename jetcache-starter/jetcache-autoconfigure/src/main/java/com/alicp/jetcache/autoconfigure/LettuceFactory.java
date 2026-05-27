@@ -14,12 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author huangli
  */
 public class LettuceFactory implements FactoryBean {
+
     @Autowired
     private AutoConfigureBeans autoConfigureBeans;
 
     private boolean inited;
+
     private Object obj;
+
     private Class<?> clazz;
+
     private String key;
 
     // for unit test
@@ -27,7 +31,6 @@ public class LettuceFactory implements FactoryBean {
         this(key, clazz);
         this.autoConfigureBeans = autoConfigureBeans;
     }
-
 
     public LettuceFactory(String key, Class<?> clazz) {
         this.clazz = clazz;
@@ -59,17 +62,16 @@ public class LettuceFactory implements FactoryBean {
 
     @Override
     public Object getObject() throws Exception {
-        init();
-        return obj;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Class<?> getObjectType() {
-        return clazz;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isSingleton() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationContext;
  * @author huangli
  */
 public class SpringCacheInvokeContext extends CacheInvokeContext {
+
     protected ApplicationContext context;
 
     public SpringCacheInvokeContext(ApplicationContext context) {
@@ -16,8 +17,6 @@ public class SpringCacheInvokeContext extends CacheInvokeContext {
     }
 
     public Object bean(String name) {
-        return context.getBean(name);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
-
 }

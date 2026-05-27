@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.support.StaticMethodMatcherPointcut;
 import org.springframework.asm.Type;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
@@ -24,6 +23,7 @@ public class CachePointcut extends StaticMethodMatcherPointcut implements ClassF
     private static final Logger logger = LoggerFactory.getLogger(CachePointcut.class);
 
     private ConfigMap cacheConfigMap;
+
     private String[] basePackages;
 
     public CachePointcut(String[] basePackages) {
@@ -33,9 +33,7 @@ public class CachePointcut extends StaticMethodMatcherPointcut implements ClassF
 
     @Override
     public boolean matches(Class clazz) {
-        boolean b = matchesImpl(clazz);
-        logger.trace("check class match {}: {}", b, clazz);
-        return b;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean matchesImpl(Class clazz) {
@@ -60,11 +58,7 @@ public class CachePointcut extends StaticMethodMatcherPointcut implements ClassF
     }
 
     public boolean matchesThis(Class clazz) {
-        String name = clazz.getName();
-        if (exclude(name)) {
-            return false;
-        }
-        return include(name);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean include(String name) {
@@ -96,23 +90,7 @@ public class CachePointcut extends StaticMethodMatcherPointcut implements ClassF
 
     @Override
     public boolean matches(Method method, Class targetClass) {
-        boolean b = matchesImpl(method, targetClass);
-        if (b) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("check method match true: method={}, declaringClass={}, targetClass={}",
-                        method.getName(),
-                        ClassUtil.getShortClassName(method.getDeclaringClass().getName()),
-                        targetClass == null ? null : ClassUtil.getShortClassName(targetClass.getName()));
-            }
-        } else {
-            if (logger.isTraceEnabled()) {
-                logger.trace("check method match false: method={}, declaringClass={}, targetClass={}",
-                        method.getName(),
-                        ClassUtil.getShortClassName(method.getDeclaringClass().getName()),
-                        targetClass == null ? null : ClassUtil.getShortClassName(targetClass.getName()));
-            }
-        }
-        return b;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean matchesImpl(Method method, Class targetClass) {
@@ -131,13 +109,10 @@ public class CachePointcut extends StaticMethodMatcherPointcut implements ClassF
         } else {
             cac = new CacheInvokeConfig();
             CacheConfigUtil.parse(cac, method);
-
             String name = method.getName();
             Class<?>[] paramTypes = method.getParameterTypes();
             parseByTargetClass(cac, targetClass, name, paramTypes);
-
-            if (!cac.isEnableCacheContext() && cac.getCachedAnnoConfig() == null &&
-                    cac.getInvalidateAnnoConfigs() == null && cac.getUpdateAnnoConfig() == null) {
+            if (!cac.isEnableCacheContext() && cac.getCachedAnnoConfig() == null && cac.getInvalidateAnnoConfigs() == null && cac.getUpdateAnnoConfig() == null) {
                 cacheConfigMap.putByMethodInfo(key, CacheInvokeConfig.getNoCacheInvokeConfigInstance());
                 return false;
             } else {
@@ -148,16 +123,7 @@ public class CachePointcut extends StaticMethodMatcherPointcut implements ClassF
     }
 
     public static String getKey(Method method, Class targetClass) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(method.getDeclaringClass().getName());
-        sb.append('.');
-        sb.append(method.getName());
-        sb.append(Type.getMethodDescriptor(method));
-        if (targetClass != null) {
-            sb.append('_');
-            sb.append(targetClass.getName());
-        }
-        return sb.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void parseByTargetClass(CacheInvokeConfig cac, Class<?> clazz, String name, Class<?>[] paramTypes) {
@@ -168,7 +134,6 @@ public class CachePointcut extends StaticMethodMatcherPointcut implements ClassF
         for (Class<?> it : intfs) {
             parseByTargetClass(cac, it, name, paramTypes);
         }
-
         boolean matchThis = matchesThis(clazz);
         if (matchThis) {
             Method[] methods = clazz.getDeclaredMethods();
@@ -200,8 +165,7 @@ public class CachePointcut extends StaticMethodMatcherPointcut implements ClassF
         return true;
     }
 
-
     public void setCacheConfigMap(ConfigMap cacheConfigMap) {
-        this.cacheConfigMap = cacheConfigMap;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

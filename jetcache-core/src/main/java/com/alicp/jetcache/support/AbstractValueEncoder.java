@@ -16,6 +16,6 @@ public abstract class AbstractValueEncoder implements Function<Object, byte[]>, 
     }
 
     public boolean isUseIdentityNumber() {
-        return useIdentityNumber;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

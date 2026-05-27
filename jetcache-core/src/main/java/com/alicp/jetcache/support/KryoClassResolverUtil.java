@@ -2,31 +2,18 @@ package com.alicp.jetcache.support;
 
 final class KryoClassResolverUtil {
 
-    private static final String[] PRIMITIVE_TYPE_NAMES = {
-            "boolean", "byte", "char", "short", "int", "long", "float", "double", "void"
-    };
+    private static final String[] PRIMITIVE_TYPE_NAMES = { "boolean", "byte", "char", "short", "int", "long", "float", "double", "void" };
 
     static void checkAllowed(Class<?> type, DecodeFilter decodeFilter) {
-        if (type != null && !type.isPrimitive()) {
-            checkAllowed(type.getName(), decodeFilter);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     static void checkAllowed(String className, DecodeFilter decodeFilter) {
-        if (isPrimitiveTypeName(className)) {
-            return;
-        }
-        if (decodeFilter.isEnabled() && !decodeFilter.isAllowed(className)) {
-            throw new DecodeFilterException(className);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     static Class<?> loadClass(String className, ClassLoader primary, ClassLoader fallback) throws ClassNotFoundException {
-        try {
-            return Class.forName(className, false, primary);
-        } catch (ClassNotFoundException e) {
-            return Class.forName(className, false, fallback);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static boolean isPrimitiveTypeName(String className) {

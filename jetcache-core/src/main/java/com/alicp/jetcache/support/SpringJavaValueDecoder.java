@@ -4,7 +4,6 @@
 package com.alicp.jetcache.support;
 
 import org.springframework.core.ConfigurableObjectInputStream;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -22,6 +21,6 @@ public class SpringJavaValueDecoder extends JavaValueDecoder {
 
     @Override
     protected ObjectInputStream buildObjectInputStream(ByteArrayInputStream in) throws IOException {
-        return new ConfigurableObjectInputStream(in, Thread.currentThread().getContextClassLoader());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

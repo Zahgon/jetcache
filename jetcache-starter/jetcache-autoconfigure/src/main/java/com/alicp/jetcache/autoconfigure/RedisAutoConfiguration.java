@@ -19,7 +19,6 @@ import redis.clients.jedis.JedisSentinelPool;
 import redis.clients.jedis.Protocol;
 import redis.clients.jedis.UnifiedJedis;
 import redis.clients.jedis.util.Pool;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -43,16 +42,18 @@ public class RedisAutoConfiguration {
 
     @Bean(name = AUTO_INIT_BEAN_NAME)
     public RedisAutoInit redisAutoInit() {
-        return new RedisAutoInit();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static class RedisCondition extends JetCacheCondition {
+
         public RedisCondition() {
             super("redis");
         }
     }
 
     public static class RedisAutoInit extends ExternalCacheAutoInit {
+
         public RedisAutoInit() {
             super("redis");
         }
@@ -62,53 +63,12 @@ public class RedisAutoConfiguration {
 
         @Override
         protected CacheBuilder initCache(ConfigTree ct, String cacheAreaWithPrefix) {
-            Object jedisObj = parsePool(ct);
-            boolean readFromSlave = Boolean.parseBoolean(ct.getProperty("readFromSlave", "False"));
-
-            RedisCacheBuilder.RedisCacheBuilderImpl builder = RedisCacheBuilder.createRedisCacheBuilder()
-                    .readFromSlave(readFromSlave);
-            if (jedisObj instanceof Pool) {
-                builder.jedisPool((Pool<Jedis>) jedisObj);
-            } else {
-                builder.jedis((UnifiedJedis) jedisObj);
-            }
-
-            ConfigTree slaves = ct.subTree("slaves.");
-            Set<String> slaveNames = slaves.directChildrenKeys();
-            if (slaveNames.size() > 0) {
-                List<Object> slavesObjects = new ArrayList<>();
-                int[] slavesWeights = new int[slaveNames.size()];
-                int i = 0;
-                for (String slaveName: slaveNames) {
-                    ConfigTree slaveConfig = slaves.subTree(slaveName + ".");
-                    slavesObjects.add(parsePool(slaveConfig));
-                    slavesWeights[i] = Integer.parseInt(slaveConfig.getProperty("weight","100"));
-                    i++;
-                }
-
-                builder.slaveReadWeights(slavesWeights);
-                if (slavesObjects.get(0) instanceof Pool) {
-                    builder.jedisSlavePools(slavesObjects.toArray(new Pool[0]));
-                } else {
-                    builder.slaves(slavesObjects.toArray(new UnifiedJedis[0]));
-                }
-            }
-
-            parseGeneralConfig(builder, ct);
-
-            // eg: "jedisPool.remote.default"
-            autoConfigureBeans.getCustomContainer().put("jedisPool." + cacheAreaWithPrefix, jedisObj);
-            if (jedisObj instanceof UnifiedJedis) {
-                autoConfigureBeans.getCustomContainer().put("jedis." + cacheAreaWithPrefix, jedisObj);
-            }
-
-            return builder;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private Object parsePool(ConfigTree ct) {
             GenericObjectPoolConfig poolConfig = parsePoolConfig(ct);
-
-            Map<String, Object> cluster = ct.subTree("cluster"/*there is no dot*/).getProperties();
+            Map<String, Object> cluster = ct.subTree("cluster").getProperties();
             String host = ct.getProperty("host", (String) null);
             int port = Integer.parseInt(ct.getProperty("port", "0"));
             int timeout = Integer.parseInt(ct.getProperty("timeout", String.valueOf(Protocol.DEFAULT_TIMEOUT)));
@@ -119,26 +79,19 @@ public class RedisAutoConfiguration {
             int database = Integer.parseInt(ct.getProperty("database", String.valueOf(Protocol.DEFAULT_DATABASE)));
             String clientName = ct.getProperty("clientName", (String) null);
             boolean ssl = Boolean.parseBoolean(ct.getProperty("ssl", "false"));
-
-
-            String sentinels = ct.getProperty("sentinels", (String) null);//ip1:port,ip2:port
-
+            //ip1:port,ip2:port
+            String sentinels = ct.getProperty("sentinels", (String) null);
             if (sentinels == null) {
                 if (cluster == null || cluster.size() == 0) {
                     Objects.requireNonNull(host, "host is required");
                     if (port == 0) {
                         throw new IllegalStateException("port is required");
                     }
-                    return new JedisPool(poolConfig, host, port, connectionTimeout, soTimeout, user, password,
-                            database, clientName, ssl);
+                    return new JedisPool(poolConfig, host, port, connectionTimeout, soTimeout, user, password, database, clientName, ssl);
                 } else {
                     int maxAttempt = Integer.parseInt(ct.getProperty("maxAttempt", "5"));
-                    Set<HostAndPort> hostAndPortSet = cluster.values().stream()
-                            .map(uri -> uri.toString().split(":"))
-                            .map(hostAndPort -> new HostAndPort(hostAndPort[0], Integer.parseInt(hostAndPort[1])))
-                            .collect(Collectors.toSet());
-                    return new JedisCluster(hostAndPortSet, connectionTimeout, soTimeout, maxAttempt, user, password,
-                            clientName, poolConfig, ssl);
+                    Set<HostAndPort> hostAndPortSet = cluster.values().stream().map(uri -> uri.toString().split(":")).map(hostAndPort -> new HostAndPort(hostAndPort[0], Integer.parseInt(hostAndPort[1]))).collect(Collectors.toSet());
+                    return new JedisCluster(hostAndPortSet, connectionTimeout, soTimeout, maxAttempt, user, password, clientName, poolConfig, ssl);
                 }
             } else {
                 String masterName = ct.getProperty("masterName", (String) null);
@@ -155,24 +108,19 @@ public class RedisAutoConfiguration {
                         sentinelsSet.add(s.trim());
                     }
                 }
-                return new JedisSentinelPool(masterName, sentinelsSet, poolConfig, connectionTimeout, soTimeout,
-                        user, password, database, clientName, sentinelConnectionTimeout, sentinelSoTimeout,
-                        sentinelUser, sentinelPassword, sentinelClientName);
+                return new JedisSentinelPool(masterName, sentinelsSet, poolConfig, connectionTimeout, soTimeout, user, password, database, clientName, sentinelConnectionTimeout, sentinelSoTimeout, sentinelUser, sentinelPassword, sentinelClientName);
             }
         }
 
         private GenericObjectPoolConfig parsePoolConfig(ConfigTree ct) {
             try {
                 // Spring Boot 2.0 removed RelaxedDataBinder class. Binder class not exists in 1.X
-                if (ClassUtils.isPresent("org.springframework.boot.context.properties.bind.Binder",
-                        this.getClass().getClassLoader())) {
+                if (ClassUtils.isPresent("org.springframework.boot.context.properties.bind.Binder", this.getClass().getClassLoader())) {
                     // Spring Boot 2.0+
                     String prefix = ct.subTree("poolConfig").getPrefix().toLowerCase();
-
                     // invoke following code by reflect
                     // Binder binder = Binder.get(environment);
                     // return binder.bind(name, Bindable.of(GenericObjectPoolConfig.class)).get();
-
                     Class<?> binderClass = Class.forName("org.springframework.boot.context.properties.bind.Binder");
                     Class<?> bindableClass = Class.forName("org.springframework.boot.context.properties.bind.Bindable");
                     Class<?> bindResultClass = Class.forName("org.springframework.boot.context.properties.bind.BindResult");
@@ -188,11 +136,9 @@ public class RedisAutoConfiguration {
                     // Spring Boot 1.X
                     GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
                     Map<String, Object> props = ct.subTree("poolConfig.").getProperties();
-
                     // invoke following code by reflect
                     //RelaxedDataBinder binder = new RelaxedDataBinder(poolConfig);
                     //binder.bind(new MutablePropertyValues(props));
-
                     Class<?> relaxedDataBinderClass = Class.forName("org.springframework.boot.bind.RelaxedDataBinder");
                     Class<?> mutablePropertyValuesClass = Class.forName("org.springframework.beans.MutablePropertyValues");
                     Constructor<?> c1 = relaxedDataBinderClass.getConstructor(Object.class);
@@ -205,9 +151,6 @@ public class RedisAutoConfiguration {
             } catch (Throwable ex) {
                 throw new CacheConfigException("parse poolConfig fail", ex);
             }
-
         }
     }
-
-
 }

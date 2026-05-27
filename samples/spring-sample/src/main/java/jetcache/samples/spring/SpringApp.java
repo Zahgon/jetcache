@@ -11,10 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @ComponentScan("jetcache.samples.spring")
 public class SpringApp {
+
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringApp.class);
-        MyService myService = context.getBean(MyService.class);
-        myService.createCacheDemo();
-        myService.cachedDemo();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

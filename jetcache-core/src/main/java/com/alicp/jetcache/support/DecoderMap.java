@@ -16,7 +16,6 @@ public class DecoderMap {
     // int IDENTITY_NUMBER_FASTJSON = 0x4A953A81; not used since 2.5+
     // removed in 2.8.0
     // int IDENTITY_NUMBER_KRYO4 = 0x4A953A82;
-
     /**
      * @since 2.7
      */
@@ -43,7 +42,9 @@ public class DecoderMap {
     public static final int IDENTITY_NUMBER_JACKSON3 = 0xF6E0A5C2;
 
     private final ConcurrentHashMap<Integer, AbstractValueDecoder> decoderMap = new ConcurrentHashMap<>();
+
     private volatile boolean inited = false;
+
     private final ReentrantLock reentrantLock = new ReentrantLock();
 
     private static final DecoderMap instance = new DecoderMap();
@@ -52,67 +53,34 @@ public class DecoderMap {
     }
 
     public static DecoderMap defaultInstance() {
-        return instance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AbstractValueDecoder getDecoder(int identityNumber) {
-        return decoderMap.get(identityNumber);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void register(int identityNumber, AbstractValueDecoder decoder) {
-        decoderMap.put(identityNumber, decoder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void clear() {
-        decoderMap.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ReentrantLock getLock() {
-        return reentrantLock;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setInited(boolean inited) {
-        this.inited = inited;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void initDefaultDecoder() {
-        if (inited) {
-            return;
-        }
-        reentrantLock.lock();
-        try {
-            if (inited) {
-                return;
-            }
-            register(IDENTITY_NUMBER_JAVA, defaultJavaValueDecoder());
-            try {
-                Class.forName("com.esotericsoftware.kryo.kryo5.Kryo");
-                register(IDENTITY_NUMBER_KRYO5, Kryo5ValueDecoder.INSTANCE);
-            } catch (ClassNotFoundException e) {
-                // the com.esotericsoftware:kryo should be 5+
-                try {
-                    Class.forName("com.esotericsoftware.kryo.Kryo");
-                    register(IDENTITY_NUMBER_KRYO5, KryoValueDecoder.INSTANCE);
-                } catch (ClassNotFoundException e2) {
-                    // kryo is not on the classpath, skip registration
-                }
-            }
-            // register(IDENTITY_NUMBER_FASTJSON2, Fastjson2ValueDecoder.INSTANCE);
-            // register(IDENTITY_NUMBER_JACKSON3, Jackson3ValueDecoder.INSTANCE);
-            inited = true;
-        } finally {
-            reentrantLock.unlock();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static JavaValueDecoder defaultJavaValueDecoder() {
-        try {
-            Class.forName("org.springframework.core.ConfigurableObjectInputStream");
-            return SpringJavaValueDecoder.INSTANCE;
-        } catch (ClassNotFoundException e) {
-            return JavaValueDecoder.INSTANCE;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
-
 }

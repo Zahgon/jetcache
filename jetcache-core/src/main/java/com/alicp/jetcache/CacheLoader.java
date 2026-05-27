@@ -11,28 +11,20 @@ import java.util.function.Function;
  * @author huangli
  */
 @FunctionalInterface
-public interface CacheLoader<K, V> extends Function<K ,V> {
+public interface CacheLoader<K, V> extends Function<K, V> {
+
     V load(K key) throws Throwable;
 
     default Map<K, V> loadAll(Set<K> keys) throws Throwable {
-        Map<K, V> map = new HashMap<>();
-        for (K k : keys) {
-            map.put(k, load(k));
-        }
-        return map;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     default V apply(K key) {
-        try {
-            return load(key);
-        } catch (Throwable e){
-            throw new CacheInvokeException(e.getMessage(), e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     default boolean vetoCacheUpdate() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

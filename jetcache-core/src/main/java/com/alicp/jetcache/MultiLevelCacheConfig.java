@@ -9,31 +9,29 @@ import java.util.List;
  * @author huangli
  */
 public class MultiLevelCacheConfig<K, V> extends CacheConfig<K, V> {
+
     private List<Cache<K, V>> caches = new ArrayList<>();
+
     private boolean useExpireOfSubCache;
 
     @Override
     public MultiLevelCacheConfig clone() {
-        MultiLevelCacheConfig copy = (MultiLevelCacheConfig) super.clone();
-        if (caches != null) {
-            copy.caches = new ArrayList(this.caches);
-        }
-        return copy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<Cache<K, V>> getCaches() {
-        return caches;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCaches(List<Cache<K, V>> caches) {
-        this.caches = caches;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isUseExpireOfSubCache() {
-        return useExpireOfSubCache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setUseExpireOfSubCache(boolean useExpireOfSubCache) {
-        this.useExpireOfSubCache = useExpireOfSubCache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

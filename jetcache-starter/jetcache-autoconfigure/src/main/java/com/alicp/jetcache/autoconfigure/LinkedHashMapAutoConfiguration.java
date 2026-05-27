@@ -13,18 +13,18 @@ import org.springframework.stereotype.Component;
 @Component
 @Conditional(LinkedHashMapAutoConfiguration.LinkedHashMapCondition.class)
 public class LinkedHashMapAutoConfiguration extends EmbeddedCacheAutoInit {
+
     public LinkedHashMapAutoConfiguration() {
         super("linkedhashmap");
     }
 
     @Override
     protected CacheBuilder initCache(ConfigTree ct, String cacheAreaWithPrefix) {
-        LinkedHashMapCacheBuilder builder = LinkedHashMapCacheBuilder.createLinkedHashMapCacheBuilder();
-        parseGeneralConfig(builder, ct);
-        return builder;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static class LinkedHashMapCondition extends JetCacheCondition {
+
         public LinkedHashMapCondition() {
             super("linkedhashmap");
         }

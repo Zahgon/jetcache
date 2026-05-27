@@ -9,31 +9,26 @@ import com.alicp.jetcache.AbstractCacheBuilder;
  */
 public class EmbeddedCacheBuilder<T extends EmbeddedCacheBuilder<T>> extends AbstractCacheBuilder<T> {
 
-    public EmbeddedCacheBuilder(){
+    public EmbeddedCacheBuilder() {
     }
 
     public static class EmbeddedCacheBuilderImpl extends EmbeddedCacheBuilder<EmbeddedCacheBuilderImpl> {
     }
 
-    public static EmbeddedCacheBuilderImpl createEmbeddedCacheBuilder(){
-        return new EmbeddedCacheBuilderImpl();
+    public static EmbeddedCacheBuilderImpl createEmbeddedCacheBuilder() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public EmbeddedCacheConfig getConfig() {
-        if (config == null) {
-            config = new EmbeddedCacheConfig();
-        }
-        return (EmbeddedCacheConfig) config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public T limit(int limit){
-        getConfig().setLimit(limit);
-        return self();
+    public T limit(int limit) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public void setLimit(int limit){
-        getConfig().setLimit(limit);
+    public void setLimit(int limit) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

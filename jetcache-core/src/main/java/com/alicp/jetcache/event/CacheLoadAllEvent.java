@@ -1,7 +1,6 @@
 package com.alicp.jetcache.event;
 
 import com.alicp.jetcache.Cache;
-
 import java.util.Map;
 import java.util.Set;
 
@@ -13,8 +12,11 @@ import java.util.Set;
 public class CacheLoadAllEvent extends CacheEvent {
 
     private long millis;
+
     private Set keys;
+
     private Map loadedValue;
+
     private boolean success;
 
     public CacheLoadAllEvent(Cache cache, long millis, Set keys, Map loadedValue, boolean success) {
@@ -26,18 +28,18 @@ public class CacheLoadAllEvent extends CacheEvent {
     }
 
     public long getMillis() {
-        return millis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Set getKeys() {
-        return keys;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Map getLoadedValue() {
-        return loadedValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isSuccess() {
-        return success;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

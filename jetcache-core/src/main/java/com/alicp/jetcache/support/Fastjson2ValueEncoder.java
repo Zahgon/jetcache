@@ -1,6 +1,5 @@
 package com.alicp.jetcache.support;
 
-
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONWriter;
 
@@ -19,7 +18,6 @@ public class Fastjson2ValueEncoder extends AbstractJsonEncoder {
 
     @Override
     protected byte[] encodeSingleValue(Object value) {
-        return JSON.toJSONBytes(value, JSONWriter.Feature.WriteClassName);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -16,10 +16,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class RedissonDemo {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(RedissonDemo.class);
-        MyService myService = context.getBean(MyService.class);
-        myService.createCacheDemo();
-        myService.cachedDemo();
-        System.exit(0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

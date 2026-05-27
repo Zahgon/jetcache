@@ -5,7 +5,6 @@ import com.alicp.jetcache.external.AbstractExternalCache;
 import com.alicp.jetcache.support.JetCacheExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +26,7 @@ public class RefreshCache<K, V> extends LoadingCache<K, V> {
     private static final Logger logger = LoggerFactory.getLogger(RefreshCache.class);
 
     public static final byte[] LOCK_KEY_SUFFIX = "_#RL#".getBytes();
+
     public static final byte[] TIMESTAMP_KEY_SUFFIX = "_#TS#".getBytes();
 
     private ConcurrentHashMap<Object, RefreshTask> taskMap = new ConcurrentHashMap<>();
@@ -39,17 +39,13 @@ public class RefreshCache<K, V> extends LoadingCache<K, V> {
     }
 
     protected void stopRefresh() {
-        List<RefreshTask> tasks = new ArrayList<>();
-        tasks.addAll(taskMap.values());
-        tasks.forEach(task -> task.cancel());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void close() {
-        stopRefresh();
-        super.close();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     private boolean hasLoader() {
         return config.getLoader() != null;
@@ -57,34 +53,21 @@ public class RefreshCache<K, V> extends LoadingCache<K, V> {
 
     @Override
     public V computeIfAbsent(K key, Function<K, V> loader) {
-        return computeIfAbsent(key, loader, config().isCacheNullValue());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public V computeIfAbsent(K key, Function<K, V> loader, boolean cacheNullWhenLoaderReturnNull) {
-        return AbstractCache.computeIfAbsentImpl(key, loader, cacheNullWhenLoaderReturnNull,
-                0, null, this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public V computeIfAbsent(K key, Function<K, V> loader, boolean cacheNullWhenLoaderReturnNull,
-                             long expireAfterWrite, TimeUnit timeUnit) {
-        return AbstractCache.computeIfAbsentImpl(key, loader, cacheNullWhenLoaderReturnNull,
-                expireAfterWrite, timeUnit, this);
+    public V computeIfAbsent(K key, Function<K, V> loader, boolean cacheNullWhenLoaderReturnNull, long expireAfterWrite, TimeUnit timeUnit) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected Cache concreteCache() {
-        Cache c = getTargetCache();
-        while (true) {
-            if (c instanceof ProxyCache) {
-                c = ((ProxyCache) c).getTargetCache();
-            } else if (c instanceof MultiLevelCache) {
-                Cache[] caches = ((MultiLevelCache) c).caches();
-                c = caches[caches.length - 1];
-            } else {
-                return c;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean isMultiLevelCache() {
@@ -108,51 +91,30 @@ public class RefreshCache<K, V> extends LoadingCache<K, V> {
         }
     }
 
-    protected void addOrUpdateRefreshTask(K key, CacheLoader<K,V> loader) {
-        RefreshPolicy refreshPolicy = config.getRefreshPolicy();
-        if (refreshPolicy == null) {
-            return;
-        }
-        long refreshMillis = refreshPolicy.getRefreshMillis();
-        if (refreshMillis > 0) {
-            Object taskId = getTaskId(key);
-            RefreshTask refreshTask = taskMap.computeIfAbsent(taskId, tid -> {
-                logger.debug("add refresh task. interval={},  key={}", refreshMillis , key);
-                RefreshTask task = new RefreshTask(taskId, key, loader);
-                task.lastAccessTime = System.currentTimeMillis();
-                ScheduledFuture<?> future = JetCacheExecutor.heavyIOExecutor().scheduleWithFixedDelay(
-                        task, refreshMillis, refreshMillis, TimeUnit.MILLISECONDS);
-                task.future = future;
-                return task;
-            });
-            refreshTask.lastAccessTime = System.currentTimeMillis();
-        }
+    protected void addOrUpdateRefreshTask(K key, CacheLoader<K, V> loader) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public V get(K key) throws CacheInvokeException {
-        if (config.getRefreshPolicy() != null && hasLoader()) {
-            addOrUpdateRefreshTask(key, null);
-        }
-        return super.get(key);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Map<K, V> getAll(Set<? extends K> keys) throws CacheInvokeException {
-        if (config.getRefreshPolicy() != null && hasLoader()) {
-            for (K key : keys) {
-                addOrUpdateRefreshTask(key, null);
-            }
-        }
-        return super.getAll(keys);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     class RefreshTask implements Runnable {
+
         private Object taskId;
+
         private K key;
+
         private CacheLoader<K, V> loader;
 
         private long lastAccessTime;
+
         private ScheduledFuture future;
 
         RefreshTask(Object taskId, K key, CacheLoader<K, V> loader) {
@@ -168,7 +130,7 @@ public class RefreshCache<K, V> extends LoadingCache<K, V> {
         }
 
         private void load() throws Throwable {
-            CacheLoader<K,V> l = loader == null? config.getLoader(): loader;
+            CacheLoader<K, V> l = loader == null ? config.getLoader() : loader;
             if (l != null) {
                 l = CacheUtil.createProxyLoader(cache, l, eventConsumer);
                 V v = l.load(key);
@@ -178,14 +140,12 @@ public class RefreshCache<K, V> extends LoadingCache<K, V> {
             }
         }
 
-        private void externalLoad(final Cache concreteCache, final long currentTime)
-                throws Throwable {
+        private void externalLoad(final Cache concreteCache, final long currentTime) throws Throwable {
             byte[] newKey = ((AbstractExternalCache) concreteCache).buildKey(key);
             byte[] lockKey = combine(newKey, LOCK_KEY_SUFFIX);
             long loadTimeOut = RefreshCache.this.config.getRefreshPolicy().getRefreshLockTimeoutMillis();
             long refreshMillis = config.getRefreshPolicy().getRefreshMillis();
             byte[] timestampKey = combine(newKey, TIMESTAMP_KEY_SUFFIX);
-
             // AbstractExternalCache buildKey method will not convert byte[]
             CacheGetResult refreshTimeResult = concreteCache.GET(timestampKey);
             boolean shouldLoad = false;
@@ -194,14 +154,12 @@ public class RefreshCache<K, V> extends LoadingCache<K, V> {
             } else if (refreshTimeResult.getResultCode() == CacheResultCode.NOT_EXISTS) {
                 shouldLoad = true;
             }
-
             if (!shouldLoad) {
                 if (multiLevelCache) {
                     refreshUpperCaches(key);
                 }
                 return;
             }
-
             Runnable r = () -> {
                 try {
                     load();
@@ -211,12 +169,10 @@ public class RefreshCache<K, V> extends LoadingCache<K, V> {
                     throw new CacheException("refresh error", e);
                 }
             };
-
             // AbstractExternalCache buildKey method will not convert byte[]
             boolean lockSuccess = concreteCache.tryLockAndRun(lockKey, loadTimeOut, TimeUnit.MILLISECONDS, r);
-            if(!lockSuccess && multiLevelCache) {
-                JetCacheExecutor.heavyIOExecutor().schedule(
-                        () -> refreshUpperCaches(key), (long)(0.2 * refreshMillis), TimeUnit.MILLISECONDS);
+            if (!lockSuccess && multiLevelCache) {
+                JetCacheExecutor.heavyIOExecutor().schedule(() -> refreshUpperCaches(key), (long) (0.2 * refreshMillis), TimeUnit.MILLISECONDS);
             }
         }
 
@@ -224,7 +180,6 @@ public class RefreshCache<K, V> extends LoadingCache<K, V> {
             MultiLevelCache<K, V> targetCache = (MultiLevelCache<K, V>) getTargetCache();
             Cache[] caches = targetCache.caches();
             int len = caches.length;
-
             CacheGetResult cacheGetResult = caches[len - 1].GET(key);
             if (!cacheGetResult.isSuccess()) {
                 return;
@@ -236,30 +191,7 @@ public class RefreshCache<K, V> extends LoadingCache<K, V> {
 
         @Override
         public void run() {
-            try {
-                if (config.getRefreshPolicy() == null || (loader == null && !hasLoader())) {
-                    cancel();
-                    return;
-                }
-                long now = System.currentTimeMillis();
-                long stopRefreshAfterLastAccessMillis = config.getRefreshPolicy().getStopRefreshAfterLastAccessMillis();
-                if (stopRefreshAfterLastAccessMillis > 0) {
-                    if (lastAccessTime + stopRefreshAfterLastAccessMillis < now) {
-                        logger.debug("cancel refresh: {}", key);
-                        cancel();
-                        return;
-                    }
-                }
-                logger.debug("refresh key: {}", key);
-                Cache concreteCache = concreteCache();
-                if (concreteCache instanceof AbstractExternalCache) {
-                    externalLoad(concreteCache, now);
-                } else {
-                    load();
-                }
-            } catch (Throwable e) {
-                logger.error("refresh error: key=" + key, e);
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 

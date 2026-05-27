@@ -12,11 +12,12 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
  * @author huangli
  */
 public class RedisSpringDataCacheBuilder<T extends ExternalCacheBuilder<T>> extends ExternalCacheBuilder<T> {
+
     public static class RedisSpringDataCacheBuilderImpl extends RedisSpringDataCacheBuilder<RedisSpringDataCacheBuilderImpl> {
     }
 
     public static RedisSpringDataCacheBuilderImpl createBuilder() {
-        return new RedisSpringDataCacheBuilderImpl();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected RedisSpringDataCacheBuilder() {
@@ -25,38 +26,32 @@ public class RedisSpringDataCacheBuilder<T extends ExternalCacheBuilder<T>> exte
 
     @Override
     public RedisSpringDataCacheConfig getConfig() {
-        if (config == null) {
-            config = new RedisSpringDataCacheConfig();
-        }
-        return (RedisSpringDataCacheConfig) config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean supportBroadcast() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public BroadcastManager createBroadcastManager(CacheManager cacheManager) {
-        RedisSpringDataCacheConfig c = (RedisSpringDataCacheConfig) getConfig().clone();
-        return new SpringDataBroadcastManager(cacheManager, c);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T connectionFactory(RedisConnectionFactory connectionFactory) {
-        getConfig().setConnectionFactory(connectionFactory);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setConnectionFactory(RedisConnectionFactory connectionFactory) {
-        getConfig().setConnectionFactory(connectionFactory);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T listenerContainer(RedisMessageListenerContainer listenerContainer) {
-        getConfig().setListenerContainer(listenerContainer);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setListenerContainer(RedisMessageListenerContainer listenerContainer) {
-        getConfig().setListenerContainer(listenerContainer);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

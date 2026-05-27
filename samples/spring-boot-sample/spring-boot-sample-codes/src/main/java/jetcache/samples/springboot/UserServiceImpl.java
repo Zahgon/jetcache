@@ -13,10 +13,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User loadUser(long userId) {
-        System.out.println("load user: " + userId);
-        User user = new User();
-        user.setUserId(userId);
-        user.setUserName("user" + userId);
-        return user;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

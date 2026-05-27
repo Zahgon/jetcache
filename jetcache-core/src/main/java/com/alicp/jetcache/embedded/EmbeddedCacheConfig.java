@@ -9,14 +9,14 @@ import com.alicp.jetcache.anno.CacheConsts;
  * @author huangli
  */
 public class EmbeddedCacheConfig<K, V> extends CacheConfig<K, V> {
+
     private int limit = CacheConsts.DEFAULT_LOCAL_LIMIT;
 
     public int getLimit() {
-        return limit;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setLimit(int limit) {
-        this.limit = limit;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

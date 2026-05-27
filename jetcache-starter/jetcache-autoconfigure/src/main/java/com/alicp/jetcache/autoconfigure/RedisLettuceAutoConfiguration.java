@@ -23,7 +23,6 @@ import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
-
 import java.net.URI;
 import java.time.Duration;
 import java.util.List;
@@ -38,17 +37,19 @@ import java.util.stream.Collectors;
 @Configuration
 @Conditional(RedisLettuceAutoConfiguration.RedisLettuceCondition.class)
 public class RedisLettuceAutoConfiguration {
+
     public static final String AUTO_INIT_BEAN_NAME = "redisLettuceAutoInit";
 
     public static class RedisLettuceCondition extends JetCacheCondition {
+
         public RedisLettuceCondition() {
             super("redis.lettuce");
         }
     }
 
-    @Bean(name = {AUTO_INIT_BEAN_NAME})
+    @Bean(name = { AUTO_INIT_BEAN_NAME })
     public RedisLettuceAutoInit redisLettuceAutoInit() {
-        return new RedisLettuceAutoInit();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static class RedisLettuceAutoInit extends ExternalCacheAutoInit {
@@ -59,63 +60,7 @@ public class RedisLettuceAutoConfiguration {
 
         @Override
         protected CacheBuilder initCache(ConfigTree ct, String cacheAreaWithPrefix) {
-            Map<String, Object> map = ct.subTree("uri"/*there is no dot*/).getProperties();
-            String readFromStr = ct.getProperty("readFrom");
-            String mode = ct.getProperty("mode");
-            long asyncResultTimeoutInMillis = ct.getProperty("asyncResultTimeoutInMillis", CacheConsts.ASYNC_RESULT_TIMEOUT.toMillis());
-            boolean enablePubSub = parseBroadcastChannel(ct) != null;
-            ReadFrom readFrom = null;
-            if (readFromStr != null) {
-                readFrom = ReadFrom.valueOf(readFromStr.trim());
-            }
-
-            AbstractRedisClient client;
-            StatefulConnection<byte[], byte[]> connection;
-            StatefulRedisPubSubConnection<byte[], byte[]> pubSubConnection = null;
-            if (map == null || map.size() == 0) {
-                throw new CacheConfigException("lettuce uri is required");
-            } else {
-                List<RedisURI> uriList = map.values().stream().map((k) -> RedisURI.create(URI.create(k.toString())))
-                        .collect(Collectors.toList());
-
-                if ("Cluster".equalsIgnoreCase(mode)) {
-                    client = RedisClusterClient.create(uriList);
-                    connection = clusterConnection(ct, readFrom, (RedisClusterClient) client, false);
-                    if (enablePubSub) {
-                        pubSubConnection = (StatefulRedisPubSubConnection) clusterConnection(ct, readFrom, (RedisClusterClient) client, true);
-                    }
-                } else {
-                    client = RedisClient.create();
-                    ((RedisClient) client).setOptions(ClientOptions.builder().
-                            disconnectedBehavior(ClientOptions.DisconnectedBehavior.REJECT_COMMANDS).build());
-                    StatefulRedisMasterReplicaConnection c = MasterReplica.connect(
-                            (RedisClient) client, new JetCacheCodec(), uriList);
-                    if (readFrom != null) {
-                        c.setReadFrom(readFrom);
-                    }
-                    connection = c;
-                    if (enablePubSub) {
-                        pubSubConnection = ((RedisClient) client).connectPubSub(new JetCacheCodec(), uriList.get(0));
-                    }
-                }
-            }
-
-            ExternalCacheBuilder externalCacheBuilder = RedisLettuceCacheBuilder.createRedisLettuceCacheBuilder()
-                    .connection(connection)
-                    .pubSubConnection(pubSubConnection)
-                    .redisClient(client)
-                    .asyncResultTimeoutInMillis(asyncResultTimeoutInMillis);
-            parseGeneralConfig(externalCacheBuilder, ct);
-
-            // eg: "remote.default.client"
-            autoConfigureBeans.getCustomContainer().put(cacheAreaWithPrefix + ".client", client);
-            LettuceConnectionManager m = LettuceConnectionManager.defaultManager();
-            m.init(client, connection);
-            autoConfigureBeans.getCustomContainer().put(cacheAreaWithPrefix + ".connection", m.connection(client));
-            autoConfigureBeans.getCustomContainer().put(cacheAreaWithPrefix + ".commands", m.commands(client));
-            autoConfigureBeans.getCustomContainer().put(cacheAreaWithPrefix + ".asyncCommands", m.asyncCommands(client));
-            autoConfigureBeans.getCustomContainer().put(cacheAreaWithPrefix + ".reactiveCommands", m.reactiveCommands(client));
-            return externalCacheBuilder;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private StatefulConnection<byte[], byte[]> clusterConnection(ConfigTree ct, ReadFrom readFrom, RedisClusterClient client, boolean pubsub) {
@@ -128,11 +73,7 @@ public class RedisLettuceAutoConfiguration {
             if (enableAllAdaptiveRefreshTriggers) {
                 topologyOptionBuilder.enableAllAdaptiveRefreshTriggers();
             }
-
-            ClusterClientOptions options = ClusterClientOptions.builder()
-                    .topologyRefreshOptions(topologyOptionBuilder.build())
-                    .disconnectedBehavior(ClientOptions.DisconnectedBehavior.REJECT_COMMANDS)
-                    .build();
+            ClusterClientOptions options = ClusterClientOptions.builder().topologyRefreshOptions(topologyOptionBuilder.build()).disconnectedBehavior(ClientOptions.DisconnectedBehavior.REJECT_COMMANDS).build();
             client.setOptions(options);
             if (pubsub) {
                 return client.connectPubSub(new JetCacheCodec());

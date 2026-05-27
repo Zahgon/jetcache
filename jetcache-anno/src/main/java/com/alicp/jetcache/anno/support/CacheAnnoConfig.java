@@ -4,7 +4,6 @@
 package com.alicp.jetcache.anno.support;
 
 import com.alicp.jetcache.Cache;
-
 import java.lang.reflect.Method;
 import java.util.function.Function;
 
@@ -12,77 +11,84 @@ import java.util.function.Function;
  * @author huangli
  */
 public class CacheAnnoConfig {
+
     private String area;
+
     private String name;
+
     private String key;
+
     private String condition;
 
     private Function<Object, Boolean> conditionEvaluator;
+
     private Function<Object, Object> keyEvaluator;
+
     private Cache<?, ?> cache;
+
     private Method defineMethod;
 
     public String getArea() {
-        return area;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setArea(String area) {
-        this.area = area;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getName() {
-        return name;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setName(String name) {
-        this.name = name;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getKey() {
-        return key;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setKey(String key) {
-        this.key = key;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getCondition() {
-        return condition;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCondition(String condition) {
-        this.condition = condition;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Function<Object, Boolean> getConditionEvaluator() {
-        return conditionEvaluator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setConditionEvaluator(Function<Object, Boolean> conditionEvaluator) {
-        this.conditionEvaluator = conditionEvaluator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Function<Object, Object> getKeyEvaluator() {
-        return keyEvaluator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setKeyEvaluator(Function<Object, Object> keyEvaluator) {
-        this.keyEvaluator = keyEvaluator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Cache<?, ?> getCache() {
-        return cache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCache(Cache<?, ?> cache) {
-        this.cache = cache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Method getDefineMethod() {
-        return defineMethod;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setDefineMethod(Method defineMethod) {
-        this.defineMethod = defineMethod;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

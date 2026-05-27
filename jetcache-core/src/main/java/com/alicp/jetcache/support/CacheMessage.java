@@ -1,7 +1,6 @@
 /**
  * Created on 2019/6/22.
  */
-
 package com.alicp.jetcache.support;
 
 import java.io.Serializable;
@@ -11,11 +10,15 @@ import java.io.Serializable;
  * @author huangli
  */
 public class CacheMessage implements Serializable {
+
     private static final long serialVersionUID = -462475561129953207L;
 
     public static final int TYPE_PUT = 1;
+
     public static final int TYPE_PUT_ALL = 2;
+
     public static final int TYPE_REMOVE = 3;
+
     public static final int TYPE_REMOVE_ALL = 4;
 
     private String sourceId;
@@ -34,50 +37,50 @@ public class CacheMessage implements Serializable {
     private Object[] values;
 
     public int getType() {
-        return type;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setType(int type) {
-        this.type = type;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Object[] getKeys() {
-        return keys;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setKeys(Object[] keys) {
-        this.keys = keys;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Object[] getValues() {
-        return values;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setValues(Object[] values) {
-        this.values = values;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getArea() {
-        return area;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setArea(String area) {
-        this.area = area;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getCacheName() {
-        return cacheName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCacheName(String cacheName) {
-        this.cacheName = cacheName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getSourceId() {
-        return sourceId;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setSourceId(String sourceId) {
-        this.sourceId = sourceId;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

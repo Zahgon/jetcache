@@ -2,7 +2,6 @@ package com.alicp.jetcache.event;
 
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.MultiGetResult;
-
 import java.util.Set;
 
 /**
@@ -11,8 +10,11 @@ import java.util.Set;
  * @author huangli
  */
 public class CacheGetAllEvent extends CacheEvent {
+
     private final long millis;
+
     private final Set keys;
+
     private final MultiGetResult result;
 
     public CacheGetAllEvent(Cache cache, long millis, Set keys, MultiGetResult result) {
@@ -23,14 +25,14 @@ public class CacheGetAllEvent extends CacheEvent {
     }
 
     public long getMillis() {
-        return millis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Set getKeys() {
-        return keys;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MultiGetResult getResult() {
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

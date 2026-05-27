@@ -9,9 +9,13 @@ import com.alicp.jetcache.CacheResult;
  * @author huangli
  */
 public class CachePutEvent extends CacheEvent {
+
     private long millis;
+
     private Object key;
+
     private Object value;
+
     private CacheResult result;
 
     public CachePutEvent(Cache cache, long millis, Object key, Object value, CacheResult result) {
@@ -23,19 +27,18 @@ public class CachePutEvent extends CacheEvent {
     }
 
     public long getMillis() {
-        return millis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Object getKey() {
-        return key;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheResult getResult() {
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Object getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

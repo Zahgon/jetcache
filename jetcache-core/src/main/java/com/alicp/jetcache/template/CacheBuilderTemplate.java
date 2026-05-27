@@ -5,7 +5,6 @@ package com.alicp.jetcache.template;
 
 import com.alicp.jetcache.AbstractCacheBuilder;
 import com.alicp.jetcache.CacheBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +13,13 @@ import java.util.Map;
  * @author huangli
  */
 public class CacheBuilderTemplate {
+
     private final boolean penetrationProtect;
+
     private final boolean useDefaultLocalExpireInMultiLevelCache;
+
     private final Map<String, CacheBuilder>[] cacheBuilders;
+
     private final List<CacheMonitorInstaller> cacheMonitorInstallers = new ArrayList<>();
 
     @SafeVarargs
@@ -32,23 +35,18 @@ public class CacheBuilderTemplate {
     }
 
     public boolean isPenetrationProtect() {
-        return penetrationProtect;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isUseDefaultLocalExpireInMultiLevelCache() {
-        return useDefaultLocalExpireInMultiLevelCache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheBuilder getCacheBuilder(int level, String area) {
-        CacheBuilder cb = cacheBuilders[level].get(area);
-        if (cb instanceof AbstractCacheBuilder) {
-            return (CacheBuilder) ((AbstractCacheBuilder<?>) cb).clone();
-        } else {
-            return cb;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<CacheMonitorInstaller> getCacheMonitorInstallers() {
-        return cacheMonitorInstallers;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -8,13 +8,14 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author huangli
  */
 public class Epoch {
+
     private static final AtomicLong V = new AtomicLong();
 
     public static long increment() {
-        return V.incrementAndGet();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static long get() {
-        return V.get();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

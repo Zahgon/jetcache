@@ -1,6 +1,5 @@
 package com.alicp.jetcache.support;
 
-
 /**
  * @author huangli
  */
@@ -14,7 +13,6 @@ public class Jackson3ValueEncoder extends AbstractJsonEncoder {
 
     @Override
     protected byte[] encodeSingleValue(Object value) {
-        return Jackson3ValueDecoder.OBJECT_MAPPER.writeValueAsBytes(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

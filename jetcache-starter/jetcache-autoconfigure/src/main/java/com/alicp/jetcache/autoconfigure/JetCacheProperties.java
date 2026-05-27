@@ -1,7 +1,6 @@
 package com.alicp.jetcache.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.util.List;
 
 /**
@@ -13,95 +12,99 @@ import java.util.List;
 public class JetCacheProperties {
 
     private String[] hiddenPackages;
+
     private int statIntervalMinutes;
+
     private boolean areaInCacheName = false;
+
     private boolean penetrationProtect = false;
+
     private boolean enableMethodCache = true;
+
     private boolean useDefaultLocalExpireInMultiLevelCache = false;
+
     private boolean decodeFilterEnabled = true;
+
     private List<String> decodeFilterAllowPatterns;
+
     private List<String> decodeFilterDenyPatterns;
 
-    public JetCacheProperties(){
+    public JetCacheProperties() {
     }
 
     public String[] getHiddenPackages() {
-        // keep same with GlobalCacheConfig
-        return hiddenPackages;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setHiddenPackages(String[] hiddenPackages) {
-        // keep same with GlobalCacheConfig
-        this.hiddenPackages = hiddenPackages;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setHidePackages(String[] hidePackages) {
-        // keep same with GlobalCacheConfig
-        this.hiddenPackages = hidePackages;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getStatIntervalMinutes() {
-        return statIntervalMinutes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setStatIntervalMinutes(int statIntervalMinutes) {
-        this.statIntervalMinutes = statIntervalMinutes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isAreaInCacheName() {
-        return areaInCacheName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setAreaInCacheName(boolean areaInCacheName) {
-        this.areaInCacheName = areaInCacheName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isPenetrationProtect() {
-        return penetrationProtect;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setPenetrationProtect(boolean penetrationProtect) {
-        this.penetrationProtect = penetrationProtect;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isEnableMethodCache() {
-        return enableMethodCache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setEnableMethodCache(boolean enableMethodCache) {
-        this.enableMethodCache = enableMethodCache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isUseDefaultLocalExpireInMultiLevelCache() {
-        return useDefaultLocalExpireInMultiLevelCache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setUseDefaultLocalExpireInMultiLevelCache(boolean useDefaultLocalExpireInMultiLevelCache) {
-        this.useDefaultLocalExpireInMultiLevelCache = useDefaultLocalExpireInMultiLevelCache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isDecodeFilterEnabled() {
-        return decodeFilterEnabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setDecodeFilterEnabled(boolean decodeFilterEnabled) {
-        this.decodeFilterEnabled = decodeFilterEnabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<String> getDecodeFilterAllowPatterns() {
-        return decodeFilterAllowPatterns;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setDecodeFilterAllowPatterns(List<String> decodeFilterAllowPatterns) {
-        this.decodeFilterAllowPatterns = decodeFilterAllowPatterns;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<String> getDecodeFilterDenyPatterns() {
-        return decodeFilterDenyPatterns;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setDecodeFilterDenyPatterns(List<String> decodeFilterDenyPatterns) {
-        this.decodeFilterDenyPatterns = decodeFilterDenyPatterns;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -14,7 +14,6 @@ import com.alicp.jetcache.template.MetricsMonitorInstaller;
 import com.alicp.jetcache.template.NotifyMonitorInstaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.time.Duration;
 import java.util.List;
 import java.util.function.Consumer;
@@ -32,7 +31,9 @@ public class ConfigProvider extends AbstractLifecycle {
     protected GlobalCacheConfig globalCacheConfig;
 
     protected EncoderParser encoderParser;
+
     protected KeyConvertorParser keyConvertorParser;
+
     private Consumer<StatInfo> metricsCallback;
 
     private CacheBuilderTemplate cacheBuilderTemplate;
@@ -45,43 +46,11 @@ public class ConfigProvider extends AbstractLifecycle {
 
     @Override
     protected void doInit() {
-        cacheBuilderTemplate = new CacheBuilderTemplate(globalCacheConfig.isPenetrationProtect(),
-                globalCacheConfig.isUseDefaultLocalExpireInMultiLevelCache(),
-                globalCacheConfig.getLocalCacheBuilders(), globalCacheConfig.getRemoteCacheBuilders());
-        for (CacheBuilder builder : globalCacheConfig.getLocalCacheBuilders().values()) {
-            EmbeddedCacheBuilder eb = (EmbeddedCacheBuilder) builder;
-            if (eb.getConfig().getKeyConvertor() instanceof ParserFunction) {
-                ParserFunction f = (ParserFunction) eb.getConfig().getKeyConvertor();
-                eb.setKeyConvertor(parseKeyConvertor(f.getValue()));
-            }
-        }
-        for (CacheBuilder builder : globalCacheConfig.getRemoteCacheBuilders().values()) {
-            ExternalCacheBuilder eb = (ExternalCacheBuilder) builder;
-            if (eb.getConfig().getKeyConvertor() instanceof ParserFunction) {
-                ParserFunction f = (ParserFunction) eb.getConfig().getKeyConvertor();
-                eb.setKeyConvertor(parseKeyConvertor(f.getValue()));
-            }
-            if (eb.getConfig().getValueEncoder() instanceof ParserFunction) {
-                ParserFunction f = (ParserFunction) eb.getConfig().getValueEncoder();
-                eb.setValueEncoder(parseValueEncoder(f.getValue()));
-            }
-            if (eb.getConfig().getValueDecoder() instanceof ParserFunction) {
-                ParserFunction f = (ParserFunction) eb.getConfig().getValueDecoder();
-                eb.setValueDecoder(parseValueDecoder(f.getValue()));
-            }
-        }
-        initDecodeFilter();
-        initCacheMonitorInstallers();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected void initCacheMonitorInstallers() {
-        cacheBuilderTemplate.getCacheMonitorInstallers().add(metricsMonitorInstaller());
-        cacheBuilderTemplate.getCacheMonitorInstallers().add(notifyMonitorInstaller());
-        for (CacheMonitorInstaller i : cacheBuilderTemplate.getCacheMonitorInstallers()) {
-            if (i instanceof AbstractLifecycle) {
-                ((AbstractLifecycle) i).init();
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void initDecodeFilter() {
@@ -98,35 +67,20 @@ public class ConfigProvider extends AbstractLifecycle {
     }
 
     protected CacheMonitorInstaller metricsMonitorInstaller() {
-        Duration interval = null;
-        if (globalCacheConfig.getStatIntervalMinutes() > 0) {
-            interval = Duration.ofMinutes(globalCacheConfig.getStatIntervalMinutes());
-        }
-
-        MetricsMonitorInstaller i = new MetricsMonitorInstaller(metricsCallback, interval);
-        i.init();
-        return i;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected CacheMonitorInstaller notifyMonitorInstaller() {
-        return new NotifyMonitorInstaller(area -> globalCacheConfig.getRemoteCacheBuilders().get(area));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheBuilderTemplate getCacheBuilderTemplate() {
-        return cacheBuilderTemplate;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void doShutdown() {
-        try {
-            for (CacheMonitorInstaller i : cacheBuilderTemplate.getCacheMonitorInstallers()) {
-                if (i instanceof AbstractLifecycle) {
-                    ((AbstractLifecycle) i).shutdown();
-                }
-            }
-        } catch (Exception e) {
-            logger.error("close fail", e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -134,7 +88,7 @@ public class ConfigProvider extends AbstractLifecycle {
      * NOTICE: there is no getter for encoderParser.
      */
     public Function<Object, byte[]> parseValueEncoder(String valueEncoder) {
-        return encoderParser.parseEncoder(valueEncoder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -142,7 +96,7 @@ public class ConfigProvider extends AbstractLifecycle {
      * NOTICE: there is no getter for encoderParser.
      */
     public Function<byte[], Object> parseValueDecoder(String valueDecoder) {
-        return encoderParser.parseDecoder(valueDecoder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -150,35 +104,34 @@ public class ConfigProvider extends AbstractLifecycle {
      * NOTICE: there is no getter for keyConvertorParser.
      */
     public Function<Object, Object> parseKeyConvertor(String convertor) {
-        return keyConvertorParser.parseKeyConvertor(convertor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheNameGenerator createCacheNameGenerator(String[] hiddenPackages) {
-        return new DefaultCacheNameGenerator(hiddenPackages);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheContext newContext(CacheManager cacheManager) {
-        return new CacheContext(cacheManager, this, globalCacheConfig);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setEncoderParser(EncoderParser encoderParser) {
-        this.encoderParser = encoderParser;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setKeyConvertorParser(KeyConvertorParser keyConvertorParser) {
-        this.keyConvertorParser = keyConvertorParser;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public GlobalCacheConfig getGlobalCacheConfig() {
-        return globalCacheConfig;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setGlobalCacheConfig(GlobalCacheConfig globalCacheConfig) {
-        this.globalCacheConfig = globalCacheConfig;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMetricsCallback(Consumer<StatInfo> metricsCallback) {
-        this.metricsCallback = metricsCallback;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -20,7 +20,6 @@ import org.springframework.context.annotation.Import;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.util.Pool;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,36 +30,12 @@ import java.util.Map;
 public class JetCacheConfig {
 
     @Bean
-    public Pool<Jedis> pool(){
-        GenericObjectPoolConfig pc = new GenericObjectPoolConfig();
-        pc.setMinIdle(2);
-        pc.setMaxIdle(10);
-        pc.setMaxTotal(10);
-        return new JedisPool(pc, "127.0.0.1", 6379);
+    public Pool<Jedis> pool() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Bean
-    public GlobalCacheConfig config(Pool<Jedis> pool){
-        Map localBuilders = new HashMap();
-        EmbeddedCacheBuilder localBuilder = LinkedHashMapCacheBuilder
-                .createLinkedHashMapCacheBuilder()
-                .keyConvertor(Fastjson2KeyConvertor.INSTANCE);
-        localBuilders.put(CacheConsts.DEFAULT_AREA, localBuilder);
-
-        Map remoteBuilders = new HashMap();
-        RedisCacheBuilder remoteCacheBuilder = RedisCacheBuilder.createRedisCacheBuilder()
-                .keyConvertor(Fastjson2KeyConvertor.INSTANCE)
-                .valueEncoder(JavaValueEncoder.INSTANCE)
-                .valueDecoder(JavaValueDecoder.INSTANCE)
-                .jedisPool(pool);
-        remoteBuilders.put(CacheConsts.DEFAULT_AREA, remoteCacheBuilder);
-
-        GlobalCacheConfig globalCacheConfig = new GlobalCacheConfig();
-        globalCacheConfig.setLocalCacheBuilders(localBuilders);
-        globalCacheConfig.setRemoteCacheBuilders(remoteBuilders);
-        globalCacheConfig.setStatIntervalMinutes(1);
-        globalCacheConfig.setDecodeFilterAllowPatterns(List.of("jetcache.samples."));
-
-        return globalCacheConfig;
+    public GlobalCacheConfig config(Pool<Jedis> pool) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

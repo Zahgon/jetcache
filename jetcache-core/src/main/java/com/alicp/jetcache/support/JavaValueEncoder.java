@@ -20,40 +20,20 @@ public class JavaValueEncoder extends AbstractValueEncoder {
     }
 
     static ObjectPool<ByteArrayOutputStream> bosPool = new ObjectPool<>(16, new ObjectPool.ObjectFactory<ByteArrayOutputStream>() {
+
         @Override
         public ByteArrayOutputStream create() {
-            return new ByteArrayOutputStream(INIT_BUF_SIZE);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void reset(ByteArrayOutputStream obj) {
-            obj.reset();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     });
 
     @Override
     public byte[] apply(Object value) {
-        ByteArrayOutputStream bos = null;
-        try {
-            bos = bosPool.borrowObject();
-            if (useIdentityNumber) {
-                bos.write((DecoderMap.IDENTITY_NUMBER_JAVA >> 24) & 0xFF);
-                bos.write((DecoderMap.IDENTITY_NUMBER_JAVA >> 16) & 0xFF);
-                bos.write((DecoderMap.IDENTITY_NUMBER_JAVA >> 8) & 0xFF);
-                bos.write(DecoderMap.IDENTITY_NUMBER_JAVA & 0xFF);
-            }
-            ObjectOutputStream oos = new ObjectOutputStream(bos);
-            oos.writeObject(value);
-            oos.flush();
-            return bos.toByteArray();
-        } catch (IOException e) {
-            StringBuilder sb = new StringBuilder("Java Encode error. ");
-            sb.append("msg=").append(e.getMessage());
-            throw new CacheEncodeException(sb.toString(), e);
-        } finally {
-            if (bos != null) {
-                bosPool.returnObject(bos);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

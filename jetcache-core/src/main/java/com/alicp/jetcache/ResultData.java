@@ -6,8 +6,11 @@ package com.alicp.jetcache;
  * @author huangli
  */
 public class ResultData {
+
     private CacheResultCode resultCode;
+
     private String message;
+
     private Object data;
 
     public ResultData(Throwable e) {
@@ -22,32 +25,30 @@ public class ResultData {
     }
 
     public Object getData() {
-        return CacheGetResult.unwrapValue(data);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Object getOriginData() {
-        return data;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-
     public CacheResultCode getResultCode() {
-        return resultCode;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setResultCode(CacheResultCode resultCode) {
-        this.resultCode = resultCode;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getMessage() {
-        return message;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setData(Object data) {
-        this.data = data;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

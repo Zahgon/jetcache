@@ -1,7 +1,6 @@
 package com.alicp.jetcache.autoconfigure;
 
 import com.alicp.jetcache.CacheBuilder;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,26 +19,26 @@ public class AutoConfigureBeans {
     private Map<String, Object> customContainer = Collections.synchronizedMap(new HashMap<>());
 
     public Map<String, CacheBuilder> getLocalCacheBuilders() {
-        return localCacheBuilders;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setLocalCacheBuilders(Map<String, CacheBuilder> localCacheBuilders) {
-        this.localCacheBuilders = localCacheBuilders;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Map<String, CacheBuilder> getRemoteCacheBuilders() {
-        return remoteCacheBuilders;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRemoteCacheBuilders(Map<String, CacheBuilder> remoteCacheBuilders) {
-        this.remoteCacheBuilders = remoteCacheBuilders;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Map<String, Object> getCustomContainer() {
-        return customContainer;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCustomContainer(Map<String, Object> customContainer) {
-        this.customContainer = customContainer;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

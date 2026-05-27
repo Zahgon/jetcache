@@ -19,18 +19,18 @@ public class RedisSpringDataCacheConfig<K, V> extends ExternalCacheConfig<K, V> 
     private RedisMessageListenerContainer listenerContainer;
 
     public RedisConnectionFactory getConnectionFactory() {
-        return connectionFactory;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setConnectionFactory(RedisConnectionFactory connectionFactory) {
-        this.connectionFactory = connectionFactory;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public RedisMessageListenerContainer getListenerContainer() {
-        return listenerContainer;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setListenerContainer(RedisMessageListenerContainer listenerContainer) {
-        this.listenerContainer = listenerContainer;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

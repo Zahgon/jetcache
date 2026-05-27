@@ -5,7 +5,6 @@ package com.alicp.jetcache.anno.method;
 
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.anno.support.CacheAnnoConfig;
-
 import java.lang.reflect.Method;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -14,81 +13,87 @@ import java.util.function.Function;
  * @author huangli
  */
 public class CacheInvokeContext {
+
     private Invoker invoker;
+
     private Method method;
+
     private Object[] args;
+
     private CacheInvokeConfig cacheInvokeConfig;
+
     private Object targetObject;
+
     private Object result;
 
     private BiFunction<CacheInvokeContext, CacheAnnoConfig, Cache> cacheFunction;
+
     private String[] hiddenPackages;
 
-    public CacheInvokeContext(){
+    public CacheInvokeContext() {
     }
 
-
     public void setInvoker(Invoker invoker) {
-        this.invoker = invoker;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Invoker getInvoker() {
-        return invoker;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Method getMethod() {
-        return method;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMethod(Method method) {
-        this.method = method;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setArgs(Object[] args) {
-        this.args = args;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCacheInvokeConfig(CacheInvokeConfig cacheInvokeConfig) {
-        this.cacheInvokeConfig = cacheInvokeConfig;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheInvokeConfig getCacheInvokeConfig() {
-        return cacheInvokeConfig;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setHiddenPackages(String[] hiddenPackages) {
-        this.hiddenPackages = hiddenPackages;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String[] getHiddenPackages() {
-        return hiddenPackages;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCacheFunction(BiFunction<CacheInvokeContext, CacheAnnoConfig, Cache> cacheFunction) {
-        this.cacheFunction = cacheFunction;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public BiFunction<CacheInvokeContext, CacheAnnoConfig, Cache> getCacheFunction() {
-        return cacheFunction;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Object[] getArgs() {
-        return args;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Object getTargetObject() {
-        return targetObject;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setTargetObject(Object targetObject) {
-        this.targetObject = targetObject;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Object getResult() {
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setResult(Object result) {
-        this.result = result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

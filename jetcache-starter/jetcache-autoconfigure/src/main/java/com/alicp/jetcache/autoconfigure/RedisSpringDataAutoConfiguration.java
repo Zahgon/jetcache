@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-
 import java.util.Map;
 
 /**
@@ -24,6 +23,7 @@ import java.util.Map;
 public class RedisSpringDataAutoConfiguration {
 
     public static class SpringDataRedisCondition extends JetCacheCondition {
+
         public SpringDataRedisCondition() {
             super("redis.springdata");
         }
@@ -31,7 +31,7 @@ public class RedisSpringDataAutoConfiguration {
 
     @Bean
     public SpringDataRedisAutoInit springDataRedisAutoInit() {
-        return new SpringDataRedisAutoInit();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static class SpringDataRedisAutoInit extends ExternalCacheAutoInit implements ApplicationContextAware {
@@ -44,31 +44,12 @@ public class RedisSpringDataAutoConfiguration {
 
         @Override
         protected CacheBuilder initCache(ConfigTree ct, String cacheAreaWithPrefix) {
-            Map<String, RedisConnectionFactory> beans = applicationContext.getBeansOfType(RedisConnectionFactory.class);
-            if (beans == null || beans.isEmpty()) {
-                throw new CacheConfigException("no RedisConnectionFactory in spring context");
-            }
-            RedisConnectionFactory factory = beans.values().iterator().next();
-            if (beans.size() > 1) {
-                String connectionFactoryName = ct.getProperty("connectionFactory");
-                if (connectionFactoryName == null) {
-                    throw new CacheConfigException(
-                            "connectionFactory is required, because there is multiple RedisConnectionFactory in Spring context");
-                }
-                if (!beans.containsKey(connectionFactoryName)) {
-                    throw new CacheConfigException("there is no RedisConnectionFactory named "
-                            + connectionFactoryName + " in Spring context");
-                }
-                factory = beans.get(connectionFactoryName);
-            }
-            ExternalCacheBuilder builder = RedisSpringDataCacheBuilder.createBuilder().connectionFactory(factory);
-            parseGeneralConfig(builder, ct);
-            return builder;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-            this.applicationContext = applicationContext;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

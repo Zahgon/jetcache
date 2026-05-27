@@ -12,7 +12,6 @@ import com.alicp.jetcache.template.CacheMonitorInstaller;
 import com.alicp.jetcache.template.QuickConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -39,24 +38,7 @@ public class SimpleCacheManager implements CacheManager, AutoCloseable {
 
     @Override
     public void close() {
-        broadcastManagers.forEach((area, bm) -> {
-            try {
-                bm.close();
-            } catch (Exception e) {
-                logger.error("error during close broadcast manager", e);
-            }
-        });
-        broadcastManagers.clear();
-        caches.forEach((area, areaMap) -> {
-            areaMap.forEach((cacheName, cache) -> {
-                try {
-                    cache.close();
-                } catch (Exception e) {
-                    logger.error("error during close Cache", e);
-                }
-            });
-        });
-        caches.clear();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private ConcurrentHashMap<String, Cache> getCachesByArea(String area) {
@@ -65,47 +47,35 @@ public class SimpleCacheManager implements CacheManager, AutoCloseable {
 
     @Override
     public Cache getCache(String area, String cacheName) {
-        ConcurrentHashMap<String, Cache> areaMap = getCachesByArea(area);
-        return areaMap.get(cacheName);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void putCache(String area, String cacheName, Cache cache) {
-        ConcurrentHashMap<String, Cache> areaMap = getCachesByArea(area);
-        areaMap.put(cacheName, cache);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public BroadcastManager getBroadcastManager(String area) {
-        return broadcastManagers.get(area);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void putBroadcastManager(String area, BroadcastManager broadcastManager) {
-        broadcastManagers.put(area, broadcastManager);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheBuilderTemplate getCacheBuilderTemplate() {
-        return cacheBuilderTemplate;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCacheBuilderTemplate(CacheBuilderTemplate cacheBuilderTemplate) {
-        this.cacheBuilderTemplate = cacheBuilderTemplate;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <K, V> Cache<K, V> getOrCreateCache(QuickConfig config) {
-        if (cacheBuilderTemplate == null) {
-            throw new IllegalStateException("cacheBuilderTemplate not set");
-        }
-        Objects.requireNonNull(config.getArea());
-        Objects.requireNonNull(config.getName());
-        ConcurrentHashMap<String, Cache> m = getCachesByArea(config.getArea());
-        Cache c = m.get(config.getName());
-        if (c != null) {
-            return c;
-        }
-        return m.computeIfAbsent(config.getName(), n -> create(config));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private Cache create(QuickConfig config) {
@@ -117,17 +87,8 @@ public class SimpleCacheManager implements CacheManager, AutoCloseable {
         } else {
             Cache local = buildLocal(config);
             Cache remote = buildRemote(config);
-
-            boolean useExpireOfSubCache = config.getLocalExpire() != null
-                    || (cacheBuilderTemplate.isUseDefaultLocalExpireInMultiLevelCache()
-                        && local.config().getExpireAfterWriteInMillis() != remote.config().getExpireAfterWriteInMillis());
-            cache = MultiLevelCacheBuilder.createMultiLevelCacheBuilder()
-                    .expireAfterWrite(remote.config().getExpireAfterWriteInMillis(), TimeUnit.MILLISECONDS)
-                    .addCache(local, remote)
-                    .useExpireOfSubCache(useExpireOfSubCache)
-                    .cacheNullValue(config.getCacheNullValue() != null ?
-                            config.getCacheNullValue() : DEFAULT_CACHE_NULL_VALUE)
-                    .buildCache();
+            boolean useExpireOfSubCache = config.getLocalExpire() != null || (cacheBuilderTemplate.isUseDefaultLocalExpireInMultiLevelCache() && local.config().getExpireAfterWriteInMillis() != remote.config().getExpireAfterWriteInMillis());
+            cache = MultiLevelCacheBuilder.createMultiLevelCacheBuilder().expireAfterWrite(remote.config().getExpireAfterWriteInMillis(), TimeUnit.MILLISECONDS).addCache(local, remote).useExpireOfSubCache(useExpireOfSubCache).cacheNullValue(config.getCacheNullValue() != null ? config.getCacheNullValue() : DEFAULT_CACHE_NULL_VALUE).buildCache();
         }
         if (config.getRefreshPolicy() != null) {
             cache = new RefreshCache(cache);
@@ -136,13 +97,9 @@ public class SimpleCacheManager implements CacheManager, AutoCloseable {
         }
         cache.config().setRefreshPolicy(config.getRefreshPolicy());
         cache.config().setLoader(config.getLoader());
-
-
-        boolean protect = config.getPenetrationProtect() != null ? config.getPenetrationProtect()
-                : cacheBuilderTemplate.isPenetrationProtect();
+        boolean protect = config.getPenetrationProtect() != null ? config.getPenetrationProtect() : cacheBuilderTemplate.isPenetrationProtect();
         cache.config().setCachePenetrationProtect(protect);
         cache.config().setPenetrationProtectTimeout(config.getPenetrationProtectTimeout());
-
         for (CacheMonitorInstaller i : cacheBuilderTemplate.getCacheMonitorInstallers()) {
             i.addMonitors(this, cache, config);
         }
@@ -150,16 +107,13 @@ public class SimpleCacheManager implements CacheManager, AutoCloseable {
     }
 
     private Cache buildRemote(QuickConfig config) {
-        ExternalCacheBuilder cacheBuilder = (ExternalCacheBuilder) cacheBuilderTemplate
-                .getCacheBuilder(1, config.getArea());
+        ExternalCacheBuilder cacheBuilder = (ExternalCacheBuilder) cacheBuilderTemplate.getCacheBuilder(1, config.getArea());
         if (cacheBuilder == null) {
             throw new CacheConfigException("no remote cache builder: " + config.getArea());
         }
-
         if (config.getExpire() != null && config.getExpire().toMillis() > 0) {
             cacheBuilder.expireAfterWrite(config.getExpire().toMillis(), TimeUnit.MILLISECONDS);
         }
-
         String prefix;
         if (config.getUseAreaInPrefix() != null && config.getUseAreaInPrefix()) {
             prefix = config.getArea() + "_" + config.getName();
@@ -172,7 +126,6 @@ public class SimpleCacheManager implements CacheManager, AutoCloseable {
         } else {
             cacheBuilder.setKeyPrefix(prefix);
         }
-
         if (config.getKeyConvertor() != null) {
             cacheBuilder.getConfig().setKeyConvertor(config.getKeyConvertor());
         }
@@ -182,9 +135,7 @@ public class SimpleCacheManager implements CacheManager, AutoCloseable {
         if (config.getValueDecoder() != null) {
             cacheBuilder.getConfig().setValueDecoder(config.getValueDecoder());
         }
-
-        cacheBuilder.setCacheNullValue(config.getCacheNullValue() != null ?
-                config.getCacheNullValue() : DEFAULT_CACHE_NULL_VALUE);
+        cacheBuilder.setCacheNullValue(config.getCacheNullValue() != null ? config.getCacheNullValue() : DEFAULT_CACHE_NULL_VALUE);
         return cacheBuilder.buildCache();
     }
 
@@ -193,17 +144,12 @@ public class SimpleCacheManager implements CacheManager, AutoCloseable {
         if (cacheBuilder == null) {
             throw new CacheConfigException("no local cache builder: " + config.getArea());
         }
-
         if (config.getLocalLimit() != null && config.getLocalLimit() > 0) {
             cacheBuilder.setLimit(config.getLocalLimit());
         }
-        if (config.getCacheType() == CacheType.BOTH &&
-                config.getLocalExpire() != null && config.getLocalExpire().toMillis() > 0) {
+        if (config.getCacheType() == CacheType.BOTH && config.getLocalExpire() != null && config.getLocalExpire().toMillis() > 0) {
             cacheBuilder.expireAfterWrite(config.getLocalExpire().toMillis(), TimeUnit.MILLISECONDS);
-        } else if (config.getCacheType() == CacheType.BOTH
-                && cacheBuilderTemplate.isUseDefaultLocalExpireInMultiLevelCache()
-                && cacheBuilder.getConfig().getExpireAfterWriteInMillis() > 0
-                && (config.getExpire() == null || cacheBuilder.getConfig().getExpireAfterWriteInMillis() < config.getExpire().toMillis())) {
+        } else if (config.getCacheType() == CacheType.BOTH && cacheBuilderTemplate.isUseDefaultLocalExpireInMultiLevelCache() && cacheBuilder.getConfig().getExpireAfterWriteInMillis() > 0 && (config.getExpire() == null || cacheBuilder.getConfig().getExpireAfterWriteInMillis() < config.getExpire().toMillis())) {
             // use default local expire
         } else if (config.getExpire() != null && config.getExpire().toMillis() > 0) {
             cacheBuilder.expireAfterWrite(config.getExpire().toMillis(), TimeUnit.MILLISECONDS);
@@ -211,8 +157,7 @@ public class SimpleCacheManager implements CacheManager, AutoCloseable {
         if (config.getKeyConvertor() != null) {
             cacheBuilder.getConfig().setKeyConvertor(config.getKeyConvertor());
         }
-        cacheBuilder.setCacheNullValue(config.getCacheNullValue() != null ?
-                config.getCacheNullValue() : DEFAULT_CACHE_NULL_VALUE);
+        cacheBuilder.setCacheNullValue(config.getCacheNullValue() != null ? config.getCacheNullValue() : DEFAULT_CACHE_NULL_VALUE);
         return cacheBuilder.buildCache();
     }
 }

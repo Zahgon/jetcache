@@ -11,6 +11,7 @@ import com.alicp.jetcache.template.QuickConfig;
  * @author huangli
  */
 public interface CacheManager {
+
     <K, V> Cache<K, V> getCache(String area, String cacheName);
 
     void putCache(String area, String cacheName, Cache cache);
@@ -20,11 +21,11 @@ public interface CacheManager {
     void putBroadcastManager(String area, BroadcastManager broadcastManager);
 
     default <K, V> Cache<K, V> getCache(String cacheName) {
-        return getCache(CacheConsts.DEFAULT_AREA, cacheName);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    default void putCache(String cacheName, Cache cache){
-        putCache(CacheConsts.DEFAULT_AREA, cacheName, cache);
+    default void putCache(String cacheName, Cache cache) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -33,8 +34,7 @@ public interface CacheManager {
      */
     <K, V> Cache<K, V> getOrCreateCache(QuickConfig config);
 
-    default void putBroadcastManager(BroadcastManager broadcastManager){
-        putBroadcastManager(CacheConsts.DEFAULT_AREA, broadcastManager);
+    default void putBroadcastManager(BroadcastManager broadcastManager) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

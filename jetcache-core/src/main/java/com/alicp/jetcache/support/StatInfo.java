@@ -8,31 +8,34 @@ import java.util.List;
  * @author huangli
  */
 public class StatInfo {
+
     private List<CacheStat> stats;
+
     private long startTime;
+
     private long endTime;
 
     public List<CacheStat> getStats() {
-        return stats;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setStats(List<CacheStat> stats) {
-        this.stats = stats;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getStartTime() {
-        return startTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setStartTime(long startTime) {
-        this.startTime = startTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getEndTime() {
-        return endTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setEndTime(long endTime) {
-        this.endTime = endTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

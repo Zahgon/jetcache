@@ -1,7 +1,6 @@
 package com.alicp.jetcache;
 
 import com.alicp.jetcache.anno.CacheConsts;
-
 import java.time.Duration;
 import java.util.concurrent.*;
 
@@ -17,13 +16,19 @@ public class CacheResult {
     private static Duration DEFAULT_TIMEOUT = CacheConsts.ASYNC_RESULT_TIMEOUT;
 
     public static final CacheResult SUCCESS_WITHOUT_MSG = new CacheResult(CacheResultCode.SUCCESS, null);
+
     public static final CacheResult PART_SUCCESS_WITHOUT_MSG = new CacheResult(CacheResultCode.PART_SUCCESS, null);
+
     public static final CacheResult FAIL_WITHOUT_MSG = new CacheResult(CacheResultCode.FAIL, null);
+
     public static final CacheResult FAIL_ILLEGAL_ARGUMENT = new CacheResult(CacheResultCode.FAIL, MSG_ILLEGAL_ARGUMENT);
+
     public static final CacheResult EXISTS_WITHOUT_MSG = new CacheResult(CacheResultCode.EXISTS, null);
 
     private volatile CacheResultCode resultCode;
+
     private volatile String message;
+
     private final CompletionStage<ResultData> future;
 
     private volatile Duration timeout = DEFAULT_TIMEOUT;
@@ -41,55 +46,42 @@ public class CacheResult {
     }
 
     public boolean isSuccess() {
-        return getResultCode() == CacheResultCode.SUCCESS;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected void waitForResult() {
-        waitForResult(timeout);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void waitForResult(Duration timeout) {
-        if (resultCode != null) {
-            return;
-        }
-        try {
-            ResultData resultData = future.toCompletableFuture().get(
-                    timeout.toMillis(), TimeUnit.MILLISECONDS);
-            fetchResultSuccess(resultData);
-        } catch (TimeoutException | InterruptedException | ExecutionException e) {
-            fetchResultFail(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected void fetchResultSuccess(ResultData resultData) {
-        message = resultData.getMessage();
-        resultCode = resultData.getResultCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected void fetchResultFail(Throwable e) {
-        message = e.getClass() + ":" + e.getMessage();
-        resultCode = CacheResultCode.FAIL;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheResultCode getResultCode() {
-        waitForResult();
-        return resultCode;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getMessage() {
-        waitForResult();
-        return message;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CompletionStage<ResultData> future() {
-        return future;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static void setDefaultTimeout(Duration defaultTimeout) {
-        DEFAULT_TIMEOUT = defaultTimeout;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setTimeout(Duration timeout) {
-        this.timeout = timeout;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

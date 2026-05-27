@@ -7,13 +7,14 @@ package com.alicp.jetcache.anno.support;
  * @author huangli
  */
 public class CacheInvalidateAnnoConfig extends CacheAnnoConfig {
+
     private boolean multi;
 
     public boolean isMulti() {
-        return multi;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMulti(boolean multi) {
-        this.multi = multi;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

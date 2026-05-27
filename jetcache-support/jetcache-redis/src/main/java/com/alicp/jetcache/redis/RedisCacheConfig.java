@@ -13,57 +13,62 @@ import redis.clients.jedis.util.Pool;
 public class RedisCacheConfig<K, V> extends ExternalCacheConfig<K, V> {
 
     private Pool<Jedis> jedisPool;
+
     private Pool<Jedis>[] jedisSlavePools;
+
     private UnifiedJedis jedis;
+
     private UnifiedJedis[] slaves;
+
     private boolean readFromSlave;
+
     private int[] slaveReadWeights;
 
     public Pool<Jedis> getJedisPool() {
-        return jedisPool;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setJedisPool(Pool<Jedis> jedisPool) {
-        this.jedisPool = jedisPool;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Pool<Jedis>[] getJedisSlavePools() {
-        return jedisSlavePools;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setJedisSlavePools(Pool<Jedis>... jedisSlavePools) {
-        this.jedisSlavePools = jedisSlavePools;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public UnifiedJedis getJedis() {
-        return jedis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setJedis(UnifiedJedis jedis) {
-        this.jedis = jedis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public UnifiedJedis[] getSlaves() {
-        return slaves;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setSlaves(UnifiedJedis[] slaves) {
-        this.slaves = slaves;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isReadFromSlave() {
-        return readFromSlave;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setReadFromSlave(boolean readFromSlave) {
-        this.readFromSlave = readFromSlave;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int[] getSlaveReadWeights() {
-        return slaveReadWeights;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setSlaveReadWeights(int... slaveReadWeights) {
-        this.slaveReadWeights = slaveReadWeights;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

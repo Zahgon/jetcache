@@ -7,7 +7,6 @@ import com.alicp.jetcache.CacheResultCode;
 import com.alicp.jetcache.CacheValueHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -24,162 +23,78 @@ public class LinkedHashMapCache<K, V> extends AbstractEmbeddedCache<K, V> {
     }
 
     protected void addToCleaner() {
-        Cleaner.add(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected InnerMap createAreaCache() {
-        return new LRUMap(config.getLimit());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <T> T unwrap(Class<T> clazz) {
-        if (clazz.equals(LinkedHashMap.class)) {
-            return (T) innerMap;
-        }
-        throw new IllegalArgumentException(clazz.getName());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void cleanExpiredEntry() {
-        ((LRUMap) innerMap).cleanExpiredEntry();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     final class LRUMap extends LinkedHashMap implements InnerMap {
 
         private final int max;
+
         private final ReentrantLock lock = new ReentrantLock();
 
         public LRUMap(int max) {
             super((int) (max * 1.4f), 0.75f, true);
             this.max = max;
-//            this.lockObj = lockObj;
+            //            this.lockObj = lockObj;
         }
 
         @Override
         protected boolean removeEldestEntry(Map.Entry eldest) {
-            return size() > max;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         void cleanExpiredEntry() {
-            lock.lock();
-            long t = System.currentTimeMillis();
-            try {
-                for (Iterator it = entrySet().iterator(); it.hasNext(); ) {
-                    Map.Entry en = (Map.Entry) it.next();
-                    Object value = en.getValue();
-                    if (value != null) {
-                        CacheValueHolder h;
-                        try {
-                            h = (CacheValueHolder) value;
-                        } catch (ClassCastException e) {
-                            // assert false
-                            logger.error("value of key " + en.getKey() + " is not a CacheValueHolder. type=" + value.getClass());
-                            it.remove();
-                            continue;
-                        }
-                        if (t >= h.getExpireTime()) {
-                            it.remove();
-                        }
-                    } else {
-                        // assert false
-                        logger.error("key " + en.getKey() + " is null");
-                    }
-                }
-            } finally {
-                lock.unlock();
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public Object getValue(Object key) {
-            lock.lock();
-            try{
-                return get(key);
-            }finally {
-                lock.unlock();
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public Map getAllValues(Collection keys) {
-            lock.lock();
-            Map values = new HashMap();
-            try{
-                for (Object key : keys) {
-                    Object v = get(key);
-                    if (v != null) {
-                        values.put(key, v);
-                    }
-                }
-            }finally {
-                lock.unlock();
-            }
-            return values;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void putValue(Object key, Object value) {
-            lock.lock();
-            try{
-                put(key, value);
-            }finally {
-                lock.unlock();
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void putAllValues(Map map) {
-            lock.lock();
-            try{
-                Set<Map.Entry> set = map.entrySet();
-                for (Map.Entry en : set) {
-                    put(en.getKey(), en.getValue());
-                }
-            }finally {
-                lock.unlock();
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean removeValue(Object key) {
-            lock.lock();
-            try{
-                return remove(key) != null;
-            }finally {
-                lock.unlock();
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void removeAllValues(Collection keys) {
-            lock.lock();
-            try{
-                for (Object k : keys) {
-                    remove(k);
-                }
-            }finally {
-                lock.unlock();
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         @SuppressWarnings("unchecked")
         public boolean putIfAbsentValue(Object key, Object value) {
-            lock.lock();
-            try{
-                CacheValueHolder h = (CacheValueHolder) get(key);
-                if (h == null || parseHolderResult(h).getResultCode() == CacheResultCode.EXPIRED) {
-                    put(key, value);
-                    return true;
-                } else {
-                    return false;
-                }
-            }finally {
-                lock.unlock();
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
-
-
 }
-

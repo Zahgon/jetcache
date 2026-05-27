@@ -17,7 +17,6 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.Topic;
-
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -29,8 +28,11 @@ public class SpringDataBroadcastManager extends BroadcastManager {
     private static final Logger logger = LoggerFactory.getLogger(SpringDataBroadcastManager.class);
 
     private final RedisSpringDataCacheConfig config;
+
     private final MessageListener listener = this::onMessage;
+
     private final byte[] channel;
+
     private volatile RedisMessageListenerContainer listenerContainer;
 
     private final ReentrantLock reentrantLock = new ReentrantLock();
@@ -47,49 +49,12 @@ public class SpringDataBroadcastManager extends BroadcastManager {
 
     @Override
     public CacheResult publish(CacheMessage cacheMessage) {
-        RedisConnection con = null;
-        try {
-            con = config.getConnectionFactory().getConnection();
-            byte[] body = (byte[]) config.getValueEncoder().apply(cacheMessage);
-            con.publish(channel, body);
-            return CacheResult.SUCCESS_WITHOUT_MSG;
-        } catch (Exception ex) {
-            SquashedLogger.getLogger(logger).error("jetcache publish error", ex);
-            return new CacheResult(ex);
-        } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (Exception e) {
-                    SquashedLogger.getLogger(logger).error("RedisConnection close fail", e);
-                }
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void startSubscribe() {
-        reentrantLock.lock();
-        try {
-            if (this.listenerContainer != null) {
-                throw new IllegalStateException("subscribe thread is started");
-            }
-            Topic topic = new ChannelTopic(config.getBroadcastChannel());
-            if (config.getListenerContainer() == null) {
-                RedisMessageListenerContainer c = new RedisMessageListenerContainer();
-                c.setConnectionFactory(config.getConnectionFactory());
-                c.afterPropertiesSet();
-                c.start();
-                this.listenerContainer = c;
-                logger.info("create RedisMessageListenerContainer instance");
-            } else {
-                this.listenerContainer = config.getListenerContainer();
-            }
-            this.listenerContainer.addMessageListener(listener, topic);
-            logger.info("subscribe jetcache invalidate notification. channel={}", config.getBroadcastChannel());
-        }finally {
-            reentrantLock.unlock();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void onMessage(Message message, byte[] pattern) {
@@ -98,17 +63,6 @@ public class SpringDataBroadcastManager extends BroadcastManager {
 
     @Override
     public void close() throws Exception {
-        reentrantLock.lock();
-        try {
-            if (this.listenerContainer != null) {
-                this.listenerContainer.removeMessageListener(listener);
-                if (this.config.getListenerContainer() == null) {
-                    this.listenerContainer.destroy();
-                }
-            }
-            this.listenerContainer = null;
-        }finally {
-            reentrantLock.unlock();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

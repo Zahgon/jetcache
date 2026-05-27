@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.Assert;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,12 +26,7 @@ public abstract class JetCacheCondition extends SpringBootCondition {
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
-        ConfigTree ct = new ConfigTree((ConfigurableEnvironment) conditionContext.getEnvironment(), "jetcache.");
-        if (match(ct, "local.") || match(ct, "remote.")) {
-            return ConditionOutcome.match();
-        } else {
-            return ConditionOutcome.noMatch("no match for " + cacheTypes[0]);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean match(ConfigTree ct, String prefix) {

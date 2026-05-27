@@ -24,42 +24,42 @@ public class RedisLettuceCacheConfig<K, V> extends ExternalCacheConfig<K, V> {
     private long asyncResultTimeoutInMillis = CacheConsts.ASYNC_RESULT_TIMEOUT.toMillis();
 
     public AbstractRedisClient getRedisClient() {
-        return redisClient;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRedisClient(AbstractRedisClient redisClient) {
-        this.redisClient = redisClient;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public StatefulConnection<byte[], byte[]> getConnection() {
-        return connection;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setConnection(StatefulConnection<byte[], byte[]> connection) {
-        this.connection = connection;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getAsyncResultTimeoutInMillis() {
-        return asyncResultTimeoutInMillis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setAsyncResultTimeoutInMillis(long asyncResultTimeoutInMillis) {
-        this.asyncResultTimeoutInMillis = asyncResultTimeoutInMillis;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public StatefulRedisPubSubConnection<byte[], byte[]> getPubSubConnection() {
-        return pubSubConnection;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setPubSubConnection(StatefulRedisPubSubConnection<byte[], byte[]> pubSubConnection) {
-        this.pubSubConnection = pubSubConnection;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public LettuceConnectionManager getConnectionManager() {
-        return connectionManager;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setConnectionManager(LettuceConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

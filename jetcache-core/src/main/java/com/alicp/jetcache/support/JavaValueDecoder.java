@@ -20,19 +20,11 @@ public class JavaValueDecoder extends AbstractValueDecoder {
 
     @Override
     public Object doApply(byte[] buffer) throws Exception {
-        ByteArrayInputStream in;
-        if (useIdentityNumber) {
-            in = new ByteArrayInputStream(buffer, 4, buffer.length - 4);
-        } else {
-            in = new ByteArrayInputStream(buffer);
-        }
-        ObjectInputStream ois = buildObjectInputStream(in);
-        setFilter(ois);
-        return ois.readObject();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected ObjectInputStream buildObjectInputStream(ByteArrayInputStream in) throws IOException {
-        return new ObjectInputStream(in);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void setFilter(ObjectInputStream ois) {

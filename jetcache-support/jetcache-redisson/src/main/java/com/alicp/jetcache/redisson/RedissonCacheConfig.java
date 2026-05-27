@@ -9,13 +9,14 @@ import org.redisson.api.RedissonClient;
  * @author <a href="mailto:jeason1914@qq.com">yangyong</a>
  */
 public class RedissonCacheConfig<K, V> extends ExternalCacheConfig<K, V> {
+
     private RedissonClient redissonClient;
 
     public RedissonClient getRedissonClient() {
-        return redissonClient;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRedissonClient(final RedissonClient redissonClient) {
-        this.redissonClient = redissonClient;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

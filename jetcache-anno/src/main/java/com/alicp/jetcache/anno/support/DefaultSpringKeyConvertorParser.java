@@ -6,7 +6,6 @@ package com.alicp.jetcache.anno.support;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-
 import java.util.function.Function;
 
 /**
@@ -18,16 +17,11 @@ public class DefaultSpringKeyConvertorParser extends DefaultKeyConvertorParser i
 
     @Override
     public Function<Object, Object> parseKeyConvertor(String convertor) {
-        String beanName = DefaultSpringEncoderParser.parseBeanName(convertor);
-        if (beanName == null) {
-            return super.parseKeyConvertor(convertor);
-        } else {
-            return (Function<Object, Object>) applicationContext.getBean(beanName);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

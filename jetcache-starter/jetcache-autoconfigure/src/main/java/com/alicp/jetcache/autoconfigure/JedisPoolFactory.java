@@ -11,40 +11,39 @@ import redis.clients.jedis.util.Pool;
  * @author huangli
  */
 public class JedisPoolFactory implements FactoryBean<Pool<Jedis>> {
+
     private String key;
+
     private Class<?> poolClass;
 
     @Autowired
     private AutoConfigureBeans autoConfigureBeans;
 
     private boolean inited;
+
     private Pool<Jedis> jedisPool;
 
-    public JedisPoolFactory(String key, Class<? extends Pool<Jedis>> poolClass){
+    public JedisPoolFactory(String key, Class<? extends Pool<Jedis>> poolClass) {
         this.key = key;
         this.poolClass = poolClass;
     }
 
     public String getKey() {
-        return key;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Pool<Jedis> getObject() throws Exception {
-        if (!inited) {
-            jedisPool = (Pool<Jedis>) autoConfigureBeans.getCustomContainer().get("jedisPool." + key);
-            inited = true;
-        }
-        return jedisPool;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Class<?> getObjectType() {
-        return poolClass;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isSingleton() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

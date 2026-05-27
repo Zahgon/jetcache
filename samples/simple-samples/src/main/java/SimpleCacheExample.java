@@ -1,6 +1,5 @@
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.embedded.CaffeineCacheBuilder;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -9,17 +8,9 @@ import java.util.concurrent.TimeUnit;
  * @author huangli
  */
 public class SimpleCacheExample {
+
     public static void main(String[] args) {
-        Cache<String, Integer> cache = CaffeineCacheBuilder.createCaffeineCacheBuilder()
-                .limit(100)
-                .expireAfterWrite(200, TimeUnit.SECONDS)
-                .buildCache();
-        cache.put("20161111", 1000000, 1 ,TimeUnit.HOURS);
-        Integer orderCount1 = cache.get("20161111");
-        Integer orderCount2 = cache.computeIfAbsent("20161212", SimpleCacheExample::loadFromDatabase);
-        System.out.println(orderCount1);
-        System.out.println(orderCount2);
-        cache.remove("20161212");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static Integer loadFromDatabase(String key) {

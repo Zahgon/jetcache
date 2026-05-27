@@ -7,7 +7,6 @@ import com.alicp.jetcache.CacheLoader;
 import com.alicp.jetcache.RefreshPolicy;
 import com.alicp.jetcache.anno.CacheConsts;
 import com.alicp.jetcache.anno.CacheType;
-
 import java.time.Duration;
 import java.util.Objects;
 import java.util.function.Function;
@@ -16,50 +15,82 @@ import java.util.function.Function;
  * @author huangli
  */
 public class QuickConfig {
+
     private String area = CacheConsts.DEFAULT_AREA;
+
     private String name;
+
     private Duration expire;
+
     private Duration localExpire;
+
     private Integer localLimit;
+
     private CacheType cacheType;
+
     private Boolean syncLocal;
+
     private Function<Object, Object> keyConvertor;
+
     private Function<Object, byte[]> valueEncoder;
+
     private Function<byte[], Object> valueDecoder;
+
     private Boolean cacheNullValue;
+
     private Boolean useAreaInPrefix;
+
     private Boolean penetrationProtect;
+
     private Duration penetrationProtectTimeout;
+
     private RefreshPolicy refreshPolicy;
+
     private CacheLoader<? extends Object, ? extends Object> loader;
 
     private QuickConfig() {
     }
 
     public static Builder newBuilder(String name) {
-        return new Builder(name);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static Builder newBuilder(String area, String name) {
-        return new Builder(area, name);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static class Builder {
+
         private String area = CacheConsts.DEFAULT_AREA;
+
         private final String name;
+
         private Duration expire;
+
         private Duration localExpire;
+
         private Integer localLimit;
+
         private CacheType cacheType;
+
         private Boolean syncLocal;
+
         private Function<Object, Object> keyConvertor;
+
         private Function<Object, byte[]> valueEncoder;
+
         private Function<byte[], Object> valueDecoder;
+
         private Boolean cacheNullValue;
+
         private Boolean useAreaInPrefix;
+
         private Boolean penetrationProtect;
+
         private Duration penetrationProtectTimeout;
+
         private RefreshPolicy refreshPolicy;
+
         private CacheLoader<? extends Object, ? extends Object> loader;
 
         Builder(String name) {
@@ -75,158 +106,127 @@ public class QuickConfig {
         }
 
         public QuickConfig build() {
-            QuickConfig c = new QuickConfig();
-            c.area = area;
-            c.name = name;
-            c.expire = expire;
-            c.localExpire = localExpire;
-            c.localLimit = localLimit;
-            c.cacheType = cacheType;
-            c.syncLocal = syncLocal;
-            c.keyConvertor = keyConvertor;
-            c.valueEncoder = valueEncoder;
-            c.valueDecoder = valueDecoder;
-            c.cacheNullValue = cacheNullValue;
-            c.useAreaInPrefix = useAreaInPrefix;
-            c.penetrationProtect = penetrationProtect;
-            c.penetrationProtectTimeout = penetrationProtectTimeout;
-            c.refreshPolicy = refreshPolicy;
-            c.loader = loader;
-            return c;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder expire(Duration expire) {
-            this.expire = expire;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder localExpire(Duration localExpire) {
-            this.localExpire = localExpire;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder localLimit(Integer localLimit) {
-            this.localLimit = localLimit;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder cacheType(CacheType cacheType) {
-            this.cacheType = cacheType;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder syncLocal(Boolean syncLocal) {
-            this.syncLocal = syncLocal;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder keyConvertor(Function<Object, Object> keyConvertor) {
-            this.keyConvertor = keyConvertor;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder valueEncoder(Function<Object, byte[]> valueEncoder) {
-            this.valueEncoder = valueEncoder;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder valueDecoder(Function<byte[], Object> valueDecoder) {
-            this.valueDecoder = valueDecoder;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder cacheNullValue(Boolean cacheNullValue) {
-            this.cacheNullValue = cacheNullValue;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder useAreaInPrefix(Boolean useAreaInPrefix) {
-            this.useAreaInPrefix = useAreaInPrefix;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder penetrationProtect(Boolean penetrationProtect) {
-            this.penetrationProtect = penetrationProtect;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder penetrationProtectTimeout(Duration penetrationProtectTimeout) {
-            this.penetrationProtectTimeout = penetrationProtectTimeout;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder refreshPolicy(RefreshPolicy refreshPolicy) {
-            this.refreshPolicy = refreshPolicy;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public <K, V> Builder loader(CacheLoader<K, V> loader) {
-            this.loader = loader;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     public String getArea() {
-        return area;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getName() {
-        return name;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Duration getExpire() {
-        return expire;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Duration getLocalExpire() {
-        return localExpire;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public CacheType getCacheType() {
-        return cacheType;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Integer getLocalLimit() {
-        return localLimit;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Boolean getSyncLocal() {
-        return syncLocal;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Function<Object, Object> getKeyConvertor() {
-        return keyConvertor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Function<Object, byte[]> getValueEncoder() {
-        return valueEncoder;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Function<byte[], Object> getValueDecoder() {
-        return valueDecoder;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Boolean getCacheNullValue() {
-        return cacheNullValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Boolean getUseAreaInPrefix() {
-        return useAreaInPrefix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Boolean getPenetrationProtect() {
-        return penetrationProtect;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Duration getPenetrationProtectTimeout() {
-        return penetrationProtectTimeout;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public RefreshPolicy getRefreshPolicy() {
-        return refreshPolicy;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public <K, V> CacheLoader<K, V> getLoader() {
-        return (CacheLoader<K, V>) loader;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

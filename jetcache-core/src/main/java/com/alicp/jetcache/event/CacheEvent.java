@@ -22,10 +22,10 @@ public class CacheEvent {
     }
 
     public Cache getCache() {
-        return cache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getEpoch() {
-        return epoch;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

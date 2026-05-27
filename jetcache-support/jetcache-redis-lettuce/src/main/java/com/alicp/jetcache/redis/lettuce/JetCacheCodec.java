@@ -1,8 +1,6 @@
 package com.alicp.jetcache.redis.lettuce;
 
-
 import io.lettuce.core.codec.RedisCodec;
-
 import java.nio.ByteBuffer;
 
 /**
@@ -14,31 +12,27 @@ public class JetCacheCodec implements RedisCodec {
 
     @Override
     public ByteBuffer encodeKey(Object key) {
-        byte[] bytes = (byte[]) key;
-        return ByteBuffer.wrap(bytes);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Object decodeKey(ByteBuffer bytes) {
-        return convert(bytes);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ByteBuffer encodeValue(Object value) {
-        byte[] bytes = (byte[]) value;
-        return ByteBuffer.wrap(bytes);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Object decodeValue(ByteBuffer bytes) {
-        return convert(bytes);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    private Object convert(ByteBuffer bytes){
+    private Object convert(ByteBuffer bytes) {
         byte[] bs = new byte[bytes.remaining()];
         bytes.get(bs);
         return bs;
     }
-
-
 }

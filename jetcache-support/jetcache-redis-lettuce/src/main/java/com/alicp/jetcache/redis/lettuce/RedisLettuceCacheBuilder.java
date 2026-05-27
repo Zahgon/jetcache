@@ -13,11 +13,12 @@ import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
  * @author huangli
  */
 public class RedisLettuceCacheBuilder<T extends ExternalCacheBuilder<T>> extends ExternalCacheBuilder<T> {
+
     public static class RedisLettuceCacheBuilderImpl extends RedisLettuceCacheBuilder<RedisLettuceCacheBuilderImpl> {
     }
 
     public static RedisLettuceCacheBuilderImpl createRedisLettuceCacheBuilder() {
-        return new RedisLettuceCacheBuilderImpl();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected RedisLettuceCacheBuilder() {
@@ -26,65 +27,56 @@ public class RedisLettuceCacheBuilder<T extends ExternalCacheBuilder<T>> extends
 
     @Override
     public RedisLettuceCacheConfig getConfig() {
-        if (config == null) {
-            config = new RedisLettuceCacheConfig();
-        }
-        return (RedisLettuceCacheConfig) config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean supportBroadcast() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public BroadcastManager createBroadcastManager(CacheManager cacheManager) {
-        RedisLettuceCacheConfig c = (RedisLettuceCacheConfig) getConfig().clone();
-        return new LettuceBroadcastManager(cacheManager, c);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public T redisClient(AbstractRedisClient redisClient){
-        getConfig().setRedisClient(redisClient);
-        return self();
+    public T redisClient(AbstractRedisClient redisClient) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRedisClient(AbstractRedisClient redisClient) {
-        getConfig().setRedisClient(redisClient);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T connection(StatefulConnection connection) {
-        getConfig().setConnection(connection);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setConnection(StatefulConnection connection) {
-        getConfig().setConnection(connection);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T pubSubConnection(StatefulRedisPubSubConnection pubSubConnection) {
-        getConfig().setPubSubConnection(pubSubConnection);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setPubSubConnection(StatefulRedisPubSubConnection pubSubConnection) {
-        getConfig().setPubSubConnection(pubSubConnection);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T connectionManager(LettuceConnectionManager connectionManager) {
-        getConfig().setConnectionManager(connectionManager);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setConnectionManager(LettuceConnectionManager connectionManager) {
-        getConfig().setConnectionManager(connectionManager);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T asyncResultTimeoutInMillis(long asyncResultTimeoutInMillis) {
-        getConfig().setAsyncResultTimeoutInMillis(asyncResultTimeoutInMillis);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setAsyncResultTimeoutInMillis(long asyncResultTimeoutInMillis) {
-        getConfig().setAsyncResultTimeoutInMillis(asyncResultTimeoutInMillis);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

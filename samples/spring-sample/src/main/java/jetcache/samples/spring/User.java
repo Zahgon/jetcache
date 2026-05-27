@@ -9,23 +9,26 @@ import java.io.Serializable;
  * @author huangli
  */
 public class User implements Serializable {
+
     private static final long serialVersionUID = -5157877924507849953L;
+
     private long userId;
+
     private String userName;
 
     public long getUserId() {
-        return userId;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setUserId(long userId) {
-        this.userId = userId;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getUserName() {
-        return userName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

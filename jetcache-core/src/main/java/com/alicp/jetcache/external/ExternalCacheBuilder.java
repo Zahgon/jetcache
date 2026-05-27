@@ -3,7 +3,6 @@ package com.alicp.jetcache.external;
 import com.alicp.jetcache.AbstractCacheBuilder;
 import com.alicp.jetcache.CacheManager;
 import com.alicp.jetcache.support.BroadcastManager;
-
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -16,66 +15,54 @@ public abstract class ExternalCacheBuilder<T extends ExternalCacheBuilder<T>> ex
 
     @Override
     public ExternalCacheConfig getConfig() {
-        if (config == null) {
-            config = new ExternalCacheConfig();
-        }
-        return (ExternalCacheConfig) config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean supportBroadcast() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public BroadcastManager createBroadcastManager(CacheManager cacheManager) {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T broadcastChannel(String broadcastChannel) {
-        getConfig().setBroadcastChannel(broadcastChannel);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setBroadcastChannel(String broadcastChannel) {
-        getConfig().setBroadcastChannel(broadcastChannel);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T keyPrefix(String keyPrefix) {
-        getConfig().setKeyPrefixSupplier(() -> keyPrefix);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T keyPrefixSupplier(Supplier<String> keyPrefixSupplier) {
-        getConfig().setKeyPrefixSupplier(keyPrefixSupplier);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public T valueEncoder(Function<Object, byte[]> valueEncoder){
-        getConfig().setValueEncoder(valueEncoder);
-        return self();
+    public T valueEncoder(Function<Object, byte[]> valueEncoder) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public T valueDecoder(Function<byte[], Object> valueDecoder){
-        getConfig().setValueDecoder(valueDecoder);
-        return self();
+    public T valueDecoder(Function<byte[], Object> valueDecoder) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public void setKeyPrefix(String keyPrefix){
-        if (keyPrefix != null) {
-            getConfig().setKeyPrefixSupplier(() -> keyPrefix);
-        } else {
-            getConfig().setKeyPrefixSupplier(null);
-        }
+    public void setKeyPrefix(String keyPrefix) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public void setKeyPrefixSupplier(Supplier<String> keyPrefixSupplier){
-        getConfig().setKeyPrefixSupplier(keyPrefixSupplier);
+    public void setKeyPrefixSupplier(Supplier<String> keyPrefixSupplier) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public void setValueEncoder(Function<Object, byte[]> valueEncoder){
-        getConfig().setValueEncoder(valueEncoder);
+    public void setValueEncoder(Function<Object, byte[]> valueEncoder) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public void setValueDecoder(Function<byte[], Object> valueDecoder){
-        getConfig().setValueDecoder(valueDecoder);
+    public void setValueDecoder(Function<byte[], Object> valueDecoder) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -26,7 +26,6 @@ import redis.clients.jedis.commands.StringPipelineBinaryCommands;
 import redis.clients.jedis.params.SetParams;
 import redis.clients.jedis.providers.ClusterConnectionProvider;
 import redis.clients.jedis.util.Pool;
-
 import java.io.Closeable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -53,7 +52,9 @@ public class RedisCache<K, V> extends AbstractExternalCache<K, V> {
     protected RedisCacheConfig<K, V> config;
 
     Function<Object, byte[]> valueEncoder;
+
     Function<byte[], Object> valueDecoder;
+
     ClusterConnectionProvider provider = null;
 
     private static ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -63,7 +64,6 @@ public class RedisCache<K, V> extends AbstractExternalCache<K, V> {
         this.config = config;
         this.valueEncoder = config.getValueEncoder();
         this.valueDecoder = config.getValueDecoder();
-
         if (config.getJedis() == null && config.getJedisPool() == null) {
             throw new CacheConfigException("no jedis");
         }
@@ -123,57 +123,28 @@ public class RedisCache<K, V> extends AbstractExternalCache<K, V> {
 
     @Override
     public CacheConfig<K, V> config() {
-        return config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <T> T unwrap(Class<T> clazz) {
-        if (UnifiedJedis.class.isAssignableFrom(clazz)) {
-            return (T) config.getJedis();
-        }
-        if (Pool.class.isAssignableFrom(clazz)) {
-            return (T) config.getJedisPool();
-        }
-        throw new IllegalArgumentException(clazz.getName());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     Object writeCommands() {
-        return config.getJedis() != null ? config.getJedis() : config.getJedisPool().getResource();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     Object readCommands() {
-        if (!config.isReadFromSlave()) {
-            return writeCommands();
-        }
-        int[] weights = config.getSlaveReadWeights();
-        int index = randomIndex(weights);
-        if (config.getSlaves() != null) {
-            return config.getSlaves()[index];
-        } else {
-            return config.getJedisSlavePools()[index].getResource();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     static int randomIndex(int[] weights) {
-        int sumOfWeights = 0;
-        for (int w : weights) {
-            sumOfWeights += w;
-        }
-        int r = random.nextInt(sumOfWeights);
-        int x = 0;
-        for (int i = 0; i < weights.length; i++) {
-            x += weights[i];
-            if (r < x) {
-                return i;
-            }
-        }
-        throw new CacheException("assert false");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     static void closeJedis(Object maybeJedis) {
-        if (maybeJedis instanceof Jedis) {
-            close((Jedis) maybeJedis);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static void close(Closeable closeable) {
@@ -189,143 +160,27 @@ public class RedisCache<K, V> extends AbstractExternalCache<K, V> {
 
     @Override
     protected CacheGetResult<V> do_GET(K key) {
-        StringBinaryCommands commands = null;
-        try {
-            byte[] newKey = buildKey(key);
-            commands = (StringBinaryCommands) readCommands();
-            byte[] bytes = commands.get(newKey);
-            if (bytes != null) {
-                CacheValueHolder<V> holder = (CacheValueHolder<V>) valueDecoder.apply(bytes);
-                if (System.currentTimeMillis() >= holder.getExpireTime()) {
-                    return CacheGetResult.EXPIRED_WITHOUT_MSG;
-                }
-                return new CacheGetResult(CacheResultCode.SUCCESS, null, holder);
-            } else {
-                return CacheGetResult.NOT_EXISTS_WITHOUT_MSG;
-            }
-        } catch (Exception ex) {
-            logError("GET", key, ex);
-            return new CacheGetResult(ex);
-        } finally {
-            closeJedis(commands);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected MultiGetResult<K, V> do_GET_ALL(Set<? extends K> keys) {
-        if (keys == null || keys.isEmpty()) {
-            return new MultiGetResult<K, V>(CacheResultCode.SUCCESS, null, Collections.emptyMap());
-        }
-        // define the result object early to gain statefulFunction feature.
-        Map<K, CacheGetResult<V>> resultMap = new HashMap<>();
-
-        try {
-            StringBinaryCommands readCommands = (StringBinaryCommands) readCommands();
-            ArrayList<K> keyList = new ArrayList<K>(keys);
-            byte[][] newKeys = keyList.stream().map(this::buildKey).toArray(byte[][]::new);
-
-            return this.<StringBinaryCommands, StringPipelineBinaryCommands, MultiGetResult<K, V>>doWithPipeline(readCommands, false, (pipeline) -> {
-                List<byte[]> results;
-                if (pipeline != null) {
-                    List<Response<byte[]>> responseList = new ArrayList<>();
-
-                    for (byte[] newKey : newKeys) {
-                        Response<byte[]> response = pipeline.get(newKey);
-                        responseList.add(response);
-                    }
-
-                    sync(pipeline);
-
-                    results = responseList.stream().map(Response::get).collect(Collectors.toList());
-                } else {
-                    results = readCommands.mget(newKeys);
-                }
-
-                for (int i = 0; i < results.size(); i++) {
-                    Object value = results.get(i);
-                    K key = keyList.get(i);
-                    if (value != null) {
-                        CacheValueHolder<V> holder = (CacheValueHolder<V>) valueDecoder.apply((byte[]) value);
-                        if (System.currentTimeMillis() >= holder.getExpireTime()) {
-                            resultMap.put(key, CacheGetResult.EXPIRED_WITHOUT_MSG);
-                        } else {
-                            CacheGetResult<V> r = new CacheGetResult<V>(CacheResultCode.SUCCESS, null, holder);
-                            resultMap.put(key, r);
-                        }
-                    } else {
-                        resultMap.put(key, CacheGetResult.NOT_EXISTS_WITHOUT_MSG);
-                    }
-                }
-
-                return new MultiGetResult<K, V>(CacheResultCode.SUCCESS, null, resultMap);
-            });
-        } catch (Exception ex) {
-            logError("GET_ALL", "keys(" + keys.size() + ")", ex);
-            if (!resultMap.isEmpty()) {
-                return new MultiGetResult<K, V>(CacheResultCode.PART_SUCCESS, ex.toString(), resultMap);
-            } else {
-                return new MultiGetResult<K, V>(ex);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheResult do_PUT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
-        StringBinaryCommands commands = null;
-        try {
-            CacheValueHolder<V> holder = new CacheValueHolder(value, timeUnit.toMillis(expireAfterWrite));
-            byte[] newKey = buildKey(key);
-            commands = (StringBinaryCommands) writeCommands();
-            String rt = commands.psetex(newKey, timeUnit.toMillis(expireAfterWrite), valueEncoder.apply(holder));
-            if ("OK".equals(rt)) {
-                return CacheResult.SUCCESS_WITHOUT_MSG;
-            } else {
-                return new CacheResult(CacheResultCode.FAIL, rt);
-            }
-        } catch (Exception ex) {
-            logError("PUT", key, ex);
-            return new CacheResult(ex);
-        } finally {
-            closeJedis(commands);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheResult do_PUT_ALL(Map<? extends K, ? extends V> map, long expireAfterWrite, TimeUnit timeUnit) {
-        if (map == null || map.isEmpty()) {
-            return CacheResult.SUCCESS_WITHOUT_MSG;
-        }
-        try {
-            StringBinaryCommands writeCommands = (StringBinaryCommands) writeCommands();
-            return this.<StringBinaryCommands, StringPipelineBinaryCommands, CacheResult>doWithPipeline(writeCommands, true, pipeline -> {
-                int failCount = 0;
-                List<Response<String>> responses = new ArrayList<>();
-                for (Map.Entry<? extends K, ? extends V> en : map.entrySet()) {
-                    CacheValueHolder<V> holder = new CacheValueHolder(en.getValue(), timeUnit.toMillis(expireAfterWrite));
-                    Response<String> resp = pipeline.psetex(buildKey(en.getKey()), timeUnit.toMillis(expireAfterWrite), valueEncoder.apply(holder));
-                    responses.add(resp);
-                }
-
-                sync(pipeline);
-
-                for (Response<String> resp : responses) {
-                    if (!"OK".equals(resp.get())) {
-                        failCount++;
-                    }
-                }
-                return failCount == 0 ? CacheResult.SUCCESS_WITHOUT_MSG :
-                        failCount == map.size() ? CacheResult.FAIL_WITHOUT_MSG : CacheResult.PART_SUCCESS_WITHOUT_MSG;
-            });
-        } catch (Exception ex) {
-            logError("PUT_ALL", "map(" + map.size() + ")", ex);
-            return new CacheResult(ex);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     @Override
     protected CacheResult do_REMOVE(K key) {
-        return REMOVE_impl(key, buildKey(key));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private CacheResult REMOVE_impl(Object key, byte[] newKey) {
@@ -352,62 +207,12 @@ public class RedisCache<K, V> extends AbstractExternalCache<K, V> {
 
     @Override
     protected CacheResult do_REMOVE_ALL(Set<? extends K> keys) {
-        if (keys == null || keys.isEmpty()) {
-            return CacheResult.SUCCESS_WITHOUT_MSG;
-        }
-        long[] count = new long[1];
-        try {
-            KeyBinaryCommands writeCommands = (KeyBinaryCommands) writeCommands();
-            byte[][] newKeys = keys.stream().map((k) -> buildKey(k)).toArray((len) -> new byte[keys.size()][]);
-            return this.<KeyBinaryCommands, KeyPipelineBinaryCommands, CacheResult>doWithPipeline(writeCommands, false, (pipeline) -> {
-
-                if (pipeline != null) {
-                    for (byte[] newKey : newKeys) {
-                        pipeline.del(newKey);
-                        count[0]++;
-                    }
-
-                    sync(pipeline);
-                } else {
-                    writeCommands.del(newKeys);
-                }
-
-                return CacheResult.SUCCESS_WITHOUT_MSG;
-            });
-        } catch (Exception ex) {
-            logError("REMOVE_ALL", "keys(" + keys.size() + ")", ex);
-            if (count[0] > 0) {
-                return new CacheResult(CacheResultCode.PART_SUCCESS, ex.toString());
-            } else {
-                return new CacheResult(ex);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected CacheResult do_PUT_IF_ABSENT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
-        StringBinaryCommands commands = null;
-        try {
-            CacheValueHolder<V> holder = new CacheValueHolder(value, timeUnit.toMillis(expireAfterWrite));
-            byte[] newKey = buildKey(key);
-            SetParams params = new SetParams();
-            params.nx()
-                    .px(timeUnit.toMillis(expireAfterWrite));
-            commands = (StringBinaryCommands) writeCommands();
-            String rt = commands.set(newKey, valueEncoder.apply(holder), params);
-            if ("OK".equals(rt)) {
-                return CacheResult.SUCCESS_WITHOUT_MSG;
-            } else if (rt == null) {
-                return CacheResult.EXISTS_WITHOUT_MSG;
-            } else {
-                return new CacheResult(CacheResultCode.FAIL, rt);
-            }
-        } catch (Exception ex) {
-            logError("PUT_IF_ABSENT", key, ex);
-            return new CacheResult(ex);
-        } finally {
-            closeJedis(commands);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -446,7 +251,6 @@ public class RedisCache<K, V> extends AbstractExternalCache<K, V> {
                     pipeline = (P) new Pipeline((Jedis) commands);
                 }
             }
-
             return function.apply(pipeline);
         } finally {
             closeJedis(commands);
@@ -463,5 +267,4 @@ public class RedisCache<K, V> extends AbstractExternalCache<K, V> {
             throw new UnsupportedOperationException("unrecognized pipeline type");
         }
     }
-
 }

@@ -25,11 +25,7 @@ class Kryo5ClassResolver extends DefaultClassResolver {
 
     @Override
     public Registration readClass(Input input) {
-        Registration registration = super.readClass(input);
-        if (registration != null) {
-            KryoClassResolverUtil.checkAllowed(registration.getType(), decodeFilter);
-        }
-        return registration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // Copied from DefaultClassResolver.readName() (Kryo 5.x, com.esotericsoftware.kryo:kryo5)
@@ -37,36 +33,11 @@ class Kryo5ClassResolver extends DefaultClassResolver {
     // If Kryo upgrades, this method must be reviewed for consistency.
     @Override
     protected Registration readName(Input input) {
-        int nameId = input.readVarInt(true);
-        if (nameIdToClass == null) {
-            nameIdToClass = new IntMap<>();
-        }
-
-        Class<?> type = nameIdToClass.get(nameId);
-        if (type == null) {
-            String className = input.readString();
-            KryoClassResolverUtil.checkAllowed(className, decodeFilter);
-            type = super.getTypeByName(className);
-            if (type == null) {
-                try {
-                    type = KryoClassResolverUtil.loadClass(className, kryo.getClassLoader(), Kryo.class.getClassLoader());
-                } catch (ClassNotFoundException e) {
-                    throw new KryoException("Unable to find class: " + className, e);
-                }
-                if (nameToClass == null) {
-                    nameToClass = new ObjectMap<>();
-                }
-                nameToClass.put(className, type);
-            }
-            nameIdToClass.put(nameId, type);
-        }
-        KryoClassResolverUtil.checkAllowed(type, decodeFilter);
-        return kryo.getRegistration(type);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected Class<?> getTypeByName(String className) {
-        KryoClassResolverUtil.checkAllowed(className, decodeFilter);
-        return super.getTypeByName(className);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

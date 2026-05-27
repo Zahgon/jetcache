@@ -4,13 +4,13 @@
 package com.alicp.jetcache.support;
 
 import com.alicp.jetcache.CacheValueHolder;
-
 import java.nio.charset.StandardCharsets;
 
 /**
  * @author huangli
  */
 public abstract class AbstractJsonEncoder extends AbstractValueEncoder {
+
     private final int identityNumber;
 
     public AbstractJsonEncoder(boolean useIdentityNumber, int identityNumber) {
@@ -22,35 +22,7 @@ public abstract class AbstractJsonEncoder extends AbstractValueEncoder {
 
     @Override
     public byte[] apply(Object value) {
-        try {
-            JsonData[] data = encode(value);
-            int len = len(data);
-            byte[] buffer = useIdentityNumber ? new byte[len + 4] : new byte[len];
-            int index = 0;
-            if (useIdentityNumber) {
-                index = writeInt(buffer, index, identityNumber);
-            }
-            if (data == null) {
-                writeShort(buffer, index, -1);
-            } else {
-                index = writeShort(buffer, index, data.length);
-                for (JsonData d : data) {
-                    if (d == null) {
-                        index = writeShort(buffer, index, -1);
-                    } else {
-                        index = writeShort(buffer, index, d.getClassName().length);
-                        index = writeBytes(buffer, index, d.getClassName());
-                        index = writeInt(buffer, index, d.getData().length);
-                        index = writeBytes(buffer, index, d.getData());
-                    }
-                }
-            }
-            return buffer;
-        } catch (Throwable e) {
-            StringBuilder sb = new StringBuilder("Json Encode error. ");
-            sb.append("msg=").append(e.getMessage());
-            throw new CacheEncodeException(sb.toString(), e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private int len(JsonData[] data) {
@@ -114,7 +86,7 @@ public abstract class AbstractJsonEncoder extends AbstractValueEncoder {
             cm.setKeys(keys);
             return result;
         } else {
-            return new JsonData[]{encodeJsonData(value)};
+            return new JsonData[] { encodeJsonData(value) };
         }
     }
 
@@ -129,23 +101,25 @@ public abstract class AbstractJsonEncoder extends AbstractValueEncoder {
     }
 
     private static class JsonData {
+
         private byte[] className;
+
         private byte[] data;
 
         public byte[] getClassName() {
-            return className;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public void setClassName(byte[] className) {
-            this.className = className;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public byte[] getData() {
-            return data;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public void setData(byte[] data) {
-            this.data = data;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

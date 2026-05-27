@@ -3,7 +3,6 @@ package com.alicp.jetcache.external;
 import com.alicp.jetcache.CacheConfig;
 import com.alicp.jetcache.support.DecoderMap;
 import com.alicp.jetcache.support.JavaValueEncoder;
-
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -15,47 +14,50 @@ import java.util.function.Supplier;
 public class ExternalCacheConfig<K, V> extends CacheConfig<K, V> {
 
     private Supplier<String> keyPrefixSupplier;
+
     private Function<Object, byte[]> valueEncoder = JavaValueEncoder.INSTANCE;
+
     private Function<byte[], Object> valueDecoder = DecoderMap.defaultJavaValueDecoder();
+
     private String broadcastChannel;
 
     public String getKeyPrefix() {
-        return keyPrefixSupplier == null ? null : keyPrefixSupplier.get();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setKeyPrefix(String keyPrefix) {
-        this.keyPrefixSupplier = () -> keyPrefix;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Supplier<String> getKeyPrefixSupplier() {
-        return keyPrefixSupplier;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setKeyPrefixSupplier(Supplier<String> keyPrefixSupplier) {
-        this.keyPrefixSupplier = keyPrefixSupplier;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Function<Object, byte[]> getValueEncoder() {
-        return valueEncoder;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setValueEncoder(Function<Object, byte[]> valueEncoder) {
-        this.valueEncoder = valueEncoder;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Function<byte[], Object> getValueDecoder() {
-        return valueDecoder;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setValueDecoder(Function<byte[], Object> valueDecoder) {
-        this.valueDecoder = valueDecoder;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getBroadcastChannel() {
-        return broadcastChannel;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setBroadcastChannel(String broadcastChannel) {
-        this.broadcastChannel = broadcastChannel;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

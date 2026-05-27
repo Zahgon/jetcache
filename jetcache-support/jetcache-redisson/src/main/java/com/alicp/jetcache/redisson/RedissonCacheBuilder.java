@@ -13,40 +13,34 @@ import org.redisson.api.RedissonClient;
 public class RedissonCacheBuilder<T extends ExternalCacheBuilder<T>> extends ExternalCacheBuilder<T> {
 
     public static class RedissonDataCacheBuilderImpl extends RedissonCacheBuilder<RedissonDataCacheBuilderImpl> {
-
     }
 
     public static RedissonDataCacheBuilderImpl createBuilder() {
-        return new RedissonDataCacheBuilderImpl();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    @SuppressWarnings({"all"})
+    @SuppressWarnings({ "all" })
     protected RedissonCacheBuilder() {
         buildFunc(config -> new RedissonCache((RedissonCacheConfig) config));
     }
 
     @Override
-    @SuppressWarnings({"all"})
+    @SuppressWarnings({ "all" })
     public RedissonCacheConfig getConfig() {
-        if (this.config == null) {
-            this.config = new RedissonCacheConfig();
-        }
-        return (RedissonCacheConfig) this.config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public T redissonClient(final RedissonClient client) {
-        this.getConfig().setRedissonClient(client);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean supportBroadcast() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public BroadcastManager createBroadcastManager(final CacheManager cacheManager) {
-        final RedissonCacheConfig<?, ?> c = (RedissonCacheConfig<?, ?>) this.getConfig().clone();
-        return new RedissonBroadcastManager(cacheManager, c);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -6,11 +6,12 @@ package com.alicp.jetcache.embedded;
  * @author huangli
  */
 public class CaffeineCacheBuilder<T extends EmbeddedCacheBuilder<T>> extends EmbeddedCacheBuilder<T> {
+
     public static class CaffeineCacheBuilderImpl extends CaffeineCacheBuilder<CaffeineCacheBuilderImpl> {
     }
 
     public static CaffeineCacheBuilderImpl createCaffeineCacheBuilder() {
-        return new CaffeineCacheBuilderImpl();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected CaffeineCacheBuilder() {

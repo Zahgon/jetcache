@@ -1,7 +1,6 @@
 package com.alicp.jetcache.embedded;
 
 import com.alicp.jetcache.support.JetCacheExecutor;
-
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -23,20 +22,10 @@ class Cleaner {
     }
 
     static void add(LinkedHashMapCache cache) {
-        linkedHashMapCaches.add(new WeakReference<>(cache));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     static void run() {
-        Iterator<WeakReference<LinkedHashMapCache>> it = linkedHashMapCaches.iterator();
-        while (it.hasNext()) {
-            WeakReference<LinkedHashMapCache> ref = it.next();
-            LinkedHashMapCache c = ref.get();
-            if (c == null) {
-                it.remove();
-            } else {
-                c.cleanExpiredEntry();
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

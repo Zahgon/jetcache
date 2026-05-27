@@ -13,42 +13,29 @@ import com.alicp.jetcache.support.CacheMessage;
 public class MockRemoteCacheBuilder<T extends ExternalCacheBuilder<T>> extends ExternalCacheBuilder<T> {
 
     private static volatile boolean subscribeStart;
+
     private static volatile CacheMessage lastPublishMessage;
 
     public static class MockRemoteCacheBuilderImpl extends MockRemoteCacheBuilder<MockRemoteCacheBuilderImpl> {
     }
 
     public static MockRemoteCacheBuilderImpl createMockRemoteCacheBuilder() {
-        return new MockRemoteCacheBuilderImpl();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public MockRemoteCacheConfig getConfig() {
-        if (config == null) {
-            config = new MockRemoteCacheConfig();
-        }
-        return (MockRemoteCacheConfig) config;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean supportBroadcast() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public BroadcastManager createBroadcastManager(CacheManager cacheManager) {
-        return new BroadcastManager(cacheManager) {
-            @Override
-            public CacheResult publish(CacheMessage cacheMessage) {
-                lastPublishMessage = cacheMessage;
-                return CacheResult.SUCCESS_WITHOUT_MSG;
-            }
-
-            @Override
-            public void startSubscribe() {
-                subscribeStart = true;
-            }
-        };
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MockRemoteCacheBuilder() {
@@ -57,24 +44,22 @@ public class MockRemoteCacheBuilder<T extends ExternalCacheBuilder<T>> extends E
     }
 
     public T limit(int limit) {
-        getConfig().setLimit(limit);
-        return self();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setLimit(int limit) {
-        getConfig().setLimit(limit);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static boolean isSubscribeStart() {
-        return subscribeStart;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static CacheMessage getLastPublishMessage() {
-        return lastPublishMessage;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static void reset() {
-        subscribeStart = false;
-        lastPublishMessage = null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
